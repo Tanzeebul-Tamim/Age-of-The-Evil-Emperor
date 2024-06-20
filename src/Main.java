@@ -1,8 +1,8 @@
-package net.rpg.main;
+import main.GameMechanics;
 
 public class Main {
     public static void main(String[] args) {
         // Start the game
-        GameLogic.startGame();
+        GameMechanics.startGame();
     }
 }

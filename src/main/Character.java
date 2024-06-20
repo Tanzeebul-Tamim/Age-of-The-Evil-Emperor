@@ -1,4 +1,4 @@
-package net.rpg.main;
+package main;
 
 public abstract class Character {
     // Variables / Attributes all characters have
