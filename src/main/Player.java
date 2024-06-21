@@ -29,17 +29,19 @@ public class Player extends Character {
 
     // Let the player choose a skill of either path
     public void chooseAbility(int lineWidth, String heading, String title, String folderName, String fileName) {
-        Utilities.clearConsole();
+        UtilityMethods.clearConsole();
 
-        Utilities.printHeading(heading);
-        Utilities.storyPrinter(lineWidth, heading, folderName, false, fileName);
+        UtilityMethods.printHeading(true, heading);
+        UtilityMethods.storyPrinter(false, lineWidth, heading, folderName, false, fileName);
 
-        Utilities.printHeading(title);
+        UtilityMethods.printHeading(true, title);
         System.out.println("(1) " + Names.combatSkills[combatCount]);
         System.out.println("(2) " + Names.defensiveSkills[defensiveCount]);
 
         // Get the player's choice
-        int input = Utilities.readPlayerInput("-> ", 2);
+        int input = UtilityMethods.readPlayerInput("-> ", 2);
+
+        UtilityMethods.clearConsole();
 
         // Handle both cases
         if (input == 1) {
@@ -47,16 +49,16 @@ public class Player extends Character {
             unlockedCombSkills.add(skill);
             combatCount++;
 
-            Utilities.printHeading("You unlocked " + skill + "!");
+            UtilityMethods.printHeading(true, "You unlocked " + skill + "!");
         } else {
             String skill = Names.defensiveSkills[defensiveCount];
             unlockedDefSkills.add(skill);
             defensiveCount++;
 
-            Utilities.printHeading("You unlocked " + skill + "!");
+            UtilityMethods.printHeading(true, "You unlocked " + skill + "!");
         }
 
-        Utilities.pressEnter();
-        Utilities.clearConsole();
+        UtilityMethods.pressEnter();
+        UtilityMethods.clearConsole();
     }
 }

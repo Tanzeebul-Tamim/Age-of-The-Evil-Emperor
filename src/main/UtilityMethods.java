@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 //* Utility Methods
 
-public class Utilities {
+public class UtilityMethods {
     static Scanner scanner = new Scanner(System.in);
 
     // Method to get user input from console
@@ -40,7 +40,7 @@ public class Utilities {
     // Method to handle empty user inputs
     public static void isEmptyInput(String fieldName) {
         clearConsole();
-        printHeading(fieldName + " cannot be empty!");
+        printHeading(true, fieldName + " cannot be empty!");
         System.out.println("\nPress Enter to continue...");
         scanner.nextLine();
     }
@@ -59,7 +59,7 @@ public class Utilities {
     }
 
     // Method to print a heading
-    public static void printHeading(String... titles) {
+    public static void printHeading(boolean lineWidth, String... titles) {
         int maxLen = titles[0].length();
         for (int i = 1; i < titles.length; i++) {
             String title = titles[i];
@@ -69,12 +69,21 @@ public class Utilities {
             }
         }
 
-        printSeparator(maxLen * 2);
-        for (int i = 0; i < titles.length; i++) {
-            String title = titles[i];
-            System.out.println(printTab(maxLen * 2) + title);
+        if (lineWidth) {
+            printSeparator(maxLen * 2);
+            for (int i = 0; i < titles.length; i++) {
+                String title = titles[i];
+                System.out.println(printTab(maxLen * 2) + title);
+            }
+            printSeparator(maxLen * 2);
+        } else {
+            printSeparator(maxLen + 1);
+            for (int i = 0; i < titles.length; i++) {
+                String title = titles[i];
+                System.out.println(printTab(5) + title);
+            }
+            printSeparator(maxLen + 1);
         }
-        printSeparator(maxLen * 2);
     }
 
     // Method to print tabs for chapter title
@@ -115,7 +124,8 @@ public class Utilities {
     }
 
     // Method to print each parts of the story
-    public static void storyPrinter(int paraSeparator, String title, String folderName, boolean pressEnter,
+    public static void storyPrinter(boolean location, int paraSeparator, String title, String folderName,
+            boolean pressEnter,
             String... fileNames) {
         clearConsole();
 
@@ -124,6 +134,11 @@ public class Utilities {
         printSeparator(paraSeparator);
 
         System.out.println();
+
+        if (location) {
+            System.out.println("LOCATION: " + Names.locations[GameLogic.location]);
+            System.out.println();
+        }
 
         paragraphPrinter(paraSeparator, folderName, pressEnter, fileNames);
     }
@@ -174,7 +189,7 @@ public class Utilities {
                     }
 
                     // Replace placeholders with actual values
-                    Player player = GameMechanics.player;
+                    Player player = GameEngine.player;
                     String[] name = player.getName().split(" ");
                     String lastName = name[name.length - 1];
                     paragraph = paragraph.replace("<name>", lastName);
@@ -187,7 +202,7 @@ public class Utilities {
 
                     if (!player.unlockedDefSkills.isEmpty()) {
                         paragraph = paragraph.replace("<defSkill>",
-                                player.unlockedDefSkills.get(player.unlockedCombSkills.size() - 1));
+                                player.unlockedDefSkills.get(player.unlockedDefSkills.size() - 1));
                     } else {
                         paragraph = paragraph.replace("<defSkill>", "");
                     }
