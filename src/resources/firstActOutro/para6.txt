@@ -1,0 +1,1 @@
+The battle is fierce, but your training pays off. You use your skill <combSkill><defSkill> to fend off the enemy. The villagers, inspired by your bravery, join the fight, and together you repel the attackers.

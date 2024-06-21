@@ -6,9 +6,17 @@ import java.util.Scanner;
 
 public class GameMechanics {
     static Scanner scanner = new Scanner(System.in);
-    static Player player;
+    public static Player player;
 
     public static boolean isRunning;
+
+    // Story elements
+    public static int location = 0, act;
+    public static String[] locations = {
+            "Village",
+            "Hidden Fortress",
+            "Nearby Village"
+    };
 
     // Method to start the game
     public static void startGame() {
@@ -55,6 +63,11 @@ public class GameMechanics {
 
         // Create new player object with the name
         player = new Player(name);
+
+        // Print Story Intro
+        Utilities.storyPrinter(100, "Story", "Intro", true, "para1.txt", "para2.txt", "para3.txt");
+
+        // Show initial character info
         characterInfo();
 
         // Setting isRunning to true, so the game loop can continue
@@ -66,14 +79,20 @@ public class GameMechanics {
 
     // Method to continue the journey
     public static void continueJourney() {
-        // Print Story Intro
-        Utilities.storyPrinter(100, "Story", "Intro", "para1.txt", "para2.txt", "para3.txt");
+        // Print Act-I Intro, Part-I
+        Utilities.storyPrinter(100, "ACT I - INTRO", "firstActIntro", true, "para1.txt");
 
-        // Get the first upgrade and show the character info
-        player.chooseAbility();
+        // Print Act-I Intro, Part-II
+        // (Get the first upgrade and show the character info)
+        player.chooseAbility(100, "ACT I - INTRO", "Which skill do you want to learn?", "firstActIntro", "para2.txt");
         characterInfo();
 
-        Utilities.storyPrinter(100, "ACT I - INTRO", "firstActIntro", "para1.txt", "para2.txt", "para3.txt");
+        // Print Act-I Intro, Part-III
+        Utilities.storyPrinter(100, "ACT I - INTRO", "firstActIntro", true, "para3.txt");
+
+        // Print Act-I Outro, Part-I
+        Utilities.storyPrinter(100, "ACT I - OUTRO", "firstActOutro", true, "para1.txt", "para2.txt", "para3.txt",
+                "para4.txt", "para5.txt", "para6.txt", "para7.txt");
     }
 
     // Printing out important info of the player character
@@ -82,20 +101,21 @@ public class GameMechanics {
         Utilities.printHeading("CHARACTER INFO");
 
         System.out.println("NAME: " + player.name);
+        System.out.println("LOCATION: " + locations[location]);
         System.out.println("HP: " + player.hp + "/" + player.maxHp);
         System.out.println("XP: " + player.xp);
+        Utilities.printSeparator(28);
 
         System.out.println();
 
         // Printing the unlocked skills
         Utilities.printHeading("Unlocked Skills");
 
-
         System.out.print("Combat Skills: ");
         if (player.unlockedCombSkills.size() == 0) {
             System.out.print("None\n");
         } else {
-            for (int i = 0; i < player.unlockedCombSkills.size(); i++) { 
+            for (int i = 0; i < player.unlockedCombSkills.size(); i++) {
                 String skill = player.unlockedCombSkills.get(i);
 
                 if (i == player.unlockedCombSkills.size() - 1) {

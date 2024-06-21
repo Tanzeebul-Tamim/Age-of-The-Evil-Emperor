@@ -115,7 +115,8 @@ public class Utilities {
     }
 
     // Method to print each parts of the story
-    public static void storyPrinter(int paraSeparator, String title, String folderName, String... fileNames) {
+    public static void storyPrinter(int paraSeparator, String title, String folderName, boolean pressEnter,
+            String... fileNames) {
         Utilities.clearConsole();
 
         Utilities.printSeparator(paraSeparator);
@@ -124,7 +125,7 @@ public class Utilities {
 
         System.out.println();
 
-        Utilities.paragraphPrinter(paraSeparator, folderName, fileNames);
+        Utilities.paragraphPrinter(paraSeparator, folderName, pressEnter, fileNames);
     }
 
     // wrap text based on a specified character limit
@@ -148,10 +149,11 @@ public class Utilities {
     }
 
     // Method to print each paragraphs of the story as user presses Enter
-    public static void paragraphPrinter(int lineWidth, String folderName, String... paragraphFiles) {
+    public static void paragraphPrinter(int lineWidth, String folderName,
+            boolean pressEnter, String... paragraphFiles) {
         String projectRoot;
 
-        // Check if running from an IDE and adjusting path accordingly
+        // Adjusting path based on where the application is running from
         if (System.getProperty("java.class.path").contains("bin")) {
             projectRoot = "src/resources/";
         } else {
@@ -171,21 +173,61 @@ public class Utilities {
                         continue;
                     }
 
+                    // Replace placeholders with actual values
+                    Player player = GameMechanics.player;
+                    String[] name = player.getName().split(" ");
+                    String lastName = name[name.length - 1];
+                    paragraph = paragraph.replace("<name>", lastName);
+                    if (!player.unlockedCombSkills.isEmpty()) {
+                        paragraph = paragraph.replace("<combSkill>",
+                                player.unlockedCombSkills.get(player.unlockedCombSkills.size() - 1));
+                    } else {
+                        paragraph = paragraph.replace("<combSkill>", "");
+                    }
+
+                    if (!player.unlockedDefSkills.isEmpty()) {
+                        paragraph = paragraph.replace("<defSkill>",
+                                player.unlockedDefSkills.get(player.unlockedCombSkills.size() - 1));
+                    } else {
+                        paragraph = paragraph.replace("<defSkill>", "");
+                    }
+
                     String[] sentences = paragraph.split("\\.");
 
                     printSeparator(100);
                     for (String sentence : sentences) {
-                        printWrappedText(sentence.trim() + ".", lineWidth);
+                        if (sentence.contains("<break>")) {
+                            String[] splittedSentenceParts = sentence.split("<break>");
+
+                            for (int j = 0; j < splittedSentenceParts.length; j++) {
+                                String splitPart = splittedSentenceParts[j];
+                                if (j == 0) {
+                                    printWrappedText(splitPart.trim() + " -", lineWidth);
+                                    System.out.println();
+                                } else {
+                                    printWrappedText(splitPart.trim() + ".", lineWidth);
+                                }
+                            }
+                        } else {
+                            printWrappedText(sentence.trim() + ".", lineWidth);
+                        }
                     }
 
-                    if (i == paragraphFiles.length - 1) {
-                        printSeparator(100);
-                        Utilities.pressEnter();
+                    
+
+                    if (pressEnter) {
+                        if (i == paragraphFiles.length - 1) {
+                            printSeparator(100);
+                            Utilities.pressEnter();
+                        } else {
+                            System.out.println("\nPress Enter");
+                            printSeparator(100);
+                            System.out.println();
+                            scanner.nextLine();
+                        }
                     } else {
-                        System.out.println("\nPress Enter");
                         printSeparator(100);
                         System.out.println();
-                        scanner.nextLine();
                     }
                 }
             } catch (FileNotFoundException e) {
