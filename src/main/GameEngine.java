@@ -10,6 +10,7 @@ public class GameEngine {
     public static Player player;
 
     public static boolean isRunning;
+    public static boolean isNewGame = false;
 
     // Method to start the game
     public static void setName() {
@@ -100,7 +101,7 @@ public class GameEngine {
         UtilityMethods.storyPrinter(true, 100, "ACT I - OUTRO", "firstActOutro", true, "para4.txt", "para5.txt");
 
         // First battle
-        boolean[] battle1Result = GameLogic.randomBattle();
+        boolean[] battle1Result = GameLogic.randomBattle(100, "ACT I - OUTRO");
 
         if (battle1Result[0])
             return;
@@ -110,6 +111,9 @@ public class GameEngine {
             UtilityMethods.storyPrinter(true, 100, "ACT I - OUTRO", "firstActOutro", true, "para6_2.txt", "para7.txt");
         else
             UtilityMethods.storyPrinter(true, 100, "ACT I - OUTRO", "firstActOutro", true, "para6_1.txt", "para7.txt");
+
+        // Resetting all the player stats for starting a new game
+        isNewGame = true;
     }
 
     // Main game loop
@@ -119,18 +123,21 @@ public class GameEngine {
             int input = UtilityMethods.readPlayerInput("-> ", 3);
 
             if (input == 1) {
-                GameLogic.location = GameLogic.location != 0 ? 0 : GameLogic.location;
-                player.xp = player.xp != 0 ? 0 : player.xp;
-                player.hp = player.hp != 100 ? 100 : player.hp;
+                // Resetting all the player stats for starting a new game
+                if (isNewGame) {
+                    GameLogic.location = GameLogic.location != 0 ? 0 : GameLogic.location;
+                    player.xp = player.xp != 0 ? 0 : player.xp;
+                    player.hp = player.hp != 100 ? 100 : player.hp;
 
-                if (player.combatCount != 0) {
-                    player.combatCount = 0;
-                    player.unlockedCombSkills = new ArrayList<>();
-                }
+                    if (player.combatCount != 0) {
+                        player.combatCount = 0;
+                        player.unlockedCombSkills = new ArrayList<>();
+                    }
 
-                if (player.defensiveCount != 0) {
-                    player.defensiveCount = 0;
-                    player.unlockedDefSkills = new ArrayList<>();
+                    if (player.defensiveCount != 0) {
+                        player.defensiveCount = 0;
+                        player.unlockedDefSkills = new ArrayList<>();
+                    }
                 }
 
                 continueJourney();

@@ -5,13 +5,13 @@ public class GameLogic {
     public static int location = 0;
 
     // Method to calculate a random encounter
-    public static void randomEncounter() {
+    public static void randomEncounter(int paraSeparator, String title) {
         // Random number between 0 and the length of the encounters array
         int encounter = (int) (Math.random() * Names.actionsOnEncounter.length);
 
         // Calling the respective methods
         if (Names.actionsOnEncounter[encounter].equals("Fight")) {
-            randomBattle();
+            randomBattle(paraSeparator, title);
         } else if (Names.actionsOnEncounter[encounter].equals("Walk Away")) {
             // run();
             System.out.println("You're running away");
@@ -89,12 +89,22 @@ public class GameLogic {
     }
 
     // Creating a random battle with a random enemy
-    public static boolean[] randomBattle() {
+    public static boolean[] randomBattle(int paraSeparator, String title) {
         int randomIndex = (int) (Math.random() * Names.enemies.length);
         String enemyName = Names.enemies[randomIndex];
         Enemy enemy = new Enemy(enemyName, player.xp);
 
         UtilityMethods.clearConsole();
+
+        UtilityMethods.printSeparator(paraSeparator);
+        System.out.println(UtilityMethods.printTab(paraSeparator, true) + title);
+        UtilityMethods.printSeparator(paraSeparator);
+
+        System.out.println();
+
+        System.out.println("LOCATION: " + Names.locations[GameLogic.location]);
+        System.out.println();
+
         UtilityMethods.printHeading(false, "You encountered a " + enemyName + "." + " You will have to fight him!");
         UtilityMethods.pressEnter();
         return battle(enemy);
@@ -105,6 +115,12 @@ public class GameLogic {
         // Main battle loop
         while (true) {
             UtilityMethods.clearConsole();
+            UtilityMethods.printHeading(true, "BATTLE");
+
+            String[] name = player.getName().split(" ");
+            String lastName = name[name.length - 1];
+            System.out.println(lastName + " vs " + enemy.name);
+
             UtilityMethods.printHeading(
                     false,
                     enemy.name + "\n HP: " + enemy.hp + "/" + enemy.maxHp + "\n",
@@ -140,9 +156,6 @@ public class GameLogic {
                 // Print the info of this battle round
                 UtilityMethods.clearConsole();
                 UtilityMethods.printHeading(true, "BATTLE");
-
-                String[] name = player.getName().split(" ");
-                String lastName = name[name.length - 1];
                 System.out.println(lastName + " vs " + enemy.name);
 
                 System.out.println("\nYou hit the " + enemy.name + " causing " + damage + " damage.");
@@ -201,7 +214,7 @@ public class GameLogic {
                         boolean[] result = { isDead, hasFled };
                         return result;
                     } else {
-                        UtilityMethods.printHeading(false, "You couldn't manage to escape.");
+                        UtilityMethods.printHeading(false, "You couldn't manage to escape unharmed.");
 
                         // Calculate the amount of the damage the player takes
                         int damageTaken = enemy.attack();
@@ -253,6 +266,7 @@ public class GameLogic {
     // Method that gets called when the player is dead
     public static boolean hasPlayerDied(boolean isDead) {
         if (isDead) {
+            GameEngine.isNewGame = true;
             UtilityMethods.clearConsole();
             UtilityMethods.printHeading(true, "You died!");
             UtilityMethods.printHeading(
