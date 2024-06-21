@@ -9,14 +9,7 @@ public class GameMechanics {
     public static Player player;
 
     public static boolean isRunning;
-
-    // Story elements
-    public static int location = 0, act;
-    public static String[] locations = {
-            "Village",
-            "Hidden Fortress",
-            "Nearby Village"
-    };
+    public static int location = 0;
 
     // Method to start the game
     public static void startGame() {
@@ -54,7 +47,7 @@ public class GameMechanics {
             Utilities.printHeading("Your name is " + name + ".", "Do you want to keep this name?");
             System.out.println("(1) Yes!");
             System.out.println("(2) No, I want to change my name.");
-            int input = Utilities.readInt("-> ", 2);
+            int input = Utilities.readPlayerInput("-> ", 2);
             System.out.println();
 
             if (input == 1)
@@ -68,13 +61,30 @@ public class GameMechanics {
         Utilities.storyPrinter(100, "Story", "Intro", true, "para1.txt", "para2.txt", "para3.txt");
 
         // Show initial character info
-        characterInfo();
+        showPlayerInfo();
 
         // Setting isRunning to true, so the game loop can continue
         isRunning = true;
 
         // Start main game loop
         gameLoop();
+    }
+
+    // Method to calculate a random encounter
+    public static void randomEncounter() {
+        // Random number between 0 and the length of the encounters array
+        int encounter = (int) (Math.random() * Names.actionsOnEncounter.length);
+
+        // Calling the respective methods
+        if (Names.actionsOnEncounter[encounter].equals("Fight")) {
+            randomBattle();
+        } else if (Names.actionsOnEncounter[encounter].equals("Walk Away")) {
+            // run();
+        } else if (Names.actionsOnEncounter[encounter].equals("Talk")) {
+            // talk();
+        } else {
+            // explore();
+        }
     }
 
     // Method to continue the journey
@@ -85,7 +95,7 @@ public class GameMechanics {
         // Print Act-I Intro, Part-II
         // (Get the first upgrade and show the character info)
         player.chooseAbility(100, "ACT I - INTRO", "Which skill do you want to learn?", "firstActIntro", "para2.txt");
-        characterInfo();
+        showPlayerInfo();
 
         // Print Act-I Intro, Part-III
         Utilities.storyPrinter(100, "ACT I - INTRO", "firstActIntro", true, "para3.txt");
@@ -96,12 +106,12 @@ public class GameMechanics {
     }
 
     // Printing out important info of the player character
-    public static void characterInfo() {
+    public static void showPlayerInfo() {
         Utilities.clearConsole();
         Utilities.printHeading("CHARACTER INFO");
 
         System.out.println("NAME: " + player.name);
-        System.out.println("LOCATION: " + locations[location]);
+        System.out.println("LOCATION: " + Names.locations[location]);
         System.out.println("HP: " + player.hp + "/" + player.maxHp);
         System.out.println("XP: " + player.xp);
         Utilities.printSeparator(28);
@@ -146,6 +156,114 @@ public class GameMechanics {
         Utilities.pressEnter();
     }
 
+    // Creating a random battle with a random enemy
+    public static void randomBattle() {
+        int randomIndex = (int) (Math.random() * Names.enemies.length);
+        String enemyName = Names.enemies[randomIndex];
+        Enemy enemy = new Enemy(enemyName, player.xp);
+
+        Utilities.clearConsole();
+        Utilities.printHeading("You encountered a " + enemyName + "." + "You will have to fight him!");
+        Utilities.pressEnter();
+        battle(enemy);
+    }
+
+    // The main battle method
+    public static void battle(Enemy enemy) {
+        // Main battle loop
+        while (true) {
+            Utilities.clearConsole();
+            Utilities.printHeading(enemy.name + "\nHP: " + enemy.hp + "/" + enemy.maxHp);
+            Utilities.printHeading(player.name + "\nHP: " + player.hp + "/" + player.maxHp);
+
+            System.out.println("Choose an action: ");
+            Utilities.printSeparator(20);
+
+            System.out.println("(1) Fight\n(2) Heal Wounds\n(3) Run Away");
+            int input = Utilities.readPlayerInput("-> ", 3);
+
+            // React accordingly to player input
+            if (input == 1) {
+                // Fight
+                // Calculate damage and damage taken
+                int damage = player.attack() - enemy.defend();
+                int damageTaken = enemy.attack() - player.defend();
+
+                // Check that damage and damageTaken isn't negative
+                if (damageTaken < 0) {
+                    // Add some damage if player defends very well
+                    damage -= damageTaken / 2;
+                    damageTaken = 0;
+                }
+
+                if (damage < 0)
+                    damage = 0;
+
+                // Deal damage to both parties
+                player.hp -= damageTaken;
+                enemy.hp -= damage;
+
+                // Print the info of this battle round
+                Utilities.clearConsole();
+                Utilities.printHeading("BATTLE SUMMARY");
+
+                System.out.println("You strike the " + enemy.name + " for " + damage + " damage.");
+                System.out.println("You receive " + damageTaken + " damage from the " + enemy.name + ".");
+
+                Utilities.pressEnter();
+
+                // Check if the player is still alive or dead
+                if (player.hp <= 0) {
+                    playerDied(); // Method to end the game
+                    break;
+                } else if (enemy.hp <= 0) {
+                    // Tell the player that he won the battle
+                    Utilities.clearConsole();
+                    Utilities.printHeading("You defeated the " + enemy.name + "!");
+
+                    // Increase player hp
+                    player.xp += enemy.xp;
+                    System.out.println("You earned " + enemy.xp + " XP!");
+
+                    // Show the updated info and continue
+                    showPlayerInfo();
+                    Utilities.pressEnter();
+                    break;
+                }
+
+            } else if (input == 2) {
+
+            } else {
+                // Run Away
+                Utilities.clearConsole();
+                // Chance of 35% escape
+                if (Names.locations[location] == "Final") { // Todo: Replace the "Final" with the final location name
+                    Utilities.printHeading("YOU CANNOT ESCAPE THE EVIL EMPEROR!!!");
+                    Utilities.pressEnter();
+                } else {
+                    if (Math.random() * 10 + 1 <= 3.5) {
+                        Utilities.printHeading("You ran away from the " + enemy.name + "!");
+                        Utilities.pressEnter();
+                        break;
+                    } else {
+                        Utilities.printHeading("You couldn't manage to escape.");
+
+                        // Calculate the amount of the damage the player takes
+                        int damageTaken = enemy.attack();
+                        System.out.println("In your hurry you took " + damageTaken + " damage!");
+                        Utilities.pressEnter();
+
+                        // Check if the player is still alive or dead
+                        if (player.hp <= 0) {
+                            playerDied(); // Method to end the game
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     // Printing the main menu
     public static void printMenu() {
         Utilities.clearConsole();
@@ -157,16 +275,26 @@ public class GameMechanics {
         System.out.println("(3) Exit Game");
     }
 
+    // Method that gets called when the player is dead
+    public static void playerDied() {
+        Utilities.clearConsole();
+        Utilities.printHeading("You died....");
+        Utilities.printHeading("You earned " + player.xp + " XP on your journey. Try to earn more next time!");
+        System.out.println("Thank you for playing my game. I hope you enjoyed it!");
+
+        isRunning = false;
+    }
+
     // Main game loop
     public static void gameLoop() {
         while (isRunning) {
             printMenu();
-            int input = Utilities.readInt("-> ", 3);
+            int input = Utilities.readPlayerInput("-> ", 3);
 
             if (input == 1)
                 continueJourney();
             else if (input == 2)
-                characterInfo();
+                showPlayerInfo();
             else
                 isRunning = false;
         }

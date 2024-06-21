@@ -8,33 +8,6 @@ public class Player extends Character {
     public ArrayList<String> unlockedCombSkills = new ArrayList<>();
     public ArrayList<String> unlockedDefSkills = new ArrayList<>();
 
-    // Arrays to store skill names
-    public String[] combatSkills = {
-            "Swift Strike",
-            "Precision Shot",
-            "Lunge and Parry",
-            "Shield Slam",
-            "Dual Blade Technique",
-            "Fire Arrow Volley",
-            "Frost Blade",
-            "Thunderclap",
-            "Berserker Charge",
-            "Lightning Blade"
-    };
-
-    public String[] defensiveSkills = {
-            "Evasion",
-            "Counter-Parry",
-            "Deflect",
-            "Riposte",
-            "Healing Poultice",
-            "Shield Wall",
-            "Stamina Regeneration",
-            "Guard Stance",
-            "Armored Resilience",
-            "Ironclad Defense"
-    };
-
     // Player specific constructor
     public Player(String name) {
         super(name, 100, 0);
@@ -45,12 +18,13 @@ public class Player extends Character {
     // Player specific methods
     @Override
     public int attack() {
-        return 0;
+        return (int) (Math.random() * (xp / 4 + combatCount * 3 + 3) + xp / 10 + combatCount * 2 + defensiveCount + 1);
     }
 
     @Override
     public int defend() {
-        return 0;
+        return (int) (Math.random() * (xp / 4 + defensiveCount * 3 + 3) + xp / 10 + defensiveCount * 2 + combatCount
+                + 1);
     }
 
     // Let the player choose a skill of either path
@@ -61,21 +35,21 @@ public class Player extends Character {
         Utilities.storyPrinter(lineWidth, heading, folderName, false, fileName);
 
         Utilities.printHeading(title);
-        System.out.println("(1) " + combatSkills[combatCount]);
-        System.out.println("(2) " + defensiveSkills[defensiveCount]);
+        System.out.println("(1) " + Names.combatSkills[combatCount]);
+        System.out.println("(2) " + Names.defensiveSkills[defensiveCount]);
 
         // Get the player's choice
-        int input = Utilities.readInt("-> ", 2);
+        int input = Utilities.readPlayerInput("-> ", 2);
 
         // Handle both cases
         if (input == 1) {
-            String skill = combatSkills[combatCount];
+            String skill = Names.combatSkills[combatCount];
             unlockedCombSkills.add(skill);
             combatCount++;
 
             Utilities.printHeading("You unlocked " + skill + "!");
         } else {
-            String skill = defensiveSkills[defensiveCount];
+            String skill = Names.defensiveSkills[defensiveCount];
             unlockedDefSkills.add(skill);
             defensiveCount++;
 

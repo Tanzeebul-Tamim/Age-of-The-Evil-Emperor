@@ -10,7 +10,7 @@ public class Utilities {
     static Scanner scanner = new Scanner(System.in);
 
     // Method to get user input from console
-    public static int readInt(String prompt, int userChoices) {
+    public static int readPlayerInput(String prompt, int userChoices) {
         int input;
 
         do {
@@ -39,8 +39,8 @@ public class Utilities {
 
     // Method to handle empty user inputs
     public static void isEmptyInput(String fieldName) {
-        Utilities.clearConsole();
-        Utilities.printHeading(fieldName + " cannot be empty!");
+        clearConsole();
+        printHeading(fieldName + " cannot be empty!");
         System.out.println("\nPress Enter to continue...");
         scanner.nextLine();
     }
@@ -117,15 +117,15 @@ public class Utilities {
     // Method to print each parts of the story
     public static void storyPrinter(int paraSeparator, String title, String folderName, boolean pressEnter,
             String... fileNames) {
-        Utilities.clearConsole();
+        clearConsole();
 
-        Utilities.printSeparator(paraSeparator);
+        printSeparator(paraSeparator);
         System.out.println(printTab(paraSeparator, true) + title);
-        Utilities.printSeparator(paraSeparator);
+        printSeparator(paraSeparator);
 
         System.out.println();
 
-        Utilities.paragraphPrinter(paraSeparator, folderName, pressEnter, fileNames);
+        paragraphPrinter(paraSeparator, folderName, pressEnter, fileNames);
     }
 
     // wrap text based on a specified character limit
@@ -213,12 +213,10 @@ public class Utilities {
                         }
                     }
 
-                    
-
                     if (pressEnter) {
                         if (i == paragraphFiles.length - 1) {
                             printSeparator(100);
-                            Utilities.pressEnter();
+                            pressEnter();
                         } else {
                             System.out.println("\nPress Enter");
                             printSeparator(100);
