@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 //* Utility Methods
 
-public class UtilityMethods {
+public class Utils {
     static Scanner scanner = new Scanner(System.in);
 
     // Method to get user input from console
@@ -106,6 +106,7 @@ public class UtilityMethods {
         return tab;
     }
 
+    // Method to print tab in heading according to separator length
     public static String printTab(int paraSeparator, boolean story) {
         int tabCount = paraSeparator / 16;
         String tab = "";
@@ -136,14 +137,14 @@ public class UtilityMethods {
         System.out.println();
 
         if (location) {
-            System.out.println("LOCATION: " + Names.locations[GameLogic.location]);
+            System.out.println("LOCATION: " + Assets.locations[Actions.location]);
             System.out.println();
         }
 
         paragraphPrinter(paraSeparator, folderName, pressEnter, fileNames);
     }
 
-    // wrap text based on a specified character limit
+    // Method to wrap text based on a specified character limit
     public static void printWrappedText(String text, int lineWidth) {
         int index = 0;
         while (index < text.length()) {
@@ -189,7 +190,7 @@ public class UtilityMethods {
                     }
 
                     // Replace placeholders with actual values
-                    Player player = GameEngine.player;
+                    Player player = EventManager.player;
                     String[] name = player.getName().split(" ");
                     String lastName = name[name.length - 1];
                     paragraph = paragraph.replace("<name>", lastName);
