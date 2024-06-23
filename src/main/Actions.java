@@ -1,293 +1,11 @@
 package main;
 
+import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Actions {
-    static Scanner scanner = new Scanner(System.in);
     static Player player = EventManager.player;
     public static int location = 0;
-
-    // Method to set player name
-    public static String setName() {
-        boolean nameSet = false;
-        String name;
-
-        do {
-            Utils.clearConsole();
-            Utils.printHeading(true, "What's your name?");
-            name = scanner.nextLine().trim();
-
-            // Check if name is empty
-            if (name.isEmpty()) {
-                Utils.isEmptyInput("Name");
-                continue;
-            }
-
-            // Asking the player if he wants to correct his choice
-            Utils.clearConsole();
-            Utils.printHeading(true, "Your name is " + name + ".", "Do you want to keep this name?");
-            System.out.println("(1) Yes!");
-            System.out.println("(2) No, I want to change my name.");
-            int input = Utils.readPlayerInput("-> ", 2);
-            System.out.println();
-
-            if (input == 1)
-                nameSet = true;
-        } while (!nameSet);
-        return name;
-    }
-
-    // Printing out important info of the player character
-    public static void printPlayerInfo() {
-        printStats(false);
-
-        // Printing the unlocked skills
-        Utils.printHeading(true, "Unlocked Skills");
-
-        System.out.print("Combat Skills: ");
-        if (player.unlockedCombSkills.size() == 0) {
-            System.out.print("None\n");
-        } else {
-            for (int i = 0; i < player.unlockedCombSkills.size(); i++) {
-                String skill = player.unlockedCombSkills.get(i);
-
-                if (i == player.unlockedCombSkills.size() - 1) {
-                    System.out.print(skill + "\n");
-                } else {
-                    System.out.print(skill + ", ");
-                }
-            }
-        }
-
-        System.out.print("Defensive Skills: ");
-        if (player.unlockedDefSkills.size() == 0) {
-            System.out.print("None\n");
-        } else {
-            for (int i = 0; i < player.unlockedDefSkills.size(); i++) {
-                String skill = player.unlockedDefSkills.get(i);
-
-                if (i == player.unlockedDefSkills.size() - 1) {
-                    System.out.print(skill + "\n");
-                } else {
-                    System.out.print(skill + ", ");
-                }
-            }
-        }
-
-        Utils.printSeparator(30);
-        System.out.println();
-        Utils.pressEnter();
-    }
-
-    // Print current stats
-    public static void printStats(boolean pressEnter) {
-        Utils.clearConsole();
-        Utils.printHeading(true, "PLAYER STATS");
-
-        System.out.println("NAME: " + player.name);
-        System.out.println("LOCATION: " + Assets.locations[location]);
-        System.out.println("HP: " + player.hp + "/" + player.maxHp);
-        System.out.println("XP: " + player.xp);
-        System.out.println("GOLD: " + player.gold);
-        System.out.println("HEALER: " + player.healers);
-        Utils.printSeparator(28);
-
-        System.out.println();
-
-        if (pressEnter) {
-            Utils.pressEnter();
-        }
-    }
-
-    // Printing the main menu
-    public static void printMenu() {
-        Utils.clearConsole();
-        Utils.printHeading(true, "Menu");
-        System.out.println("Choose an action:\n");
-
-        System.out.println("(1) Continue on your journey");
-        System.out.println("(2) Character Info");
-        System.out.println("(3) Exit Game");
-    }
-
-    // Todo Method to shop
-    public static void shop(String itemName, String[] trade) {
-        String traderType = trade[0];
-        String productType = trade[1];
-
-        Utils.clearConsole();
-        Utils.printHeading(true, "You meet a mysterious stranger!");
-        System.out.printf("Seems like he is a %s.\n He's offering %s at a reasonable price.", traderType, productType);
-
-        if (productType.equals("Healers")) {
-            buyHealers();
-        } else if (productType.equals("Weapons")) {
-
-        }
-    }
-
-    // Todo Method to buy healers
-    public static void buyHealers() {
-        Random random = new Random();
-
-        // Randomly generate how many healers the trader has
-        int healersAvailable = random.nextInt(10 - 1 + 1) + 1;
-
-        // Showing healer price
-        int price = (int) (Math.random() * (10 + player.healers * 3) + 10 + player.healers);
-
-        if (healersAvailable == 1) {
-            System.out.println("The trader has only one healer available.");
-        } else {
-            System.out.println("The trader has " + healersAvailable + " healers available.");
-        }
-
-        if (price == 1) {
-            System.out.println("- Healer: " + price + " gold");
-        } else {
-            System.out.println("- Healer: " + price + " golds");
-        }
-
-        // Ask the player to buy
-        System.out.println("Do you want to buy some?\n(1) Yes!\n(2) No thanks");
-        int input = Utils.readPlayerInput("-> ", 2);
-
-        // Check if the player wants to buy
-        if (input == 1) {
-            Utils.clearConsole();
-            int totalPrice;
-            int quantity;
-
-            // Ask the player how many he wants to buy
-            if (healersAvailable == 1) {
-                quantity = 1;
-                totalPrice = quantity * price;
-            } else {
-                System.out.println("The trader has " + healersAvailable + " healers available.");
-                System.out.println("How many healers do you want to buy?\n");
-
-                quantity = Utils.readPlayerInput("-> ", healersAvailable);
-                totalPrice = quantity * price;
-            }
-
-            // Check if player has enough gold and proceed to purchase
-            String title;
-            if (player.gold >= totalPrice) {
-                player.gold -= totalPrice;
-                player.healers += quantity;
-
-                if (quantity == 1) {
-                    if (price == 1) {
-                        title = "You bought a healer for " + price + "gold!";
-                    } else {
-                        title = "You bought a healer for " + price + "golds!";
-                    }
-                } else {
-                    if (price == 1) {
-                        title = "You bought " + quantity + " healers for " + price + "gold!";
-                    } else {
-                        title = "You bought " + quantity + " healers for " + price + "golds!";
-                    }
-                }
-
-                Utils.printHeading(false, title);
-            } else {
-                if (quantity == 1) {
-                    title = "You don't have enough gold to buy a healer.";
-                } else {
-                    title = "You don't have enough gold to buy " + quantity + "healers.";
-                }
-
-                Utils.printHeading(false, title);
-            }
-
-            printStats(true);
-        }
-    }
-
-    // Todo Method to buy weapons
-    public static void buyWeapons() {
-        Random random = new Random();
-
-        for (String weapon : Assets.weapons) {
-
-        }
-
-        // Randomly generate how many healers the trader has
-        int weaponAvailable = random.nextInt(10 - 1 + 1) + 1;
-
-        // Showing healer price
-        int price = (int) (Math.random() * (10 + player.healers * 3) + 10 + player.healers);
-
-        if (weaponAvailable == 1) {
-            System.out.println("The trader has only one healer available.");
-        } else {
-            System.out.println("The trader has " + weaponAvailable + " healers available.");
-        }
-
-        if (price == 1) {
-            System.out.println("- Healer: " + price + " gold");
-        } else {
-            System.out.println("- Healer: " + price + " golds");
-        }
-
-        // Ask the player to buy
-        System.out.println("Do you want to buy some?\n(1) Yes!\n(2) No thanks");
-        int input = Utils.readPlayerInput("-> ", 2);
-
-        // Check if the player wants to buy
-        if (input == 1) {
-            Utils.clearConsole();
-            int totalPrice;
-            int quantity;
-
-            // Ask the player how many he wants to buy
-            if (weaponAvailable == 1) {
-                quantity = 1;
-                totalPrice = quantity * price;
-            } else {
-                System.out.println("The trader has " + weaponAvailable + " healers available.");
-                System.out.println("How many healers do you want to buy?\n");
-
-                quantity = Utils.readPlayerInput("-> ", weaponAvailable);
-                totalPrice = quantity * price;
-            }
-
-            // Check if player has enough gold and proceed to purchase
-            String title;
-            if (player.gold >= totalPrice) {
-                player.gold -= totalPrice;
-                player.healers += quantity;
-
-                if (quantity == 1) {
-                    if (price == 1) {
-                        title = "You bought a healer for " + price + "gold!";
-                    } else {
-                        title = "You bought a healer for " + price + "golds!";
-                    }
-                } else {
-                    if (price == 1) {
-                        title = "You bought " + quantity + " healers for " + price + "gold!";
-                    } else {
-                        title = "You bought " + quantity + " healers for " + price + "golds!";
-                    }
-                }
-
-                Utils.printHeading(false, title);
-            } else {
-                if (quantity == 1) {
-                    title = "You don't have enough gold to buy a healer.";
-                } else {
-                    title = "You don't have enough gold to buy " + quantity + "healers.";
-                }
-
-                Utils.printHeading(false, title);
-            }
-
-            printStats(true);
-        }
-    }
 
     // Method to calculate a random encounter
     public static void randomEncounter(int paraSeparator, String title) {
@@ -298,8 +16,8 @@ public class Actions {
         if (Assets.actionsOnEncounter[encounter].equals("Fight")) {
             randomBattle(paraSeparator, title);
         } else if (Assets.actionsOnEncounter[encounter].equals("Walk Away")) {
-            // run();
-            System.out.println("You're walking away");
+            System.out.println("The abc walked away");
+            // do you want to attack?
         } else {
             // talk();
             System.out.println("You're talking");
@@ -320,7 +38,7 @@ public class Actions {
 
         System.out.println();
 
-        System.out.println("LOCATION: " + Assets.locations[Actions.location]);
+        System.out.println("LOCATION: " + Assets.locations[UIUtils.location]);
         System.out.println();
 
         Utils.printHeading(false, "You encountered a " + enemyName + "." + " You will have to fight him!");
@@ -426,7 +144,7 @@ public class Actions {
 
                     // Press enter and print stats
                     Utils.clearConsole();
-                    printStats(true);
+                    UIUtils.printStats(true);
 
                     // Determining if player is alive and if player fled
                     boolean isDead = hasPlayerDied(false); // Method to end the game
@@ -526,7 +244,7 @@ public class Actions {
                         } else {
                             // Print stats after printing a new line
                             System.out.println();
-                            printStats(true);
+                            UIUtils.printStats(true);
 
                             // Determining if player is alive and if player fled
                             boolean isDead = hasPlayerDied(false); // Method to end the game
@@ -544,7 +262,258 @@ public class Actions {
     public static void finalBattle() {
         // creating the evil emperor object and letting the player fight against him
         battle(new Enemy("THE EVIL EMPEROR", 200));
-        
+
+        // Printing the proper ending
+        UIUtils.printCompletionMessage(player);
+        EventManager.isRunning = false;
+    }
+
+    // Todo Method to shop
+    public static void shop(String itemName, String[] trade) {
+        String traderType = trade[0];
+        String productType = trade[1];
+
+        Utils.clearConsole();
+        Utils.printHeading(true, "You meet a mysterious stranger!");
+        System.out.printf("Seems like he is a %s.\n He's offering %s at a reasonable price.", traderType, productType);
+
+        Utils.pressEnter();
+
+        if (productType.equals("Healers")) {
+            buyHealers(traderType);
+        } else if (productType.equals("Weapons")) {
+
+        } else {
+            // if healer buyHealer()
+            // else buyWeaopns()
+        }
+    }
+
+    // Method to buy healers
+    public static void buyHealers(String traderType) {
+        Random random = new Random();
+
+        // Randomly generate how many healers the trader has
+        int healersAvailable = random.nextInt(10 - 1 + 1) + 1;
+
+        // Showing healer price
+        int price = (int) (Math.random() * (10 + player.healers * 3) + 10 + player.healers);
+
+        if (price == 1) {
+            System.out.println("Healer: " + price + " gold");
+        } else {
+            System.out.println("Healer: " + price + " golds");
+        }
+
+        // Ask the player to buy
+        System.out.println("Do you want to buy some healers?\n(1) Yes!\n(2) No thanks");
+        int input = Utils.readPlayerInput("-> ", 2);
+
+        // Check if the player wants to buy
+        if (input == 1) {
+            Utils.clearConsole();
+            boolean doneBuying = false;
+            int totalPrice;
+            int quantity;
+            String title;
+
+            do {
+                // Show available quantity
+                if (healersAvailable == 1) {
+                    title = "The " + traderType + " has only one healer available.";
+
+                    Utils.printSeparator(title.length());
+                    System.out.println(title);
+                    Utils.printSeparator(title.length());
+                } else {
+                    title = "The " + traderType + " has " + healersAvailable + " healers available.";
+
+                    Utils.printSeparator(title.length());
+                    System.out.println(title);
+                    Utils.printSeparator(title.length());
+                }
+
+                System.out.println();
+
+                System.out.println("How many healers do you want to buy?\n");
+                quantity = Utils.readPlayerInput("-> ", healersAvailable);
+
+                System.out.println();
+
+                // Ask the player how many he wants to buy
+                if (quantity > healersAvailable) {
+                    if (healersAvailable == 1) {
+                        System.out.println("The " + traderType + " has only one healer available.");
+                    } else {
+                        System.out.println("The " + traderType + " has " + healersAvailable + " healers available.");
+                    }
+                    Utils.pressEnter();
+                    continue;
+                } else {
+                    totalPrice = quantity * price;
+                }
+
+                // Check if player has enough gold and proceed to purchase
+                if (player.gold >= totalPrice) {
+                    player.gold -= totalPrice;
+                    player.healers += quantity;
+
+                    if (quantity == 1) {
+                        if (price == 1) {
+                            title = "You bought a healer for " + price + "gold!";
+                        } else {
+                            title = "You bought a healer for " + price + "golds!";
+                        }
+                    } else {
+                        if (price == 1) {
+                            title = "You bought " + quantity + " healers for " + price + "gold!";
+                        } else {
+                            title = "You bought " + quantity + " healers for " + price + "golds!";
+                        }
+                    }
+
+                    Utils.printHeading(false, title);
+                } else {
+                    if (quantity == 1) {
+                        title = "You don't have enough gold to buy a healer.";
+                    } else {
+                        title = "You don't have enough gold to buy " + quantity + "healers.";
+                    }
+
+                    Utils.printHeading(false, title);
+                    Utils.pressEnter();
+                    buyHealers(traderType);
+                    break;
+                }
+
+                doneBuying = true;
+                Utils.pressEnter();
+                UIUtils.printStats(true);
+            } while (!doneBuying);
+        }
+    }
+
+    // Method to buy weapons
+    public static void buyWeapons(String traderType) {
+        // Ask the player to buy
+        System.out.println("Do you want to buy a weapon?\n(1) Yes!\n(2) No thanks");
+        int input = Utils.readPlayerInput("-> ", 2);
+
+        if (input == 1) {
+            Utils.clearConsole();
+            boolean doneBuying = false;
+            String title;
+            String currentWeapon = player.unlockedCombatWeapons.get(player.combatWeaponCount);
+
+            title = "Which type of weapon are you interested in purchasing?";
+
+            Utils.printSeparator(title.length());
+            System.out.println(title);
+            Utils.printSeparator(title.length());
+
+            System.out.println("(1) Combat Weapon");
+            System.out.println("(2) Defensive Weapon");
+            input = Utils.readPlayerInput("-> ", 2);
+
+            System.out.println();
+            do {
+                if (input == 1) {
+                    doneBuying = buyWeaponType(doneBuying, currentWeapon, traderType, "combat",
+                            Assets.combatWeapons, player.combatWeaponCount, player.gold,
+                            player.unlockedCombatWeapons);
+                } else {
+                    doneBuying = buyWeaponType(doneBuying, currentWeapon, traderType, "defensive",
+                            Assets.defensiveEquipment, player.defensiveEquipmentCount, player.gold,
+                            player.unlockedDefensiveEquipments);
+                }
+            } while (!doneBuying);
+        }
+    }
+
+    // Method to buy a specific type of weapon
+    public static boolean buyWeaponType(boolean doneBuying, String currentWeapon, String traderType, String weaponType,
+            String[] weaponArray, int weaponCount, int gold, ArrayList<String> unlockedWeapons) {
+        String title;
+
+        Utils.clearConsole();
+        System.out.println("The " + traderType + " has the following " + weaponType + " weapons available:");
+        System.out.println("Which one are you interested in?");
+        System.out.println();
+        int[] prices = new int[weaponArray.length];
+        int expense;
+
+        for (int i = 0; i < weaponArray.length; i++) {
+            String weapon = weaponArray[i];
+            // Showing combatWeapon price
+            int price = (int) (Math.random() * (10 + weaponCount * 3) + 10
+                    + weaponCount);
+            prices[i] = price;
+
+            if (price == 1) {
+                System.out.printf("(%d) %s: %d gold\n", i + 1, weapon, price);
+            } else {
+                System.out.printf("(%d) %s: %d golds\n", i + 1, weapon, price);
+            }
+        }
+
+        int input = Utils.readPlayerInput("-> ", weaponArray.length);
+        System.out.println();
+
+        String selectedWeapon = weaponArray[input - 1];
+
+        if (input > weaponCount) {
+            if (input == weaponCount + 1) {
+                expense = prices[input - 1];
+            } else {
+                System.out.printf(
+                        "You need more experience to wield the %s. Keep training and come back when you're stronger.\n",
+                        selectedWeapon);
+                Utils.pressEnter();
+                doneBuying = false;
+                return doneBuying;
+            }
+        } else if (input < weaponCount) {
+            System.out.printf(
+                    "Your current weapon %s is already better than %s. There's no need to buy this one.\n",
+                    currentWeapon, selectedWeapon);
+            Utils.pressEnter();
+            doneBuying = false;
+            return doneBuying;
+        } else {
+            System.out.printf("You already own this weapon. There's no need to buy this %s.\n",
+                    selectedWeapon);
+            Utils.pressEnter();
+            doneBuying = false;
+            return doneBuying;
+        }
+
+        // Check if player has enough gold and proceed to purchase
+        if (gold >= expense) {
+            gold -= expense;
+            unlockedWeapons.add(selectedWeapon);
+            weaponCount++;
+
+            if (expense == 1) {
+                title = "You bought a " + weaponType + " weapon, " + selectedWeapon + " for " + expense + "gold!";
+            } else {
+                title = "You bought a " + weaponType + " weapon, " + selectedWeapon + " for " + expense + "golds!";
+            }
+
+            Utils.printHeading(false, title);
+        } else {
+            title = "You don't have enough gold to buy a " + selectedWeapon;
+
+            Utils.printHeading(false, title);
+            Utils.pressEnter();
+            buyWeapons(traderType);
+            doneBuying = false;
+            return doneBuying;
+        }
+
+        Utils.pressEnter();
+        UIUtils.printStats(true);
+        doneBuying = true;
+        return doneBuying;
     }
 
     // Method that gets called when the player is dead

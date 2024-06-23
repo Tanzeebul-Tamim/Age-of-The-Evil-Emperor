@@ -19,7 +19,7 @@ public class Utils {
                 input = Integer.parseInt(scanner.nextLine());
 
                 if (input < 1 || input > userChoices) {
-                    System.out.print("\nPlease choose between option ");
+                    System.out.print("\nPlease choose between ");
                     for (int i = 1; i < userChoices; i++) {
                         if (i == userChoices - 1) {
                             System.out.printf("%d ", i);
@@ -137,7 +137,7 @@ public class Utils {
         System.out.println();
 
         if (location) {
-            System.out.println("LOCATION: " + Assets.locations[Actions.location]);
+            System.out.println("LOCATION: " + Assets.locations[UIUtils.location]);
             System.out.println();
         }
 
@@ -194,16 +194,16 @@ public class Utils {
                     String[] name = player.getName().split(" ");
                     String lastName = name[name.length - 1];
                     paragraph = paragraph.replace("<name>", lastName);
-                    if (!player.unlockedCombSkills.isEmpty()) {
+                    if (!player.unlockedCombatSkills.isEmpty()) {
                         paragraph = paragraph.replace("<combSkill>",
-                                player.unlockedCombSkills.get(player.unlockedCombSkills.size() - 1));
+                                player.unlockedCombatSkills.get(player.unlockedCombatSkills.size() - 1));
                     } else {
                         paragraph = paragraph.replace("<combSkill>", "");
                     }
 
-                    if (!player.unlockedDefSkills.isEmpty()) {
+                    if (!player.unlockedDefensiveSkills.isEmpty()) {
                         paragraph = paragraph.replace("<defSkill>",
-                                player.unlockedDefSkills.get(player.unlockedDefSkills.size() - 1));
+                                player.unlockedDefensiveSkills.get(player.unlockedDefensiveSkills.size() - 1));
                     } else {
                         paragraph = paragraph.replace("<defSkill>", "");
                     }

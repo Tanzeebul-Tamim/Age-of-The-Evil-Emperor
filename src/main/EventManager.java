@@ -13,21 +13,10 @@ public class EventManager {
     // Method to start the game
     public static void launchGame() {
         // Get the player name
-        String name = Actions.setName();
+        String name = UIUtils.setName();
 
         // Print title screen
-        Utils.clearConsole();
-
-        Utils.printSeparator(40);
-        Utils.printSeparator(30);
-
-        System.out.println("AGE OF THE EVIL EMPEROR");
-        System.out.println("TEXT RPG BY - TANZEEBUL TAMIM");
-
-        Utils.printSeparator(30);
-        Utils.printSeparator(40);
-
-        Utils.pressEnter();
+        UIUtils.printOpening();
 
         // Create new player object with the name
         player = new Player(name);
@@ -36,13 +25,13 @@ public class EventManager {
         Utils.storyPrinter(true, 100, "Prologue", "Intro", true, "para1.txt", "para2.txt");
 
         // Update location
-        Actions.location++;
+        UIUtils.location++;
 
         // Print Story Intro Part III
         Utils.storyPrinter(true, 100, "Prologue", "Intro", true, "para3.txt");
 
         // Show initial character info
-        Actions.printPlayerInfo();
+        UIUtils.printPlayerInfo();
 
         // Setting isRunning to true, so the game loop can continue
         isRunning = true;
@@ -54,37 +43,42 @@ public class EventManager {
     // Main game loop
     public static void gameLoop() {
         while (isRunning) {
-            Actions.printMenu();
+            UIUtils.printMenu();
             int input = Utils.readPlayerInput("-> ", 3);
 
             if (input == 1) {
                 // Resetting all the player stats for starting a new game
                 if (isNewGame) {
-                    Actions.location = Actions.location != 0 ? 0 : Actions.location;
-                    player.xp = player.xp != 0 ? 0 : player.xp;
+                    UIUtils.location = UIUtils.location != 0 ? 0 : UIUtils.location;
                     player.hp = player.hp != 100 ? 100 : player.hp;
-                    player.healers = player.healers != 0 ? 0 : player.healers;
+                    player.xp = player.xp != 0 ? 0 : player.xp;
                     player.gold = player.gold != 0 ? 0 : player.gold;
+                    player.healers = player.healers != 0 ? 0 : player.healers;
 
                     if (player.combatCount != 0) {
                         player.combatCount = 0;
-                        player.unlockedCombSkills = new ArrayList<>();
+                        player.unlockedCombatSkills = new ArrayList<>();
                     }
 
                     if (player.defensiveCount != 0) {
                         player.defensiveCount = 0;
-                        player.unlockedDefSkills = new ArrayList<>();
+                        player.unlockedDefensiveSkills = new ArrayList<>();
                     }
 
-                    if (player.weaponCount != 0) {
-                        player.weaponCount = 0;
-                        player.unlockedWeapons = new ArrayList<>();
+                    if (player.combatWeaponCount != 0) {
+                        player.combatWeaponCount = 0;
+                        player.unlockedCombatWeapons = new ArrayList<>();
+                    }
+
+                    if (player.defensiveEquipmentCount != 0) {
+                        player.defensiveEquipmentCount = 0;
+                        player.unlockedDefensiveEquipments = new ArrayList<>();
                     }
                 }
 
                 continueJourney();
             } else if (input == 2)
-                Actions.printPlayerInfo();
+                UIUtils.printPlayerInfo();
             else
                 isRunning = false;
         }
@@ -97,8 +91,8 @@ public class EventManager {
 
         // Print Act-I Intro, Part-II
         // (Get the first upgrade and show the character info)
-        player.chooseAbility(100, "ACT I - INTRO", "Which skill do you want to learn?", "firstActIntro", "para2.txt");
-        Actions.printPlayerInfo();
+        player.chooseSkill(100, "ACT I - INTRO", "Which skill do you want to learn?", "firstActIntro", "para2.txt");
+        UIUtils.printPlayerInfo();
 
         // Print Act-I Intro, Part-III
         Utils.storyPrinter(true, 100, "ACT I - INTRO", "firstActIntro", true, "para3.txt");
@@ -108,10 +102,15 @@ public class EventManager {
                 "para3.txt");
 
         // Update location
-        Actions.location++;
+        UIUtils.location++;
 
         // Print Act-I Outro, Part-II
-        Utils.storyPrinter(true, 100, "ACT I - OUTRO", "firstActOutro", true, "para4.txt", "para5.txt");
+        Utils.storyPrinter(true, 100, "ACT I - OUTRO", "firstActOutro", true, "para4.txt", "para5.txt", "para6.txt");
+
+        // (Get the first weapon and show the character info)
+        player.chooseWeapon(100, "ACT I - OUTRO", "Which Weapon Will You Choose for the Journey?", "firstActOutro",
+                "para7.txt");
+        UIUtils.printPlayerInfo();
 
         // First battle
         boolean[] battle1Result = Actions.randomBattle(100, "ACT I - OUTRO");
@@ -120,12 +119,13 @@ public class EventManager {
             return;
 
         // Print Act-I Outro, Part-III
-        if (battle1Result[1])
-            Utils.storyPrinter(true, 100, "ACT I - OUTRO", "firstActOutro", true, "para6_2.txt", "para7.txt");
+        if (!battle1Result[1])
+            Utils.storyPrinter(true, 100, "ACT I - OUTRO", "firstActOutro", true, "para8_1.txt", "para9.txt");
         else
-            Utils.storyPrinter(true, 100, "ACT I - OUTRO", "firstActOutro", true, "para6_1.txt", "para7.txt");
+            Utils.storyPrinter(true, 100, "ACT I - OUTRO", "firstActOutro", true, "para8_2.txt", "para9.txt");
 
-        //! This should always be at the bottom. It's for resetting all the player stats for starting a new game
+        // ! This should always be at the bottom. It's for resetting all the player
+        // stats for starting a new game
         isNewGame = true;
     }
 }

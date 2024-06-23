@@ -39,22 +39,40 @@ public class Assets {
                         "Ironclad Defense"
         };
 
-        public static String[] weapons = {
+        public static String[] combatWeapons = {
                         "Dagger",
                         "Throwing knives",
                         "Short sword",
+                        "Staff",
+                        "Bow",
+                        "Spear",
+                        "Scimitar",
                         "War pick",
                         "Crossbow",
-                        "Spear",
-                        "Battleaxe",
-                        "Scimitar",
                         "Long sword",
+                        "Battleaxe",
                         "Halberd",
-                        "Great sword",
                         "War hammer",
-                        "Bow",
-                        "Staff",
+                        "Great sword",
                         "Assassin's Blade"
+        };
+
+        public static String[] defensiveEquipment = {
+                        "Helmet",
+                        "Boots of Defense",
+                        "Gauntlets",
+                        "Arm guards",
+                        "Greaves",
+                        "Buckler",
+                        "Leather armor",
+                        "Cloak of Protection",
+                        "Chain mail",
+                        "Breastplate",
+                        "Scale Armor",
+                        "Shield",
+                        "Tower shield",
+                        "Plate armor",
+                        "Metal Barrier"
         };
 
         public static String[] enemies = {
@@ -84,14 +102,25 @@ public class Assets {
                         "Village Elder",
                         "Local Guide",
                         "Scholar",
-                        "Fellow Rebel"
+                        "Fellow Rebel",
+                        "Sorcerer",
+                        "Bounty Hunter",
+                        "Trickster",
+                        "Minstrel",
+                        "Tavern Keeper",
+                        "Fortune Teller"
         };
 
         public static String[][] tradersAndProducts = {
                         { "Herbalist", "Healers" },
                         { "Alchemist", "Healers" },
+                        { "Medic", "Healers" },
+                        { "Apothecary", "Healers" },
                         { "Blacksmith", "Weapons" },
-                        { "Craftsman", "Weapons" },
-                        { "Merchant", "Healers and weapons" },
+                        { "Weapon smith", "Weapons" },
+                        { "Armorer", "Weapons" },
+                        { "Fletcher", "Weapons" },
+                        { "Merchant", "Healers and weapons" }
         };
+
 }
