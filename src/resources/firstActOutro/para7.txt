@@ -1,1 +1,1 @@
-Alaric<break>Take this weapon, <name>. May it serve you well in the battles to come. Remember, we stand together, and with this, you carry not just a tool of war, but the hope of our people.
+Alaric<break>Here, take this <combWeapon><defWeapon>, <name>. May it serve you well in the battles to come. Remember, we stand together, and with this, you carry not just a tool of war, but the hope of our people.

@@ -58,21 +58,21 @@ public class Assets {
         };
 
         public static String[] defensiveEquipment = {
-                        "Helmet",
-                        "Boots of Defense",
-                        "Gauntlets",
-                        "Arm guards",
-                        "Greaves",
-                        "Buckler",
-                        "Leather armor",
-                        "Cloak of Protection",
-                        "Chain mail",
-                        "Breastplate",
-                        "Scale Armor",
-                        "Shield",
-                        "Tower shield",
-                        "Plate armor",
-                        "Metal Barrier"
+                        "Reinforced Helmet",
+                        "Guardian Boots",
+                        "Steel Gauntlets",
+                        "Defender's Armguards",
+                        "Iron Greaves",
+                        "Warded Buckler",
+                        "Enchanted Leather Armor",
+                        "Mantle of Warding",
+                        "Chainmail Vest",
+                        "Knight's Breastplate",
+                        "Dragon Scale Armor",
+                        "Divine Shield",
+                        "Tower of Valor",
+                        "Legendary Plate Armor",
+                        "Adamantite Barrier"
         };
 
         public static String[] enemies = {
@@ -112,15 +112,15 @@ public class Assets {
         };
 
         public static String[][] tradersAndProducts = {
-                        { "Herbalist", "Healers" },
-                        { "Alchemist", "Healers" },
-                        { "Medic", "Healers" },
-                        { "Apothecary", "Healers" },
-                        { "Blacksmith", "Weapons" },
-                        { "Weapon smith", "Weapons" },
-                        { "Armorer", "Weapons" },
-                        { "Fletcher", "Weapons" },
-                        { "Merchant", "Healers and weapons" }
+                        { "Herbalist", "healers" },
+                        { "Alchemist", "healers" },
+                        { "Medic", "healers" },
+                        { "Apothecary", "healers" },
+                        { "Blacksmith", "weapons" },
+                        { "Weapon smith", "weapons" },
+                        { "Armorer", "weapons" },
+                        { "Fletcher", "weapons" },
+                        { "Merchant", "healers and weapons" }
         };
 
 }

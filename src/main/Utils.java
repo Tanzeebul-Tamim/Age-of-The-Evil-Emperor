@@ -193,7 +193,11 @@ public class Utils {
                     Player player = EventManager.player;
                     String[] name = player.getName().split(" ");
                     String lastName = name[name.length - 1];
+
+                    // Replace name
                     paragraph = paragraph.replace("<name>", lastName);
+
+                    // Replace combat skill
                     if (!player.unlockedCombatSkills.isEmpty()) {
                         paragraph = paragraph.replace("<combSkill>",
                                 player.unlockedCombatSkills.get(player.unlockedCombatSkills.size() - 1));
@@ -201,6 +205,7 @@ public class Utils {
                         paragraph = paragraph.replace("<combSkill>", "");
                     }
 
+                    // Replace defensive skill
                     if (!player.unlockedDefensiveSkills.isEmpty()) {
                         paragraph = paragraph.replace("<defSkill>",
                                 player.unlockedDefensiveSkills.get(player.unlockedDefensiveSkills.size() - 1));
@@ -208,10 +213,27 @@ public class Utils {
                         paragraph = paragraph.replace("<defSkill>", "");
                     }
 
+                    // Replace combat weapon
+                    if (!player.unlockedCombatWeapons.isEmpty()) {
+                        paragraph = paragraph.replace("<combWeapon>",
+                                player.unlockedCombatWeapons.get(player.unlockedCombatWeapons.size() - 1));
+                    } else {
+                        paragraph = paragraph.replace("<combWeapon>", "");
+                    }
+
+                    // Replace defensive weapon
+                    if (!player.unlockedDefensiveEquipments.isEmpty()) {
+                        paragraph = paragraph.replace("<defWeapon>",
+                                player.unlockedDefensiveEquipments.get(player.unlockedDefensiveEquipments.size() - 1));
+                    } else {
+                        paragraph = paragraph.replace("<defWeapon>", "");
+                    }
+
                     String[] sentences = paragraph.split("\\.");
 
                     printSeparator(100);
                     for (String sentence : sentences) {
+                        // Adding custom line breaks
                         if (sentence.contains("<break>")) {
                             String[] splittedSentenceParts = sentence.split("<break>");
 

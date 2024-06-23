@@ -96,13 +96,13 @@ public class Player extends Character {
             unlockedCombatWeapons.add(weapon);
             combatWeaponCount++;
 
-            Utils.printHeading(true, "You unlocked the " + weapon + "!");
+            Utils.printHeading(true, "You unlocked " + weapon + "!");
         } else {
             String weapon = Assets.defensiveEquipment[defensiveEquipmentCount];
             unlockedDefensiveEquipments.add(weapon);
             defensiveEquipmentCount++;
 
-            Utils.printHeading(true, "You unlocked the " + weapon + "!");
+            Utils.printHeading(true, "You unlocked " + weapon + "!");
         }
 
         Utils.pressEnter();

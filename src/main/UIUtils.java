@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class UIUtils {
     static Scanner scanner = new Scanner(System.in);
-    static Player player = EventManager.player;
+    public static Player player;
     public static int location = 0;
 
     // Method to print game opening
@@ -56,10 +56,13 @@ public class UIUtils {
 
     // Printing out important info of the player character
     public static void printPlayerInfo() {
+        player = EventManager.player;
         printStats(false);
+        String title;
 
         // Printing the unlocked skills
-        Utils.printHeading(true, "Unlocked Skills");
+        title = "Unlocked Skills";
+        Utils.printHeading(true, title);
 
         System.out.print("Combat Skills: ");
         if (player.unlockedCombatSkills.size() == 0) {
@@ -90,11 +93,13 @@ public class UIUtils {
                 }
             }
         }
+        Utils.printSeparator(title.length() * 2);
 
         System.out.println();
 
         // Printing the unlocked weapons
-        Utils.printHeading(true, "Unlocked Weapons");
+        title = "Unlocked Weapons";
+        Utils.printHeading(true, title);
 
         System.out.print("Combat Weapons: ");
         if (player.unlockedCombatWeapons.size() == 0) {
@@ -111,7 +116,7 @@ public class UIUtils {
             }
         }
 
-        System.out.print("Defensive Equipments: ");
+        System.out.print("Defensive Weapons: ");
         if (player.unlockedDefensiveEquipments.size() == 0) {
             System.out.print("None\n");
         } else {
@@ -125,6 +130,7 @@ public class UIUtils {
                 }
             }
         }
+        Utils.printSeparator(title.length() * 2);
 
         System.out.println();
 
@@ -143,7 +149,7 @@ public class UIUtils {
         System.out.println("XP: " + player.xp);
         System.out.println("GOLD: " + player.gold);
         System.out.println("HEALER: " + player.healers);
-        Utils.printSeparator(28);
+        Utils.printSeparator(24);
 
         System.out.println();
 
