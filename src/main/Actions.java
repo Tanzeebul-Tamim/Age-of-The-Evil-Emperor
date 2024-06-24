@@ -50,19 +50,19 @@ public class Actions {
     public static boolean[] battle(int paraSeparator, String title, Enemy enemy) {
         String[] name = player.getName().split(" ");
         String lastName = name[name.length - 1];
+        String battleTitle = lastName + " vs " + enemy.name;
 
         // Main battle loop
         while (true) {
             Utils.clearConsole();
 
             // Print chapter name
-            Utils.printSeparator(paraSeparator);
-            System.out.println(Utils.printTab(paraSeparator, true) + title);
-            Utils.printSeparator(paraSeparator);
+            Utils.printHeading(true, title);
 
             // Print the info of this battle round
             Utils.printHeading(true, "BATTLE");
-            System.out.println(lastName + " vs " + enemy.name);
+
+            System.out.println(battleTitle);
 
             Utils.printHeading(
                     false,
@@ -99,7 +99,9 @@ public class Actions {
                 // Print the info of this battle round
                 Utils.clearConsole();
                 Utils.printHeading(true, "BATTLE");
-                System.out.println(lastName + " vs " + enemy.name);
+
+                System.out.println(battleTitle);
+
 
                 // Print each attack outcome
                 System.out.println("\nYou hit the " + enemy.name + " causing " + damage + " damage.");
@@ -179,7 +181,9 @@ public class Actions {
                 // Print the info of this battle round
                 Utils.clearConsole();
                 Utils.printHeading(true, "BATTLE");
-                System.out.println(lastName + " vs " + enemy.name);
+                
+                System.out.println(battleTitle);
+
 
                 if (player.healers > 0 && player.hp < player.maxHp) {
                     System.out.println(
@@ -218,7 +222,9 @@ public class Actions {
                 // Print the info of this battle round
                 Utils.clearConsole();
                 Utils.printHeading(true, "BATTLE");
-                System.out.println(lastName + " vs " + enemy.name);
+                
+                System.out.println(battleTitle);
+
 
                 // Chance of 35% escape
                 if (enemy.name.equals("THE EVIL EMPEROR")) {

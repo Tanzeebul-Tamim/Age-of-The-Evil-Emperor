@@ -22,18 +22,6 @@ public class EventManager {
         // Create new player object with the name
         player = new Player(name);
 
-        // Print Story Intro Part I and Part II
-        Utils.storyPrinter(true, paraSeparator, "Prologue", "Intro", true, "para1.txt", "para2.txt");
-
-        // Update location
-        UIUtils.location++;
-
-        // Print Story Intro Part III
-        Utils.storyPrinter(true, paraSeparator, "Prologue", "Intro", true, "para3.txt");
-
-        // Show initial character info
-        UIUtils.printPlayerInfo();
-
         // Setting isRunning to true, so the game loop can continue
         isRunning = true;
 
@@ -80,6 +68,18 @@ public class EventManager {
 
     // Method manage the events sequentially
     public static void continueJourney() {
+        // Print Story Intro Part I and Part II
+        Utils.storyPrinter(true, paraSeparator, "Prologue", "Intro", true, "para1.txt", "para2.txt");
+
+        // Update location
+        UIUtils.location++;
+
+        // Print Story Intro Part III
+        Utils.storyPrinter(true, paraSeparator, "Prologue", "Intro", true, "para3.txt");
+
+        // Show initial character info
+        UIUtils.printPlayerInfo();
+
         // Print Act-I Intro, Part-I
         Utils.storyPrinter(true, paraSeparator, "ACT I - INTRO", "firstActIntro", true, "para1.txt", "para2_1.txt");
 
