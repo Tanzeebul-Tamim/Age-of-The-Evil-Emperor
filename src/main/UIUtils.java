@@ -170,30 +170,16 @@ public class UIUtils {
     }
 
     // Method to print game completion message
-    public static void printCompletionMessage(Player player) {
+    public static void printCompletionMessage() {
         Utils.clearConsole();
-
-        Utils.printSeparator(50);
-        Utils.printSeparator(30);
-
-        Utils.printHeading(true, "***** GAME COMPLETED *****");
-        System.out.printf("Congratulations, %s!\n", player.getName());
-        System.out.println("You have defeated the EVIL EMPEROR and saved Eldoria from the brink of destruction!");
-
-        Utils.printSeparator(30);
-        Utils.printSeparator(50);
-
-        Utils.pressEnter();
-        Utils.clearConsole();
-
-        Utils.storyPrinter(false, 100, "Epilogue", "outro", true, "para1.txt", "para2.txt");
 
         Utils.printHeading(true, "AGE OF THE EVIL EMPEROR");
-        System.out.println();
-        System.out.println("TEXT RPG BY - TANZEEBUL TAMIM");
-        System.out.println("© " + Year.now().getValue() + " Tanzeebul Tamim. All rights reserved.");
-        System.out.println("Authenticity: This game is a work of fiction.");
 
+        System.out.println();
+        
+        System.out.println("TEXT RPG BY - TANZEEBUL TAMIM");
+        System.out.println(Year.now().getValue() + " Tanzeebul Tamim. All rights reserved.");
+        System.out.println("Authenticity: This game is a work of fiction.");
         Utils.printSeparator(50);
 
         Utils.pressEnter();

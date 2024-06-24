@@ -116,11 +116,23 @@ public class Assets {
                         { "Alchemist", "healers" },
                         { "Medic", "healers" },
                         { "Apothecary", "healers" },
+                        { "Healer", "healers" },
+                        { "Shaman", "healers" },
+                        { "Druid", "healers" },
+                        { "Cleric", "healers" },
                         { "Blacksmith", "weapons" },
                         { "Weapon smith", "weapons" },
                         { "Armorer", "weapons" },
                         { "Fletcher", "weapons" },
-                        { "Merchant", "healers and weapons" }
+                        { "Swordsmith", "weapons" },
+                        { "Bowyer", "weapons" },
+                        { "Bladesmith", "weapons" },
+                        { "Mercenary", "weapons" },
+                        { "Merchant", "healers and weapons" },
+                        { "Trader", "healers and weapons" },
+                        { "Peddler", "healers and weapons" },
+                        { "Vendor", "healers and weapons" },
+                        { "Wandering Merchant", "healers and weapons" },
+                        { "Traveling Salesman", "healers and weapons" }
         };
-
 }

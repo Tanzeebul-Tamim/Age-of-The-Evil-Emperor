@@ -7,7 +7,7 @@ public class Actions {
     static Player player = EventManager.player;
     public static int location = 0;
 
-    // Method to calculate a random encounter
+    // Todo Method to calculate a random encounter
     public static void randomEncounter(int paraSeparator, String title) {
         // Random number between 0 and the length of the encounters array
         int encounter = (int) (Math.random() * Assets.actionsOnEncounter.length);
@@ -16,11 +16,11 @@ public class Actions {
         if (Assets.actionsOnEncounter[encounter].equals("Fight")) {
             randomBattle(paraSeparator, title);
         } else if (Assets.actionsOnEncounter[encounter].equals("Walk Away")) {
-            System.out.println("The abc walked away");
+            System.out.println("The abc walked away"); // Todo
             // do you want to attack?
         } else {
             // talk();
-            System.out.println("You're talking");
+            System.out.println("You're talking"); // Todo
         }
     }
 
@@ -43,18 +43,24 @@ public class Actions {
 
         Utils.printHeading(false, "You encountered a " + enemyName + "." + " You will have to fight him!");
         Utils.pressEnter();
-        return battle(enemy);
+        return battle(paraSeparator, title, enemy);
     }
 
     // Method to manage and organize battles
-    public static boolean[] battle(Enemy enemy) {
+    public static boolean[] battle(int paraSeparator, String title, Enemy enemy) {
         String[] name = player.getName().split(" ");
         String lastName = name[name.length - 1];
 
         // Main battle loop
         while (true) {
-            // Print the info of this battle round
             Utils.clearConsole();
+
+            // Print chapter name
+            Utils.printSeparator(paraSeparator);
+            System.out.println(Utils.printTab(paraSeparator, true) + title);
+            Utils.printSeparator(paraSeparator);
+
+            // Print the info of this battle round
             Utils.printHeading(true, "BATTLE");
             System.out.println(lastName + " vs " + enemy.name);
 
@@ -111,7 +117,21 @@ public class Actions {
                 } else if (enemy.hp <= 0) {
                     // Tell the player that he won the battle
                     Utils.clearConsole();
-                    Utils.printHeading(true, "You defeated the " + enemy.name + "!");
+
+                    if (enemy.name.equals("THE EVIL EMPEROR")) {
+                        Utils.printSeparator(50);
+                        Utils.printSeparator(30);
+
+                        Utils.printHeading(true, "***** GAME COMPLETED *****");
+                        System.out.printf("Congratulations, %s!\n", player.getName());
+                        System.out.println(
+                                "You have defeated the EVIL EMPEROR and saved Eldoria from the brink of destruction!");
+
+                        Utils.printSeparator(30);
+                        Utils.printSeparator(50);
+                    } else {
+                        Utils.printHeading(true, "You defeated the " + enemy.name + "!");
+                    }
 
                     // Increase player hp
                     player.xp += enemy.xp;
@@ -138,7 +158,8 @@ public class Actions {
                         if (goldEarned == 1) {
                             System.out.println("You collected a gold from the " + enemy.name + "'s corpse!");
                         } else {
-                            System.out.format("You collected %d golds from the %s's corpse!\n", goldEarned, enemy.name);
+                            System.out.format("You collected %d golds from the %s's corpse!\n", goldEarned,
+                                    enemy.name);
                         }
                     }
 
@@ -200,7 +221,7 @@ public class Actions {
                 System.out.println(lastName + " vs " + enemy.name);
 
                 // Chance of 35% escape
-                if (Assets.locations[location] == "Final") { // Todo: Replace the "Final" with the final location
+                if (enemy.name.equals("THE EVIL EMPEROR")) {
                     Utils.printHeading(false, "YOU CANNOT ESCAPE THE EVIL EMPEROR!!!");
                     Utils.pressEnter();
 
@@ -263,12 +284,12 @@ public class Actions {
     }
 
     // Method to manage and organize the final battle
-    public static void finalBattle() {
+    public static void finalBattle(int paraSeparator, String title) {
         // creating the evil emperor object and letting the player fight against him
-        battle(new Enemy("THE EVIL EMPEROR", 200));
+        battle(paraSeparator, title, new Enemy("THE EVIL EMPEROR", 200));
 
         // Printing the proper ending
-        UIUtils.printCompletionMessage(player);
+        UIUtils.printCompletionMessage();
         EventManager.isRunning = false;
     }
 

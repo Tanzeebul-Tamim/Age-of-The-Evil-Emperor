@@ -9,6 +9,7 @@ public class EventManager {
 
     public static boolean isRunning;
     public static boolean isNewGame = false;
+    static int paraSeparator = 100;
 
     // Method to start the game
     public static void launchGame() {
@@ -22,13 +23,13 @@ public class EventManager {
         player = new Player(name);
 
         // Print Story Intro Part I and Part II
-        Utils.storyPrinter(true, 100, "Prologue", "Intro", true, "para1.txt", "para2.txt");
+        Utils.storyPrinter(true, paraSeparator, "Prologue", "Intro", true, "para1.txt", "para2.txt");
 
         // Update location
         UIUtils.location++;
 
         // Print Story Intro Part III
-        Utils.storyPrinter(true, 100, "Prologue", "Intro", true, "para3.txt");
+        Utils.storyPrinter(true, paraSeparator, "Prologue", "Intro", true, "para3.txt");
 
         // Show initial character info
         UIUtils.printPlayerInfo();
@@ -43,37 +44,30 @@ public class EventManager {
     // Main game loop
     public static void gameLoop() {
         while (isRunning) {
+            // Print the game menu
             UIUtils.printMenu();
             int input = Utils.readPlayerInput("-> ", 3);
 
             if (input == 1) {
                 // Resetting all the player stats for starting a new game
                 if (isNewGame) {
-                    UIUtils.location = UIUtils.location != 1 ? 1 : UIUtils.location;
-                    player.hp = player.hp != 100 ? 100 : player.hp;
-                    player.xp = player.xp != 0 ? 0 : player.xp;
-                    player.gold = player.gold != 0 ? 0 : player.gold;
-                    player.healers = player.healers != 0 ? 0 : player.healers;
+                    UIUtils.location = 1;
+                    player.hp = 100;
+                    player.xp = 0;
+                    player.gold = 5;
+                    player.healers = 0;
 
-                    if (player.combatCount != 0) {
-                        player.combatCount = 0;
-                        player.unlockedCombatSkills = new ArrayList<>();
-                    }
+                    player.combatCount = 0;
+                    player.unlockedCombatSkills = new ArrayList<>();
 
-                    if (player.defensiveCount != 0) {
-                        player.defensiveCount = 0;
-                        player.unlockedDefensiveSkills = new ArrayList<>();
-                    }
+                    player.defensiveCount = 0;
+                    player.unlockedDefensiveSkills = new ArrayList<>();
 
-                    if (player.combatWeaponCount != 0) {
-                        player.combatWeaponCount = 0;
-                        player.unlockedCombatWeapons = new ArrayList<>();
-                    }
+                    player.combatWeaponCount = 0;
+                    player.unlockedCombatWeapons = new ArrayList<>();
 
-                    if (player.defensiveEquipmentCount != 0) {
-                        player.defensiveEquipmentCount = 0;
-                        player.unlockedDefensiveEquipments = new ArrayList<>();
-                    }
+                    player.defensiveEquipmentCount = 0;
+                    player.unlockedDefensiveEquipments = new ArrayList<>();
                 }
 
                 continueJourney();
@@ -87,45 +81,59 @@ public class EventManager {
     // Method manage the events sequentially
     public static void continueJourney() {
         // Print Act-I Intro, Part-I
-        Utils.storyPrinter(true, 100, "ACT I - INTRO", "firstActIntro", true, "para1.txt", "para2_1.txt");
+        Utils.storyPrinter(true, paraSeparator, "ACT I - INTRO", "firstActIntro", true, "para1.txt", "para2_1.txt");
 
         // Print Act-I Intro, Part-II
         // (Get the first upgrade and show the character info)
-        player.chooseSkill(100, "ACT I - INTRO", "Which skill do you want to learn?", "firstActIntro", "para2_2.txt");
+        player.chooseSkill(paraSeparator, "ACT I - INTRO", "Which skill do you want to learn?", "firstActIntro",
+                "para2_2.txt");
         UIUtils.printPlayerInfo();
 
         // Print Act-I Intro, Part-III
-        Utils.storyPrinter(true, 100, "ACT I - INTRO", "firstActIntro", true, "para3.txt");
+        Utils.storyPrinter(true, paraSeparator, "ACT I - INTRO", "firstActIntro", true, "para3.txt");
 
         // Print Act-I Outro, Part-I
-        Utils.storyPrinter(true, 100, "ACT I - OUTRO", "firstActOutro", true, "para1.txt", "para2.txt", "para3.txt");
+        Utils.storyPrinter(true, paraSeparator, "ACT I - OUTRO", "firstActOutro", true, "para1.txt", "para2.txt",
+                "para3.txt");
 
         // Update location
         UIUtils.location++;
 
         // Print Act-I Outro, Part-II
-        Utils.storyPrinter(true, 100, "ACT I - OUTRO", "firstActOutro", true, "para4.txt", "para5.txt", "para6_1.txt");
+        Utils.storyPrinter(true, paraSeparator, "ACT I - OUTRO", "firstActOutro", true, "para4.txt", "para5.txt",
+                "para6_1.txt");
 
         // Print Act-I Outro, Part-III
         // (Get the first weapon and show the character info)
-        player.chooseWeapon(100, "ACT I - OUTRO", "Which Weapon Will You Choose for the Journey?", "firstActOutro",
+        player.chooseWeapon(paraSeparator, "ACT I - OUTRO", "Which Weapon Will You Choose for the Journey?",
+                "firstActOutro",
                 "para6_2.txt");
         UIUtils.printPlayerInfo();
 
         // Print Act-I Outro, Part-IV
-        Utils.storyPrinter(true, 100, "ACT I - OUTRO", "firstActOutro", true, "para7.txt");
+        Utils.storyPrinter(true, paraSeparator, "ACT I - OUTRO", "firstActOutro", true, "para7.txt");
 
         // First battle
-        boolean[] battle1Result = Actions.randomBattle(100, "ACT I - OUTRO");
+        boolean[] battle1Result = Actions.randomBattle(paraSeparator, "ACT I - OUTRO");
 
         if (battle1Result[0])
             return;
 
         // Print Act-I Outro, Part-V
         if (!battle1Result[1])
-            Utils.storyPrinter(true, 100, "ACT I - OUTRO", "firstActOutro", true, "para8_1.txt", "para9.txt");
+            Utils.storyPrinter(true, paraSeparator, "ACT I - OUTRO", "firstActOutro", true, "para8_1.txt", "para9.txt");
         else
-            Utils.storyPrinter(true, 100, "ACT I - OUTRO", "firstActOutro", true, "para8_2.txt", "para9.txt");
+            Utils.storyPrinter(true, paraSeparator, "ACT I - OUTRO", "firstActOutro", true, "para8_2.txt", "para9.txt");
+
+        // Todo Print make final battle
+        // finalBattle();
+
+        // Todo Print Outro After final battle
+        // Utils.storyPrinter(false, paraSeparator, "Epilogue", "outro", true,
+        // "para1.txt", "para2.txt", "para3.txt", "para4.txt", "para5.txt");
+
+        // Todo Print ending screen
+        // UIUtils.printCompletionMessage();
 
         // ! This should always be at the bottom. It's for resetting all the player
         // stats for starting a new game

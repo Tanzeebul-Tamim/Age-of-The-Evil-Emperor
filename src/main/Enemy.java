@@ -5,13 +5,13 @@ public class Enemy extends Character {
 
     // Enemy specific constructor
     public Enemy(String name, int playerXp) {
-        super(name, calculateMaxHp(playerXp), calculateXp(playerXp));
+        super(name, calculateMaxHp(calculateXp(playerXp)), calculateXp(playerXp));
         this.playerXp = playerXp;
     }
 
     // Calculate maxHp based on playerXp
-    private static int calculateMaxHp(int playerXp) {
-        return (int) (Math.random() * playerXp + playerXp / 3 + 5);
+    private static int calculateMaxHp(int xp) {
+        return (int) (Math.random() * xp + xp / 3 + 5);
     }
 
     // Calculate xp based on playerXp

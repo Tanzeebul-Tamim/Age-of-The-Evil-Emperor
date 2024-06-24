@@ -58,6 +58,64 @@ public class Utils {
         System.out.println();
     }
 
+    // Method to stop the game until user enters something
+    public static void pressEnter() {
+        System.out.println("\nPress Enter to continue....");
+        scanner.nextLine();
+    }
+
+    // Method to print tabs for chapter title
+    public static String printTab(int paraSeparator) {
+        int tabCount = paraSeparator / 4;
+        String tab = "";
+        double dTabCount = paraSeparator / 16D;
+        int roundedDTabCount = (int) Math.ceil(dTabCount);
+
+        if (tabCount < 1) {
+            for (int i = 0; i < roundedDTabCount; i++) {
+                tab += " ";
+            }
+        } else {
+            for (int i = 0; i < tabCount; i++) {
+                tab += " ";
+            }
+        }
+
+        return tab;
+    }
+
+    // Method to wrap text based on a specified character limit
+    public static void printWrappedText(String text, int lineWidth) {
+        int index = 0;
+        while (index < text.length()) {
+            int endIndex = Math.min(index + lineWidth, text.length());
+            String line = text.substring(index, endIndex);
+
+            if (endIndex < text.length() && text.charAt(endIndex) != ' ') {
+                int lastSpaceIndex = line.lastIndexOf(' ');
+                if (lastSpaceIndex != -1) {
+                    line = line.substring(0, lastSpaceIndex);
+                    endIndex = index + lastSpaceIndex + 1;
+                }
+            }
+
+            System.out.println(line.trim());
+            index = endIndex;
+        }
+    }
+
+    // Method to print tab in heading according to separator length
+    public static String printTab(int paraSeparator, boolean story) {
+        int tabCount = paraSeparator / 16;
+        String tab = "";
+
+        for (int i = 0; i < tabCount; i++) {
+            tab += "\t";
+        }
+
+        return tab;
+    }
+
     // Method to print a heading
     public static void printHeading(boolean lineWidth, String... titles) {
         int maxLen = titles[0].length();
@@ -86,44 +144,6 @@ public class Utils {
         }
     }
 
-    // Method to print tabs for chapter title
-    public static String printTab(int paraSeparator) {
-        int tabCount = paraSeparator / 4;
-        String tab = "";
-        double dTabCount = paraSeparator / 16D;
-        int roundedDTabCount = (int) Math.ceil(dTabCount);
-
-        if (tabCount < 1) {
-            for (int i = 0; i < roundedDTabCount; i++) {
-                tab += " ";
-            }
-        } else {
-            for (int i = 0; i < tabCount; i++) {
-                tab += " ";
-            }
-        }
-
-        return tab;
-    }
-
-    // Method to print tab in heading according to separator length
-    public static String printTab(int paraSeparator, boolean story) {
-        int tabCount = paraSeparator / 16;
-        String tab = "";
-
-        for (int i = 0; i < tabCount; i++) {
-            tab += "\t";
-        }
-
-        return tab;
-    }
-
-    // Method to stop the game until user enters something
-    public static void pressEnter() {
-        System.out.println("\nPress Enter to continue....");
-        scanner.nextLine();
-    }
-
     // Method to print each parts of the story
     public static void storyPrinter(boolean location, int paraSeparator, String title, String folderName,
             boolean pressEnter,
@@ -142,26 +162,6 @@ public class Utils {
         }
 
         paragraphPrinter(paraSeparator, folderName, pressEnter, fileNames);
-    }
-
-    // Method to wrap text based on a specified character limit
-    public static void printWrappedText(String text, int lineWidth) {
-        int index = 0;
-        while (index < text.length()) {
-            int endIndex = Math.min(index + lineWidth, text.length());
-            String line = text.substring(index, endIndex);
-
-            if (endIndex < text.length() && text.charAt(endIndex) != ' ') {
-                int lastSpaceIndex = line.lastIndexOf(' ');
-                if (lastSpaceIndex != -1) {
-                    line = line.substring(0, lastSpaceIndex);
-                    endIndex = index + lastSpaceIndex + 1;
-                }
-            }
-
-            System.out.println(line.trim());
-            index = endIndex;
-        }
     }
 
     // Method to print each paragraphs of the story as user presses Enter
