@@ -84,6 +84,18 @@ public class Utils {
         return tab;
     }
 
+    // Method to print tab in heading according to separator length
+    public static String printTab(int paraSeparator, boolean story) {
+        int tabCount = paraSeparator / 16;
+        String tab = "";
+
+        for (int i = 0; i < tabCount; i++) {
+            tab += "\t";
+        }
+
+        return tab;
+    }
+
     // Method to wrap text based on a specified character limit
     public static void printWrappedText(String text, int lineWidth) {
         int index = 0;
@@ -102,18 +114,6 @@ public class Utils {
             System.out.println(line.trim());
             index = endIndex;
         }
-    }
-
-    // Method to print tab in heading according to separator length
-    public static String printTab(int paraSeparator, boolean story) {
-        int tabCount = paraSeparator / 16;
-        String tab = "";
-
-        for (int i = 0; i < tabCount; i++) {
-            tab += "\t";
-        }
-
-        return tab;
     }
 
     // Method to print a heading

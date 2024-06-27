@@ -6,25 +6,228 @@ import java.util.Random;
 public class Actions {
     static Player player = EventManager.player;
     public static int location = 0;
+    static int paraSeparator = 100;
 
-    // Todo Method to calculate a random encounter
-    public static void randomEncounter(int paraSeparator, String title) {
-        // Random number between 0 and the length of the encounters array
-        int encounter = (int) (Math.random() * Assets.actionsOnEncounter.length);
+    // Creating a random encounter with a random entity
+    public static void randomEncounter(String title, String folderName, String fileNameIfFled,
+            String fileNameIfNotFled) {
+        // Array to store 3 random characters from each type of entities
+        String[] randomCharacters = new String[3];
 
-        // Calling the respective methods
-        if (Assets.actionsOnEncounter[encounter].equals("Fight")) {
-            randomBattle(paraSeparator, title);
-        } else if (Assets.actionsOnEncounter[encounter].equals("Walk Away")) {
-            System.out.println("The abc walked away"); // Todo
-            // do you want to attack?
-        } else {
-            // talk();
-            System.out.println("You're talking"); // Todo
+        // Get a random enemy and insert into randomCharacters array
+        int randomEnemyIndex = (int) (Math.random() * Assets.enemies.length);
+        String enemyName = Assets.enemies[randomEnemyIndex];
+        randomCharacters[0] = enemyName;
+
+        // Get a random fellow and insert into randomCharacters array
+        int randomFellowIndex = (int) (Math.random() * Assets.fellows.length);
+        String fellowName = Assets.fellows[randomFellowIndex];
+        randomCharacters[1] = fellowName;
+
+        // Get a random trader and insert into randomCharacters array
+        int randomTraderIndex = (int) (Math.random() * Assets.tradersAndProducts.length);
+        String[] traderAndProduct = Assets.tradersAndProducts[randomTraderIndex];
+        String traderName = traderAndProduct[0];
+        randomCharacters[2] = traderName;
+
+        // Get a random entity from the randomCharacters array
+        int randomEntityIndex = (int) (Math.random() * randomCharacters.length);
+        String randomEntity = randomCharacters[randomEntityIndex];
+
+        // variable for random messages from random entities
+        int randomMessageIndex;
+        String randomMessage;
+        int input;
+
+        Utils.clearConsole();
+
+        Utils.printSeparator(paraSeparator);
+        System.out.println(Utils.printTab(paraSeparator, true) + title);
+        Utils.printSeparator(paraSeparator);
+
+        System.out.println();
+
+        System.out.println("LOCATION: " + Assets.locations[UIUtils.location]);
+        System.out.println();
+
+        Utils.printSeparator(paraSeparator);
+        System.out.println(
+                "As you journey onward, a mysterious figure catches your eye. The air feels charged with uncertainty. Prepare yourself for whatever lies ahead. Stay alert!");
+        Utils.printSeparator(paraSeparator);
+        Utils.pressEnter();
+        System.out.println();
+
+        // Consequences of encountering each type of entities
+        if (randomEntityIndex == 0) { // encountered an enemy
+            // Randomly generate how an enemy will interact upon encounter
+            int randomInteractIndex = (int) (Math.random() * Assets.interactionsOfEnemy.length);
+            String action = Assets.interactionsOfEnemy[randomInteractIndex];
+
+            if (action.equals("Fight")) { // The enemy attacks you upon encounter
+                boolean[] battleResult = randomBattle(paraSeparator, title, randomEntity);
+
+                if (battleResult[0])
+                    return;
+
+                if (!battleResult[1])
+                    Utils.storyPrinter(true, paraSeparator, title, folderName, true, fileNameIfNotFled);
+                else
+                    Utils.storyPrinter(true, paraSeparator, title, folderName, true, fileNameIfFled);
+            } else if (action.equals("Taunt")) { // The enemy taunts you
+                System.out.println("You encountered a " + randomEntity + "."
+                        + " With a menacing grin, he stops to taunt you. Their words are filled with threats and malice.\n");
+
+                Utils.pressEnter();
+
+                randomMessageIndex = (int) (Math.random() * Assets.tauntingMessages.length);
+                randomMessage = Assets.tauntingMessages[randomMessageIndex];
+
+                Utils.printSeparator(paraSeparator);
+                System.out.println(randomEntity + " -\n" + randomMessage);
+                Utils.printSeparator(paraSeparator);
+
+                Utils.pressEnter();
+                System.out.println();
+
+                System.out.println("Will you seize the moment to attack?\n");
+
+                System.out.println("(1) Attack the enemy!");
+                System.out.println("(2) Walk away");
+                input = Utils.readPlayerInput("-> ", 2);
+
+                if (input == 1) {
+                    Enemy enemy = new Enemy(randomEntity, player.xp);
+                    boolean[] battleResult = battle(paraSeparator, title, enemy);
+
+                    if (battleResult[0])
+                        return;
+
+                    if (!battleResult[1])
+                        Utils.storyPrinter(true, paraSeparator, title, folderName, true, fileNameIfNotFled);
+                    else
+                        Utils.storyPrinter(true, paraSeparator, title, folderName, true, fileNameIfFled);
+                }
+            } else { // The enemy walks away
+                System.out.println("You encountered a " + randomEntity + "."
+                        + " But luckily, he walks away without engaging you.\n");
+
+                Utils.pressEnter();
+                System.out.println();
+
+                System.out.println("Do you want to attack him?\n");
+
+                System.out.println("(1) Attack from behind!");
+                System.out.println("(2) Let go");
+                input = Utils.readPlayerInput("-> ", 2);
+
+                if (input == 1) {
+                    Enemy enemy = new Enemy(randomEntity, player.xp);
+                    boolean[] battleResult = battle(paraSeparator, title, enemy);
+
+                    if (battleResult[0])
+                        return;
+
+                    if (!battleResult[1])
+                        Utils.storyPrinter(true, paraSeparator, title, folderName, true, fileNameIfNotFled);
+                    else
+                        Utils.storyPrinter(true, paraSeparator, title, folderName, true, fileNameIfFled);
+                }
+            }
+        } else { // encountered a fellow or a trader
+            System.out.println("Seems like he is a " + randomEntity + ". You need not worry; he poses no threat.");
+
+            Utils.pressEnter();
+            System.out.println();
+
+            if (randomEntityIndex == 1) { // encountered a fellow
+                randomMessageIndex = (int) (Math.random() * Assets.fellowMessages.length);
+                randomMessage = Assets.fellowMessages[randomMessageIndex];
+
+                Utils.printSeparator(paraSeparator);
+                System.out.println(randomEntity + " -\n" + randomMessage);
+                Utils.printSeparator(paraSeparator);
+
+                Utils.pressEnter();
+                System.out.println();
+
+                System.out.println("Would you like to thank him? There might be a reward in it for you!\n");
+
+                System.out.println("(1) Yes, Thank him");
+                System.out.println("(2) No, Continue your journey");
+                input = Utils.readPlayerInput("-> ", 2);
+                System.out.println();
+
+                if (input == 1) { // Thank him                    
+                    int maxHealers = 5; // Maximum number of healers to receive
+                    int healerCount = (int) (Math.random() * maxHealers) + 1;
+
+                    System.out.println("You thanked the " + randomEntity + ".");
+
+                    Utils.pressEnter();
+
+                    if (healerCount > 0) {
+                        System.out.println("The fellow smiles warmly and hands you a healer.");
+                        player.healers += healerCount;
+
+                        Utils.pressEnter();
+                        System.out.println();
+
+                        Utils.printSeparator(paraSeparator);
+                        System.out.println(
+                                randomEntity + " -\n" + "Take this, it may come in handy on your journey.");
+                        Utils.printSeparator(paraSeparator);
+
+                        Utils.pressEnter();
+                        System.out.println();
+
+                        if (healerCount == 1) {
+                            System.out.println(
+                                    "You have received a healer from the " + randomEntity + ".");
+                        } else {
+                            System.out.println(
+                                    "You have received " + healerCount + " healers from the " + randomEntity + ".");
+                        }
+
+                        Utils.pressEnter();
+                    }
+                }
+
+            } else { // encountered a trader
+                randomMessageIndex = (int) (Math.random() * Assets.traderMessages.length);
+                randomMessage = Assets.traderMessages[randomMessageIndex];
+
+                Utils.printSeparator(paraSeparator);
+                System.out.println(randomEntity + " -\n" + randomMessage);
+                Utils.printSeparator(paraSeparator);
+
+                Utils.pressEnter();
+                System.out.println();
+
+                System.out.println("Would you like to:\n");
+
+                System.out.println("(1) Browse his wares?");
+                System.out.println("(2) Politely decline and move on");
+                input = Utils.readPlayerInput("-> ", 2);
+                System.out.println();
+
+                if (input == 1) { // shop
+                    shop(traderAndProduct);
+                }
+            }
         }
     }
 
-    // Creating a random battle with a random enemy
+    // Creating a battle (to be used in random encounter method)
+    public static boolean[] randomBattle(int paraSeparator, String title, String enemyName) {
+        Enemy enemy = new Enemy(enemyName, player.xp);
+
+        System.out.println("You encountered a " + enemyName + "." + " You will have to fight him!");
+        Utils.pressEnter();
+        return battle(paraSeparator, title, enemy);
+    }
+
+    // Overloading the previous method to create a random battle with a random enemy
+    // (to be used when using directly)
     public static boolean[] randomBattle(int paraSeparator, String title) {
         int randomIndex = (int) (Math.random() * Assets.enemies.length);
         String enemyName = Assets.enemies[randomIndex];
@@ -101,7 +304,6 @@ public class Actions {
                 Utils.printHeading(true, "BATTLE");
 
                 System.out.println(battleTitle);
-
 
                 // Print each attack outcome
                 System.out.println("\nYou hit the " + enemy.name + " causing " + damage + " damage.");
@@ -181,9 +383,8 @@ public class Actions {
                 // Print the info of this battle round
                 Utils.clearConsole();
                 Utils.printHeading(true, "BATTLE");
-                
-                System.out.println(battleTitle);
 
+                System.out.println(battleTitle);
 
                 if (player.healers > 0 && player.hp < player.maxHp) {
                     System.out.println(
@@ -222,9 +423,8 @@ public class Actions {
                 // Print the info of this battle round
                 Utils.clearConsole();
                 Utils.printHeading(true, "BATTLE");
-                
-                System.out.println(battleTitle);
 
+                System.out.println(battleTitle);
 
                 // Chance of 35% escape
                 if (enemy.name.equals("THE EVIL EMPEROR")) {
@@ -293,9 +493,6 @@ public class Actions {
     public static void finalBattle(int paraSeparator, String title) {
         // creating the evil emperor object and letting the player fight against him
         battle(paraSeparator, title, new Enemy("THE EVIL EMPEROR", 200));
-
-        // Printing the proper ending
-        UIUtils.printCompletionMessage();
         EventManager.isRunning = false;
     }
 
@@ -304,10 +501,7 @@ public class Actions {
         String traderType = trade[0];
         String product = trade[1];
 
-        Utils.clearConsole();
-        Utils.printHeading(true, "You meet a mysterious stranger!");
-        System.out.printf("Seems like he is a %s.\n He's offering %s at a reasonable price.", traderType, product);
-
+        System.out.printf("The %s is offering %s at a reasonable price.\n\n", traderType, product);
         Utils.pressEnter();
 
         // Ask the player to buy
