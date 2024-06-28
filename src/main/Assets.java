@@ -1,55 +1,19 @@
 package main;
 
 public class Assets {
-        public static String[] interactionsOfEnemy = {
-                        "Fight",
-                        "Taunt",
-                        "Walked Away"
-        };
-
-        public static String[] tauntingMessages = {
-                        "I've seen insects with more courage than you. Are you even worthy of wielding a sword?",
-                        "You think you can challenge me? Ha! You'll regret ever crossing paths with me.",
-                        "You must be lost, little one. This realm belongs to those stronger than you.",
-                        "You dare to challenge me? I've broken stronger warriors than you.",
-                        "Pathetic! You won't last a minute against my might.",
-                        "Do you even know who you're facing? I am the scourge of this land.",
-                        "Flee now, before you suffer the consequences of your arrogance.",
-                        "I'll make an example of you, to show others the futility of resistance.",
-                        "Your bravado is amusing. I'll enjoy crushing you like the insignificant pest you are.",
-                        "You're no hero. You're just a lost soul in need of a harsh lesson."
-        };
-
-        public static String[] fellowMessages = {
-                        "Ah, another adventurer! I hope your journey has been fruitful so far.",
-                        "Greetings! It's refreshing to meet a fellow wanderer in these desolate lands.",
-                        "Hello! I'm glad to see a friendly face amidst the dangers of this realm.",
-                        "Welcome, traveler. It's always good to see new faces in these parts.",
-                        "I've heard tales of a great hero rising. Many believe it's you.",
-                        "Beware the northern forests, for they are home to the emperor's fiercest soldiers.",
-                        "I recognize you from the old prophecies. Your destiny is to bring peace to these lands.",
-                        "The emperor's right-hand man is known to have a secret fear of fire. It is said this could be useful to you.",
-                        "There's an old legend about a hidden weakness in the emperor's armor. It is said this could be useful to you.",
-                        "The emperor's strength is vast, but I've heard that he is allergic to a rare jasmine flower from the southern swamps."
-        };
-
-        public static String[] traderMessages = {
-                        "Greetings, traveler! Care to peruse my wares?",
-                        "Ah, a potential customer! Interested in what I have to offer?",
-                        "Hello there! Looking to trade for something valuable, perhaps?",
-                        "Good day, adventurer! I have goods that might pique your interest.",
-                        "Welcome, welcome! Take a look at what I've brought for trade.",
-                        "Hail, traveler! Interested in making a deal today?",
-                        "Greetings! I have items that could be of great use to someone like you.",
-                        "Well met, friend! Care to see what I have in store for you?",
-                        "Hello! If it's weapons or potions you need, you've come to the right place.",
-                        "Ah, another seeker of fortune! What can I interest you in today?"
-        };
-
         public static String[] locations = {
                         "Village",
-                        "Hidden Fortress",
-                        "Nearby Village"
+                        "Hidden Cavern",
+                        "Hideout Cavern",
+                        "Nearby Village",
+                        "Hideout Cavern",
+                        "Secret Tunnels",
+                        "The  Evil Emperor's Fortress",
+                        "Hideout Cavern",
+                        "Enchanted Woods",
+                        "Nearby Village",
+                        "Enchanted Woods",
+                        "Hideout Cavern",
         };
 
         public static String[] combatSkills = {
@@ -114,6 +78,51 @@ public class Assets {
                         "Kryptonite Barrier"
         };
 
+        public static String[] interactionsOfEnemy = {
+                        "Fight",
+                        "Taunt",
+                        "Walked Away"
+        };
+
+        public static String[] tauntingMessages = {
+                        "I've seen insects with more courage than you.\nAre you even worthy of wielding a sword?",
+                        "You think you can challenge me?\nHa! You'll regret ever crossing paths with me.",
+                        "You must be lost, little one.\nThis realm belongs to those stronger than you.",
+                        "You dare to challenge me?\nI've broken stronger warriors than you.",
+                        "Pathetic!\nYou won't last a minute against my might.",
+                        "Do you even know who you're facing?\nI am the scourge of this land.",
+                        "Flee now, before you suffer the consequences of your arrogance.",
+                        "I'll make an example of you,\nto show others the futility of resistance.",
+                        "Your bravado is amusing.\nI'll enjoy crushing you like the insignificant pest you are.",
+                        "You're no hero.\nYou're just a lost soul in need of a harsh lesson."
+        };
+
+        public static String[] fellowMessages = {
+                        "Ah, another adventurer!\nI hope your journey has been fruitful so far.",
+                        "Greetings!\nIt's refreshing to meet a fellow wanderer in these desolate lands.",
+                        "Hello!\nI'm glad to see a friendly face amidst the dangers of this realm.",
+                        "Welcome, traveler.\nIt's always good to see new faces in these parts.",
+                        "I've heard tales of a great hero rising.\nMany believe it's you.",
+                        "Beware the northern forests,\nfor they are home to the emperor's fiercest soldiers.",
+                        "I recognize you from the old prophecies.\nYour destiny is to bring peace to these lands.",
+                        "The emperor's right-hand man is known to have a secret fear of fire.\nIt is said this could be useful to you.",
+                        "There's an old legend about a hidden weakness in the emperor's armor.\nIt is said this could be useful to you.",
+                        "The emperor's strength is vast,\nbut I've heard that he is allergic to a rare jasmine flower from the southern swamps."
+        };
+
+        public static String[] traderMessages = {
+                        "Greetings, traveler!\nCare to peruse my wares?",
+                        "Ah, a potential customer!\nInterested in what I have to offer?",
+                        "Hello there!\nLooking to trade for something valuable, perhaps?",
+                        "Good day, adventurer!\nI have goods that might pique your interest.",
+                        "Welcome, welcome!\nTake a look at what I've brought for trade.",
+                        "Hail, traveler!\nInterested in making a deal today?",
+                        "Greetings!\nI have items that could be of great use to someone like you.",
+                        "Well met, friend!\nCare to see what I have in store for you?",
+                        "Hello!\nLooking for something valuable?\nYou've come to the right place.",
+                        "Ah, another seeker of fortune!\nWhat can I interest you in today?"
+        };
+
         public static String[] enemies = {
                         "Raider Leader",
                         "Rebel Commander",
@@ -132,7 +141,7 @@ public class Assets {
                         "Rogue Knight",
                         "Highway Robber",
                         "Dark Templar",
-                        "Dread Pirate",
+                        "Evil Emperor's Guard",
                         "Assassin",
                         "Stalker"
         };

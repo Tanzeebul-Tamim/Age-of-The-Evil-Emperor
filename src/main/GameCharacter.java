@@ -1,12 +1,12 @@
 package main;
 
-public abstract class Character {
+public abstract class GameCharacter {
     // Variables / Attributes all characters have
     public String name;
     public int maxHp, hp, xp;
 
     // Constructor for character
-    public Character(String name, int maxHp, int xp) {
+    public GameCharacter(String name, int maxHp, int xp) {
         this.name = name;
         this.maxHp = maxHp;
         this.xp = xp;

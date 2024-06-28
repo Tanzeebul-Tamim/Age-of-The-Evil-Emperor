@@ -2,9 +2,9 @@ package main;
 
 import java.util.ArrayList;
 
-public class Player extends Character {
+public class Player extends GameCharacter {
     // Integers to store number of skills in each path
-    public int combatCount, defensiveCount, combatWeaponCount, defensiveEquipmentCount, gold, healers;
+    public int combatCount, defensiveCount, combatWeaponCount, defensiveEquipmentCount, gold, healers, enemiesKilled;
 
     public ArrayList<String> unlockedCombatSkills = new ArrayList<>();
     public ArrayList<String> unlockedDefensiveSkills = new ArrayList<>();
@@ -24,6 +24,8 @@ public class Player extends Character {
 
         this.gold = 5;
         this.healers = 0;
+
+        this.enemiesKilled = 0;
     }
 
     // Player specific methods
@@ -41,17 +43,9 @@ public class Player extends Character {
 
     // Let the player choose a skill of either path
     public void chooseSkill(int lineWidth, String heading, String title, String folderName, String fileName) {
-        Utils.clearConsole();
-
-        Utils.printHeading(true, heading);
-        Utils.storyPrinter(false, lineWidth, heading, folderName, false, fileName);
-
-        Utils.printHeading(true, title);
-        System.out.println("(1) " + Assets.combatSkills[combatCount]);
-        System.out.println("(2) " + Assets.defensiveSkills[defensiveCount]);
-
         // Get the player's choice
-        int input = Utils.readPlayerInput("-> ", 2);
+        int input = UIUtils.choose(lineWidth, heading, title, folderName, fileName, Assets.combatSkills[combatCount],
+                Assets.defensiveSkills[defensiveCount]);
 
         Utils.clearConsole();
 
@@ -61,13 +55,13 @@ public class Player extends Character {
             unlockedCombatSkills.add(skill);
             combatCount++;
 
-            Utils.printHeading(true, "You unlocked " + skill + "!");
+            Utils.printHeading(false, true, "You unlocked " + skill + "!");
         } else {
             String skill = Assets.defensiveSkills[defensiveCount];
             unlockedDefensiveSkills.add(skill);
             defensiveCount++;
 
-            Utils.printHeading(true, "You unlocked " + skill + "!");
+            Utils.printHeading(false, true, "You unlocked " + skill + "!");
         }
 
         Utils.pressEnter();
@@ -76,17 +70,10 @@ public class Player extends Character {
 
     // Let the player choose a weapon of either type
     public void chooseWeapon(int lineWidth, String heading, String title, String folderName, String fileName) {
-        Utils.clearConsole();
-
-        Utils.printHeading(true, heading);
-        Utils.storyPrinter(false, lineWidth, heading, folderName, false, fileName);
-
-        Utils.printHeading(true, title);
-        System.out.println("(1) " + Assets.combatWeapons[combatWeaponCount]);
-        System.out.println("(2) " + Assets.defensiveEquipment[defensiveEquipmentCount]);
-
         // Get the player's choice
-        int input = Utils.readPlayerInput("-> ", 2);
+        int input = UIUtils.choose(lineWidth, heading, title, folderName, fileName,
+                Assets.combatWeapons[combatWeaponCount],
+                Assets.defensiveEquipment[defensiveEquipmentCount]);
 
         Utils.clearConsole();
 
@@ -96,13 +83,13 @@ public class Player extends Character {
             unlockedCombatWeapons.add(weapon);
             combatWeaponCount++;
 
-            Utils.printHeading(true, "You unlocked " + weapon + "!");
+            Utils.printHeading(false, true, "You unlocked " + weapon + "!");
         } else {
             String weapon = Assets.defensiveEquipment[defensiveEquipmentCount];
             unlockedDefensiveEquipments.add(weapon);
             defensiveEquipmentCount++;
 
-            Utils.printHeading(true, "You unlocked " + weapon + "!");
+            Utils.printHeading(false, true, "You unlocked " + weapon + "!");
         }
 
         Utils.pressEnter();

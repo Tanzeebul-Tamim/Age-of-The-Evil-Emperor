@@ -31,8 +31,8 @@ public class UIUtils {
 
         do {
             Utils.clearConsole();
-            Utils.printHeading(true, "What's your name?");
-            name = scanner.nextLine().trim();
+            Utils.printHeading(false, true, "What's your name?");
+            name = Utils.formatName(scanner.nextLine().trim());
 
             // Check if name is empty
             if (name.isEmpty()) {
@@ -42,7 +42,8 @@ public class UIUtils {
 
             // Asking the player if he wants to correct his choice
             Utils.clearConsole();
-            Utils.printHeading(true, "Your name is " + name + ".", "Do you want to keep this name?");
+            Utils.printHeading(true, true, "Your name is " + name + ".", "Do you want to keep this name?");
+
             System.out.println("(1) Yes!");
             System.out.println("(2) No, I want to change my name.");
             int input = Utils.readPlayerInput("-> ", 2);
@@ -61,10 +62,10 @@ public class UIUtils {
         String title;
 
         // Printing the unlocked skills
-        title = "Unlocked Skills";
-        Utils.printHeading(true, title);
+        title = "UNLOCKED SKILLS";
+        Utils.printHeading(false, true, title);
 
-        System.out.print("Combat Skills: ");
+        System.out.print("COMBAT SKILLS: ");
         if (player.unlockedCombatSkills.size() == 0) {
             System.out.print("None\n");
         } else {
@@ -79,7 +80,7 @@ public class UIUtils {
             }
         }
 
-        System.out.print("Defensive Skills: ");
+        System.out.print("DEFENSIVE SKILLS: ");
         if (player.unlockedDefensiveSkills.size() == 0) {
             System.out.print("None\n");
         } else {
@@ -98,10 +99,10 @@ public class UIUtils {
         System.out.println();
 
         // Printing the unlocked weapons
-        title = "Unlocked Weapons";
-        Utils.printHeading(true, title);
+        title = "UNLOCKED WEAPONS";
+        Utils.printHeading(false, true, title);
 
-        System.out.print("Combat Weapons: ");
+        System.out.print("COMBAT WEAPONS: ");
         if (player.unlockedCombatWeapons.size() == 0) {
             System.out.print("None\n");
         } else {
@@ -116,7 +117,7 @@ public class UIUtils {
             }
         }
 
-        System.out.print("Defensive Weapons: ");
+        System.out.print("DEFENSIVE WEAPONS: ");
         if (player.unlockedDefensiveEquipments.size() == 0) {
             System.out.print("None\n");
         } else {
@@ -141,7 +142,7 @@ public class UIUtils {
     // Print current stats
     public static void printStats(boolean pressEnter) {
         Utils.clearConsole();
-        Utils.printHeading(true, "PLAYER STATS");
+        Utils.printHeading(false, true, "PLAYER STATS");
 
         System.out.println("NAME: " + player.name);
         System.out.println("LOCATION: " + Assets.locations[location]);
@@ -149,6 +150,7 @@ public class UIUtils {
         System.out.println("XP: " + player.xp);
         System.out.println("GOLD: " + player.gold);
         System.out.println("HEALER: " + player.healers);
+        System.out.println("ENEMIES KILLED: " + player.enemiesKilled);
         Utils.printSeparator(24);
 
         System.out.println();
@@ -161,7 +163,7 @@ public class UIUtils {
     // Printing the main menu
     public static void printMenu() {
         Utils.clearConsole();
-        Utils.printHeading(true, "Menu");
+        Utils.printHeading(false, true, "Menu");
         System.out.println("Choose an action:\n");
 
         System.out.println("(1) Continue on your journey");
@@ -169,14 +171,29 @@ public class UIUtils {
         System.out.println("(3) Exit Game");
     }
 
+    // Let player take a decision
+    public static int choose(int lineWidth, String heading, String title, String folderName, String fileName,
+            String choice1,
+            String choice2) {
+        Utils.clearConsole();
+
+        Utils.storyPrinter(true, lineWidth, heading, folderName, false, fileName);
+
+        Utils.printHeading(true, true, title);
+
+        System.out.println("(1) " + choice1);
+        System.out.println("(2) " + choice2);
+
+        // Get the player's choice
+        return Utils.readPlayerInput("-> ", 2);
+    }
+
     // Method to print game completion message
     public static void printCompletionMessage() {
         Utils.clearConsole();
 
-        Utils.printHeading(true, "AGE OF THE EVIL EMPEROR");
+        Utils.printHeading(true, true, "AGE OF THE EVIL EMPEROR");
 
-        System.out.println();
-        
         System.out.println("TEXT RPG BY - TANZEEBUL TAMIM");
         System.out.println(Year.now().getValue() + " Tanzeebul Tamim. All rights reserved.");
         System.out.println("Authenticity: This game is a work of fiction.");

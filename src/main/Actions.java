@@ -52,7 +52,7 @@ public class Actions {
 
         Utils.printSeparator(paraSeparator);
         System.out.println(
-                "As you journey onward, a mysterious figure catches your eye. The air feels charged with uncertainty. Prepare yourself for whatever lies ahead. Stay alert!");
+                "As you journey onward, a mysterious figure catches your eye. The air feels charged with uncertainty.\nPrepare yourself for whatever lies ahead. Stay alert!");
         Utils.printSeparator(paraSeparator);
         Utils.pressEnter();
         System.out.println();
@@ -64,7 +64,7 @@ public class Actions {
             String action = Assets.interactionsOfEnemy[randomInteractIndex];
 
             if (action.equals("Fight")) { // The enemy attacks you upon encounter
-                boolean[] battleResult = randomBattle(paraSeparator, title, randomEntity);
+                boolean[] battleResult = battle(paraSeparator, title, randomEntity);
 
                 if (battleResult[0])
                     return;
@@ -74,7 +74,7 @@ public class Actions {
                 else
                     Utils.storyPrinter(true, paraSeparator, title, folderName, true, fileNameIfFled);
             } else if (action.equals("Taunt")) { // The enemy taunts you
-                System.out.println("You encountered a " + randomEntity + "."
+                Utils.printHeading(false, false, "You encountered a " + randomEntity + "."
                         + " With a menacing grin, he stops to taunt you. Their words are filled with threats and malice.\n");
 
                 Utils.pressEnter();
@@ -82,11 +82,8 @@ public class Actions {
                 randomMessageIndex = (int) (Math.random() * Assets.tauntingMessages.length);
                 randomMessage = Assets.tauntingMessages[randomMessageIndex];
 
-                Utils.printSeparator(paraSeparator);
-                System.out.println(randomEntity + " -\n" + randomMessage);
-                Utils.printSeparator(paraSeparator);
+                Utils.printMessage(randomEntity + " -\n\n" + randomMessage);
 
-                Utils.pressEnter();
                 System.out.println();
 
                 System.out.println("Will you seize the moment to attack?\n");
@@ -97,7 +94,7 @@ public class Actions {
 
                 if (input == 1) {
                     Enemy enemy = new Enemy(randomEntity, player.xp);
-                    boolean[] battleResult = battle(paraSeparator, title, enemy);
+                    boolean[] battleResult = fight(paraSeparator, title, enemy);
 
                     if (battleResult[0])
                         return;
@@ -108,11 +105,8 @@ public class Actions {
                         Utils.storyPrinter(true, paraSeparator, title, folderName, true, fileNameIfFled);
                 }
             } else { // The enemy walks away
-                System.out.println("You encountered a " + randomEntity + "."
+                Utils.printHeading(false, false, "You encountered a " + randomEntity + "."
                         + " But luckily, he walks away without engaging you.\n");
-
-                Utils.pressEnter();
-                System.out.println();
 
                 System.out.println("Do you want to attack him?\n");
 
@@ -122,7 +116,7 @@ public class Actions {
 
                 if (input == 1) {
                     Enemy enemy = new Enemy(randomEntity, player.xp);
-                    boolean[] battleResult = battle(paraSeparator, title, enemy);
+                    boolean[] battleResult = fight(paraSeparator, title, enemy);
 
                     if (battleResult[0])
                         return;
@@ -134,36 +128,36 @@ public class Actions {
                 }
             }
         } else { // encountered a fellow or a trader
-            System.out.println("Seems like he is a " + randomEntity + ". You need not worry; he poses no threat.");
+            Utils.printHeading(false, false,
+                    "Seems like he is a " + randomEntity + ". You need not worry; he poses no threat.");
 
             Utils.pressEnter();
-            System.out.println();
 
             if (randomEntityIndex == 1) { // encountered a fellow
                 randomMessageIndex = (int) (Math.random() * Assets.fellowMessages.length);
                 randomMessage = Assets.fellowMessages[randomMessageIndex];
 
                 Utils.printSeparator(paraSeparator);
-                System.out.println(randomEntity + " -\n" + randomMessage);
+                System.out.println(randomEntity + " -\n\n" + randomMessage);
                 Utils.printSeparator(paraSeparator);
 
                 Utils.pressEnter();
-                System.out.println();
 
-                System.out.println("Would you like to thank him? There might be a reward in it for you!\n");
+                Utils.printHeading(true, false,
+                        "Would you like to thank him? There might be a reward in it for you!");
 
                 System.out.println("(1) Yes, Thank him");
                 System.out.println("(2) No, Continue your journey");
                 input = Utils.readPlayerInput("-> ", 2);
                 System.out.println();
 
-                if (input == 1) { // Thank him                    
+                if (input == 1) { // Thank him
+                    Utils.clearConsole();
+
                     int maxHealers = 5; // Maximum number of healers to receive
                     int healerCount = (int) (Math.random() * maxHealers) + 1;
 
-                    System.out.println("You thanked the " + randomEntity + ".");
-
-                    Utils.pressEnter();
+                    Utils.printHeading(true, true, "You thanked the " + randomEntity + ".");
 
                     if (healerCount > 0) {
                         System.out.println("The fellow smiles warmly and hands you a healer.");
@@ -172,20 +166,17 @@ public class Actions {
                         Utils.pressEnter();
                         System.out.println();
 
-                        Utils.printSeparator(paraSeparator);
-                        System.out.println(
-                                randomEntity + " -\n" + "Take this, it may come in handy on your journey.");
-                        Utils.printSeparator(paraSeparator);
+                        Utils.printMessage(
+                                randomEntity + " -\n\n" + "Take this, it may come in handy on your journey.");
 
-                        Utils.pressEnter();
-                        System.out.println();
+                        Utils.clearConsole();
 
                         if (healerCount == 1) {
-                            System.out.println(
-                                    "You have received a healer from the " + randomEntity + ".");
+                            Utils.printHeading(true, false,
+                                    "You have received a healer from the " + randomEntity + "!");
                         } else {
-                            System.out.println(
-                                    "You have received " + healerCount + " healers from the " + randomEntity + ".");
+                            Utils.printHeading(true, false,
+                                    "You have received " + healerCount + " healers from the " + randomEntity + "!");
                         }
 
                         Utils.pressEnter();
@@ -197,13 +188,13 @@ public class Actions {
                 randomMessage = Assets.traderMessages[randomMessageIndex];
 
                 Utils.printSeparator(paraSeparator);
-                System.out.println(randomEntity + " -\n" + randomMessage);
+                System.out.println(randomEntity + " -\n\n" + randomMessage);
                 Utils.printSeparator(paraSeparator);
 
                 Utils.pressEnter();
                 System.out.println();
 
-                System.out.println("Would you like to:\n");
+                Utils.printHeading(true, true, "Would you like to:\n");
 
                 System.out.println("(1) Browse his wares?");
                 System.out.println("(2) Politely decline and move on");
@@ -218,12 +209,14 @@ public class Actions {
     }
 
     // Creating a battle (to be used in random encounter method)
-    public static boolean[] randomBattle(int paraSeparator, String title, String enemyName) {
+    public static boolean[] battle(int paraSeparator, String title, String enemyName) {
         Enemy enemy = new Enemy(enemyName, player.xp);
 
-        System.out.println("You encountered a " + enemyName + "." + " You will have to fight him!");
+        System.out.println();
+        Utils.printHeading(false, false, "You encountered a " + enemyName + "." + " You will have to fight him!");
         Utils.pressEnter();
-        return battle(paraSeparator, title, enemy);
+
+        return fight(paraSeparator, title, enemy);
     }
 
     // Overloading the previous method to create a random battle with a random enemy
@@ -244,36 +237,33 @@ public class Actions {
         System.out.println("LOCATION: " + Assets.locations[UIUtils.location]);
         System.out.println();
 
-        Utils.printHeading(false, "You encountered a " + enemyName + "." + " You will have to fight him!");
+        Utils.printHeading(false, false, "You encountered a " + enemyName + "." + " You will have to fight him!");
         Utils.pressEnter();
-        return battle(paraSeparator, title, enemy);
+        return fight(paraSeparator, title, enemy);
     }
 
     // Method to manage and organize battles
-    public static boolean[] battle(int paraSeparator, String title, Enemy enemy) {
+    public static boolean[] fight(int paraSeparator, String title, Enemy enemy) {
         String[] name = player.getName().split(" ");
         String lastName = name[name.length - 1];
-        String battleTitle = lastName + " vs " + enemy.name;
+        String battleTitle = lastName + " VS " + enemy.name;
 
         // Main battle loop
         while (true) {
             Utils.clearConsole();
 
             // Print chapter name
-            Utils.printHeading(true, title);
+            Utils.printHeading(false, true, title);
 
             // Print the info of this battle round
-            Utils.printHeading(true, "BATTLE");
+            Utils.printHeading(false, true, battleTitle);
 
-            System.out.println(battleTitle);
-
-            Utils.printHeading(
+            Utils.printHeading(true,
                     false,
                     enemy.name + "\n HP: " + enemy.hp + "/" + enemy.maxHp + "\n",
                     player.name + "\n HP: " + player.hp + "/" + player.maxHp);
 
-            System.out.println("Choose an action: ");
-            Utils.printSeparator(20);
+            Utils.printHeading(true, true, "Choose an action:");
 
             System.out.println("(1) Fight\n(2) Use Healer\n(3) Run Away");
             int input = Utils.readPlayerInput("-> ", 3);
@@ -301,9 +291,12 @@ public class Actions {
 
                 // Print the info of this battle round
                 Utils.clearConsole();
-                Utils.printHeading(true, "BATTLE");
 
-                System.out.println(battleTitle);
+                // Print chapter name
+                Utils.printHeading(false, true, title);
+
+                // Print the info of this battle round
+                Utils.printHeading(false, true, battleTitle);
 
                 // Print each attack outcome
                 System.out.println("\nYou hit the " + enemy.name + " causing " + damage + " damage.");
@@ -326,7 +319,7 @@ public class Actions {
                         Utils.printSeparator(50);
                         Utils.printSeparator(30);
 
-                        Utils.printHeading(true, "***** GAME COMPLETED *****");
+                        Utils.printHeading(true, true, "***** GAME COMPLETED *****");
                         System.out.printf("Congratulations, %s!\n", player.getName());
                         System.out.println(
                                 "You have defeated the EVIL EMPEROR and saved Eldoria from the brink of destruction!");
@@ -334,7 +327,17 @@ public class Actions {
                         Utils.printSeparator(30);
                         Utils.printSeparator(50);
                     } else {
-                        Utils.printHeading(true, "You defeated the " + enemy.name + "!");
+                        Utils.printHeading(true, true, "You defeated the " + enemy.name + "!");
+                    }
+
+                    // Increase enemy kill count
+                    player.enemiesKilled++;
+
+                    if (player.enemiesKilled == 1) {
+                        System.out.println("Well done! You've defeated your first enemy and proven your strength.");
+                    } else {
+                        System.out.format("Congratulations! You have defeated %d enemies so far.\n",
+                                player.enemiesKilled);
                     }
 
                     // Increase player hp
@@ -382,9 +385,12 @@ public class Actions {
             } else if (input == 2) { // Use Healer
                 // Print the info of this battle round
                 Utils.clearConsole();
-                Utils.printHeading(true, "BATTLE");
 
-                System.out.println(battleTitle);
+                // Print chapter name
+                Utils.printHeading(false, true, title);
+
+                // Print the info of this battle round
+                Utils.printHeading(true, true, battleTitle);
 
                 if (player.healers > 0 && player.hp < player.maxHp) {
                     System.out.println(
@@ -395,50 +401,48 @@ public class Actions {
 
                     if (input == 1) {
                         // Player used healer
-                        player.hp += 15;
+                        player.hp = player.hp + 15 > player.maxHp ? player.maxHp : player.hp + 15;
+                        player.healers--;
+
+                        Utils.printHeading(true, false,
+                                "You used a healer. Your health has been restored back to " + player.hp + "!");
                         System.out.println("HP +15!");
-                        System.out
-                                .println("You used a healer. Your health has been restored back to " + player.hp + "!");
                         Utils.pressEnter();
                         continue;
                     }
                 } else {
                     if (player.hp == player.maxHp) {
-                        Utils.printHeading(false, "You're already at full health.");
+                        Utils.printHeading(false, false, "You're already at full health.");
                         Utils.pressEnter();
                         continue;
                     } else {
-                        Utils.printHeading(false, "You don't have enough healers.");
+                        Utils.printHeading(false, false, "You don't have enough healers.");
                         Utils.pressEnter();
                         continue;
                     }
                 }
-
-                // Determining if player is alive and if player fled
-                boolean isDead = hasPlayerDied(false); // Method to end the game
-                boolean hasFled = false;
-                boolean[] result = { isDead, hasFled };
-                return result;
             } else { // Run Away
                 // Print the info of this battle round
                 Utils.clearConsole();
-                Utils.printHeading(true, "BATTLE");
+
+                // Print chapter name
+                Utils.printHeading(false, true, title);
+
+                // Print the info of this battle round
+                Utils.printHeading(true, true, battleTitle);
 
                 System.out.println(battleTitle);
+                System.out.println();
 
                 // Chance of 35% escape
                 if (enemy.name.equals("THE EVIL EMPEROR")) {
-                    Utils.printHeading(false, "YOU CANNOT ESCAPE THE EVIL EMPEROR!!!");
+                    Utils.printHeading(false, false, "YOU CANNOT ESCAPE THE EVIL EMPEROR!!!");
                     Utils.pressEnter();
 
-                    // Determining if player is alive and if player fled
-                    boolean isDead = hasPlayerDied(false); // Method to end the game
-                    boolean hasFled = false;
-                    boolean[] result = { isDead, hasFled };
-                    return result;
+                    continue;
                 } else {
-                    if (Math.random() * 10 + 1 <= 3.5) {
-                        Utils.printHeading(false, "You ran away from the " + enemy.name + "!");
+                    if (Math.random() * 10 + 1 <= 4.5) {
+                        Utils.printHeading(false, false, "You ran away from the " + enemy.name + "!");
                         Utils.pressEnter();
 
                         // Determining if player is alive and if player fled
@@ -447,7 +451,7 @@ public class Actions {
                         boolean[] result = { isDead, hasFled };
                         return result;
                     } else {
-                        Utils.printHeading(false, "You couldn't manage to escape unharmed.");
+                        Utils.printHeading(true, false, "You couldn't manage to escape unharmed.");
                         // Calculate the amount of the damage the player takes
                         int damageTaken = enemy.attack();
 
@@ -457,8 +461,9 @@ public class Actions {
                         }
 
                         // Print outcomes
-                        Utils.printHeading(true, "In the chaos, you've sustained " +
+                        System.out.println("In the chaos, you've sustained " +
                                 damageTaken + " damage!");
+                        System.out.println();
                         Utils.pressEnter();
                         Utils.clearConsole();
 
@@ -490,9 +495,9 @@ public class Actions {
     }
 
     // Method to manage and organize the final battle
-    public static void finalBattle(int paraSeparator, String title) {
+    public static void finalBattle(int paraSeparator, String title) { // Todo handle death cases and exit game if dies
         // creating the evil emperor object and letting the player fight against him
-        battle(paraSeparator, title, new Enemy("THE EVIL EMPEROR", 200));
+        fight(paraSeparator, title, new Enemy("THE EVIL EMPEROR", 200));
         EventManager.isRunning = false;
     }
 
@@ -501,11 +506,12 @@ public class Actions {
         String traderType = trade[0];
         String product = trade[1];
 
-        System.out.printf("The %s is offering %s at a reasonable price.\n\n", traderType, product);
+        Utils.clearConsole();
+        Utils.printHeading(true, false, "The %s is offering %s at a reasonable price.\n\n", traderType, product);
         Utils.pressEnter();
 
         // Ask the player to buy
-        System.out.printf("Do you want to buy some %s?\n(1) Yes!\n(2) No thanks\n", product);
+        System.out.printf("Do you want to buy some %s?\n\n(1) Yes!\n(2) No thanks\n\n", product);
         int input = Utils.readPlayerInput("-> ", 2);
 
         if (input == 1) {
@@ -514,12 +520,11 @@ public class Actions {
             } else if (product.equals("weapons")) {
                 buyWeapons(traderType);
             } else {
-                String title = "What would you like to buy?";
                 Utils.clearConsole();
 
-                Utils.printSeparator(title.length());
-                System.out.println(title);
-                Utils.printSeparator(title.length());
+                String title = "What would you like to buy?";
+
+                Utils.printHeading(true, true, title);
 
                 System.out.println("(1) Healers");
                 System.out.println("(2) Weapons");
@@ -562,27 +567,19 @@ public class Actions {
             // Show available quantity
             if (healersAvailable == 1) {
                 title = "The " + traderType + " has only one healer available.";
-
-                Utils.printSeparator(title.length());
-                System.out.println(title);
-                Utils.printSeparator(title.length());
+                Utils.printHeading(true, false, title);
             } else {
                 title = "The " + traderType + " has " + healersAvailable + " healers available.";
-
-                Utils.printSeparator(title.length());
-                System.out.println(title);
-                Utils.printSeparator(title.length());
+                Utils.printHeading(true, false, title);
             }
-
-            System.out.println();
 
             System.out.println("How many healers do you want to buy?\n");
             quantity = Utils.readPlayerInput("-> ", healersAvailable);
 
-            System.out.println();
-
             // Ask the player how many he wants to buy
             if (quantity > healersAvailable) {
+                Utils.clearConsole();
+
                 if (healersAvailable == 1) {
                     System.out.println("The " + traderType + " has only one healer available.");
                 } else {
@@ -593,6 +590,8 @@ public class Actions {
             } else {
                 totalPrice = quantity * price;
             }
+
+            System.out.println();
 
             // Check if player has enough gold and proceed to purchase
             if (player.gold >= totalPrice) {
@@ -613,7 +612,7 @@ public class Actions {
                     }
                 }
 
-                Utils.printHeading(false, title);
+                Utils.printHeading(true, false, title);
             } else {
                 if (quantity == 1) {
                     title = "You don't have enough gold to buy a healer.";
@@ -621,7 +620,7 @@ public class Actions {
                     title = "You don't have enough gold to buy " + quantity + "healers.";
                 }
 
-                Utils.printHeading(false, title);
+                Utils.printHeading(false, false, title);
                 Utils.pressEnter();
                 buyHealers(traderType);
                 break;
@@ -642,9 +641,7 @@ public class Actions {
 
         title = "Which type of weapon are you interested in purchasing?";
 
-        Utils.printSeparator(title.length());
-        System.out.println(title);
-        Utils.printSeparator(title.length());
+        Utils.printHeading(true, false, title);
 
         System.out.println("(1) Combat Weapon");
         System.out.println("(2) Defensive Weapon");
@@ -672,8 +669,9 @@ public class Actions {
         String title;
         Utils.clearConsole();
 
-        System.out.println("The " + traderType + " has the following " + weaponType + " weapons available:");
-        System.out.println("Which one are you interested in?");
+        Utils.printHeading(false, false,
+                "The " + traderType + " has the following " + weaponType + " weapons available:");
+        System.out.println("Which one are you interested in?\n");
         System.out.println();
         int[] prices = new int[weaponArray.length];
         int expense;
@@ -702,7 +700,7 @@ public class Actions {
                 expense = prices[input - 1];
             } else {
                 System.out.printf(
-                        "You need more experience to wield the %s. Keep training and come back when you're stronger.\n",
+                        "You need more experience to wield the %s! Keep training and come back when you're stronger.\n",
                         selectedWeapon);
                 Utils.pressEnter();
                 doneBuying = false;
@@ -735,11 +733,12 @@ public class Actions {
                 title = "You bought a " + weaponType + " weapon, " + selectedWeapon + " for " + expense + "golds!";
             }
 
-            Utils.printHeading(false, title);
+            Utils.printHeading(false, false, title);
+            Utils.pressEnter();
         } else {
             title = "You don't have enough gold to buy a " + selectedWeapon;
 
-            Utils.printHeading(false, title);
+            Utils.printHeading(false, false, title);
             Utils.pressEnter();
             buyWeapons(traderType);
             doneBuying = false;
@@ -757,8 +756,8 @@ public class Actions {
         if (isDead) {
             EventManager.isNewGame = true;
             Utils.clearConsole();
-            Utils.printHeading(true, "You died!");
-            Utils.printHeading(
+            Utils.printHeading(false, true, "You died!");
+            Utils.printHeading(true,
                     false,
                     "You earned " + player.xp + " XP on your journey. Try to earn more next time!");
             System.out.println("Thank you for playing my game. I hope you enjoyed it!");

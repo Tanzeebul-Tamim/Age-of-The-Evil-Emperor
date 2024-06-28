@@ -37,11 +37,31 @@ public class Utils {
         return input;
     }
 
+    // Method to format player name so that the initials always begin with uppercase
+    // letters
+    public static String formatName(String name) {
+        // Split the name by spaces to handle multiple words
+        String[] words = name.split(" ");
+        StringBuilder formattedName = new StringBuilder();
+
+        for (String word : words) {
+            if (word.length() > 0) {
+                // Convert the first character to uppercase and the rest to lowercase
+                formattedName.append(Character.toUpperCase(word.charAt(0)))
+                        .append(word.substring(1).toLowerCase())
+                        .append(" ");
+            }
+        }
+
+        // Trim the trailing space and return the formatted name
+        return formattedName.toString().trim();
+    }
+
     // Method to handle empty user inputs
     public static void isEmptyInput(String fieldName) {
         clearConsole();
-        printHeading(true, fieldName + " cannot be empty!");
-        System.out.println("\nPress Enter to continue...");
+        printHeading(true, true, fieldName + " cannot be empty!");
+        System.out.println("Press Enter to continue...");
         scanner.nextLine();
     }
 
@@ -116,8 +136,23 @@ public class Utils {
         }
     }
 
+    // Method to print messages
+    public static void printMessage(String message) {
+        String[] sentences = message.split("\\.");
+
+        printSeparator(100);
+        for (String sentence : sentences) {
+            printWrappedText(sentence.trim() + ".", 100);
+        }
+
+        System.out.println("\nPress Enter");
+        printSeparator(100);
+        System.out.println();
+        scanner.nextLine();
+    }
+
     // Method to print a heading
-    public static void printHeading(boolean lineWidth, String... titles) {
+    public static void printHeading(boolean newLine, boolean lineWidth, String... titles) {
         int maxLen = titles[0].length();
         for (int i = 1; i < titles.length; i++) {
             String title = titles[i];
@@ -142,6 +177,8 @@ public class Utils {
             }
             printSeparator(maxLen + 1);
         }
+        if (newLine)
+            System.out.println();
     }
 
     // Method to print each parts of the story
