@@ -74,8 +74,8 @@ public class Actions {
                 else
                     Utils.storyPrinter(true, paraSeparator, title, folderName, true, fileNameIfFled);
             } else if (action.equals("Taunt")) { // The enemy taunts you
-                Utils.printHeading(false, false, "You encountered a " + randomEntity + "."
-                        + " With a menacing grin, he stops to taunt you. Their words are filled with threats and malice.\n");
+                Utils.printHeading(true, false, "You encountered a " + randomEntity + "."
+                        + " With a menacing grin, he stops to taunt you. Their words are filled with threats and malice.");
 
                 Utils.pressEnter();
 
@@ -105,8 +105,8 @@ public class Actions {
                         Utils.storyPrinter(true, paraSeparator, title, folderName, true, fileNameIfFled);
                 }
             } else { // The enemy walks away
-                Utils.printHeading(false, false, "You encountered a " + randomEntity + "."
-                        + " But luckily, he walks away without engaging you.\n");
+                Utils.printHeading(true, false, "You encountered a " + randomEntity + "."
+                        + " But luckily, he walks away without engaging you.");
 
                 System.out.println("Do you want to attack him?\n");
 
@@ -154,13 +154,13 @@ public class Actions {
                 if (input == 1) { // Thank him
                     Utils.clearConsole();
 
-                    int maxHealers = 5; // Maximum number of healers to receive
+                    int maxHealers = 3; // Maximum number of healers to receive
                     int healerCount = (int) (Math.random() * maxHealers) + 1;
 
                     Utils.printHeading(true, true, "You thanked the " + randomEntity + ".");
 
                     if (healerCount > 0) {
-                        System.out.println("The fellow smiles warmly and hands you a healer.");
+                        System.out.println("The " + randomEntity + " smiles warmly and hands you a healer.");
                         player.healers += healerCount;
 
                         Utils.pressEnter();
@@ -172,10 +172,10 @@ public class Actions {
                         Utils.clearConsole();
 
                         if (healerCount == 1) {
-                            Utils.printHeading(true, false,
+                            Utils.printHeading(false, false,
                                     "You have received a healer from the " + randomEntity + "!");
                         } else {
-                            Utils.printHeading(true, false,
+                            Utils.printHeading(false, false,
                                     "You have received " + healerCount + " healers from the " + randomEntity + "!");
                         }
 
@@ -194,7 +194,7 @@ public class Actions {
                 Utils.pressEnter();
                 System.out.println();
 
-                Utils.printHeading(true, true, "Would you like to:\n");
+                Utils.printHeading(true, true, "Would you like to:");
 
                 System.out.println("(1) Browse his wares?");
                 System.out.println("(2) Politely decline and move on");
@@ -330,16 +330,6 @@ public class Actions {
                         Utils.printHeading(true, true, "You defeated the " + enemy.name + "!");
                     }
 
-                    // Increase enemy kill count
-                    player.enemiesKilled++;
-
-                    if (player.enemiesKilled == 1) {
-                        System.out.println("Well done! You've defeated your first enemy and proven your strength.");
-                    } else {
-                        System.out.format("Congratulations! You have defeated %d enemies so far.\n",
-                                player.enemiesKilled);
-                    }
-
                     // Increase player hp
                     player.xp += enemy.xp;
                     System.out.println("You earned " + enemy.xp + " XP!");
@@ -368,6 +358,16 @@ public class Actions {
                             System.out.format("You collected %d golds from the %s's corpse!\n", goldEarned,
                                     enemy.name);
                         }
+                    }
+
+                    // Increase enemy kill count
+                    player.enemiesKilled++;
+
+                    if (player.enemiesKilled == 1) {
+                        System.out.println("Well done! You've defeated your first enemy and proven your strength.");
+                    } else {
+                        System.out.format("Congratulations! You have defeated %d enemies so far.\n",
+                                player.enemiesKilled);
                     }
 
                     // Press enter and print stats
@@ -451,7 +451,7 @@ public class Actions {
                         boolean[] result = { isDead, hasFled };
                         return result;
                     } else {
-                        Utils.printHeading(true, false, "You couldn't manage to escape unharmed.");
+                        Utils.printHeading(true, false, "You couldn't manage to escape unharmed!");
                         // Calculate the amount of the damage the player takes
                         int damageTaken = enemy.attack();
 
@@ -507,8 +507,7 @@ public class Actions {
         String product = trade[1];
 
         Utils.clearConsole();
-        Utils.printHeading(true, false, "The %s is offering %s at a reasonable price.\n\n", traderType, product);
-        Utils.pressEnter();
+        Utils.printHeading(false, false, "The " + traderType + " is offering " + product + " at a reasonable price.");
 
         // Ask the player to buy
         System.out.printf("Do you want to buy some %s?\n\n(1) Yes!\n(2) No thanks\n\n", product);
@@ -549,28 +548,29 @@ public class Actions {
         int healersAvailable = random.nextInt(10 - 1 + 1) + 1;
 
         // Showing healer price
-        int price = (int) (Math.random() * (10 + player.healers * 3) + 10 + player.healers);
+        int price = (int) (Math.random() * (5 + player.healers * 3) + 10 + player.healers);
 
-        if (price == 1) {
-            System.out.println("Healer: " + price + " gold");
-        } else {
-            System.out.println("Healer: " + price + " golds");
-        }
-
-        Utils.clearConsole();
         boolean doneBuying = false;
         int totalPrice;
         int quantity;
         String title;
 
         do {
+            if (price == 1) {
+                Utils.printHeading(false, true, "Item: Healer", "Price: " + price + " gold",
+                        "Balance: " + player.gold + " golds", "Restores: 15 HP");
+            } else {
+                Utils.printHeading(false, true, "Item: Healer", "Price: " + price + " golds",
+                        "Balance: " + player.gold + " golds", "Restores: 15 HP");
+            }
+
             // Show available quantity
             if (healersAvailable == 1) {
                 title = "The " + traderType + " has only one healer available.";
-                Utils.printHeading(true, false, title);
+                System.out.println(title);
             } else {
                 title = "The " + traderType + " has " + healersAvailable + " healers available.";
-                Utils.printHeading(true, false, title);
+                System.out.println(title);
             }
 
             System.out.println("How many healers do you want to buy?\n");
@@ -600,30 +600,42 @@ public class Actions {
 
                 if (quantity == 1) {
                     if (price == 1) {
-                        title = "You bought a healer for " + price + "gold!";
+                        title = "You bought a healer for " + price + " gold!";
                     } else {
-                        title = "You bought a healer for " + price + "golds!";
+                        title = "You bought a healer for " + price + " golds!";
                     }
                 } else {
                     if (price == 1) {
-                        title = "You bought " + quantity + " healers for " + price + "gold!";
+                        title = "You bought " + quantity + " healers for " + price + " gold!";
                     } else {
-                        title = "You bought " + quantity + " healers for " + price + "golds!";
+                        title = "You bought " + quantity + " healers for " + price + " golds!";
                     }
                 }
 
                 Utils.printHeading(true, false, title);
             } else {
                 if (quantity == 1) {
-                    title = "You don't have enough gold to buy a healer.";
+                    title = "You want to buy " + quantity + " healers for " + totalPrice + " golds!";
                 } else {
-                    title = "You don't have enough gold to buy " + quantity + "healers.";
+                    title = "You want to buy " + quantity + " healers for " + totalPrice + " golds!";
                 }
 
-                Utils.printHeading(false, false, title);
+                Utils.printHeading(false, true, title, " But unfortunately you only have " + player.gold + " golds!");
                 Utils.pressEnter();
-                buyHealers(traderType);
-                break;
+
+                Utils.clearConsole();
+                Utils.printHeading(true, false, "Would you like to continue with your purchase decision?");
+
+                System.out.println("(1) Yes, I'll adjust the quantity");
+                System.out.println("(2) No, maybe later");
+                int input = Utils.readPlayerInput("-> ", 2);
+
+                if (input == 1) {
+                    Utils.clearConsole();
+                    continue;
+                } else {
+                    break;
+                }
             }
 
             doneBuying = true;
@@ -637,7 +649,12 @@ public class Actions {
         Utils.clearConsole();
         boolean doneBuying = false;
         String title;
-        String currentWeapon = player.unlockedCombatWeapons.get(player.combatWeaponCount);
+        String currentCombatWeapon = player.unlockedCombatWeapons.size() > 0
+                ? player.unlockedCombatWeapons.get(player.combatWeaponCount - 1)
+                : "No weapon";
+        String currentDefensiveWeapon = player.unlockedDefensiveEquipments.size() > 0
+                ? player.unlockedDefensiveEquipments.get(player.defensiveEquipmentCount - 1)
+                : "No weapon";
 
         title = "Which type of weapon are you interested in purchasing?";
 
@@ -651,11 +668,11 @@ public class Actions {
         System.out.println();
         do {
             if (input == 1) {
-                doneBuying = buyWeaponType(doneBuying, currentWeapon, traderType, "combat",
+                doneBuying = buyWeaponType(doneBuying, currentCombatWeapon, traderType, "Combat",
                         Assets.combatWeapons, player.combatWeaponCount, player.gold,
                         player.unlockedCombatWeapons);
             } else {
-                doneBuying = buyWeaponType(doneBuying, currentWeapon, traderType, "defensive",
+                doneBuying = buyWeaponType(doneBuying, currentDefensiveWeapon, traderType, "Defensive",
                         Assets.defensiveEquipment, player.defensiveEquipmentCount, player.gold,
                         player.unlockedDefensiveEquipments);
             }
@@ -671,7 +688,10 @@ public class Actions {
 
         Utils.printHeading(false, false,
                 "The " + traderType + " has the following " + weaponType + " weapons available:");
+        Utils.printHeading(false, true, "Weapon type: " + weaponType,
+                "Balance: " + player.gold + " golds");
         System.out.println("Which one are you interested in?\n");
+        System.out.println("Balance: " + player.gold + " golds");
         System.out.println();
         int[] prices = new int[weaponArray.length];
         int expense;
@@ -694,31 +714,99 @@ public class Actions {
         System.out.println();
 
         String selectedWeapon = weaponArray[input - 1];
+        String action = weaponType.equals("Combat") ? "wield" : "wear";
+        String quality = weaponType.equals("Combat") ? "experience" : "endurance";
 
         if (input > weaponCount) {
             if (input == weaponCount + 1) {
                 expense = prices[input - 1];
             } else {
-                System.out.printf(
-                        "You need more experience to wield the %s! Keep training and come back when you're stronger.\n",
-                        selectedWeapon);
-                Utils.pressEnter();
-                doneBuying = false;
-                return doneBuying;
+                Utils.printHeading(false, false,
+                        "You need more " + quality + " to " + action + " the " + selectedWeapon
+                                + "! Keep training and come back when you're stronger.");
+
+                System.out.println("Would you like to continue with your purchase decision?");
+                System.out.println();
+
+                String type = weaponType.equals("Combat") ? "Defensive" : "Combat";
+
+                System.out.println("(1) Yes, I'll choose a different option");
+                System.out.println("(2) I want to explore " + type + " weapons");
+                System.out.println("(3) Maybe later");
+                input = Utils.readPlayerInput("-> ", 3);
+
+                if (input == 1) {
+                    doneBuying = buyWeaponType(doneBuying, currentWeapon, traderType, weaponType, weaponArray,
+                            weaponCount, gold,
+                            unlockedWeapons);
+                    ;
+                    return doneBuying;
+                } else if (input == 2) {
+                    buyWeapons(traderType);
+                    doneBuying = false;
+                    return doneBuying;
+                } else {
+                    doneBuying = true;
+                    return doneBuying;
+                }
             }
         } else if (input < weaponCount) {
-            System.out.printf(
-                    "Your current weapon %s is already better than %s. There's no need to buy this one.\n",
-                    currentWeapon, selectedWeapon);
-            Utils.pressEnter();
-            doneBuying = false;
-            return doneBuying;
+            Utils.printHeading(false, false,
+                    "Your current weapon " + currentWeapon + " is already better than " + selectedWeapon
+                            + ". There's no need to buy this one.");
+
+            System.out.println("Would you like to continue with your purchase decision?");
+            System.out.println();
+
+            String type = weaponType.equals("Combat") ? "Defensive" : "Combat";
+
+            System.out.println("(1) Yes, I'll choose a different option");
+            System.out.println("(2) I want to explore " + type + " weapons");
+            System.out.println("(3) Maybe later");
+            input = Utils.readPlayerInput("-> ", 3);
+
+            if (input == 1) {
+                doneBuying = buyWeaponType(doneBuying, currentWeapon, traderType, weaponType, weaponArray, weaponCount,
+                        gold,
+                        unlockedWeapons);
+                ;
+                return doneBuying;
+            } else if (input == 2) {
+                buyWeapons(traderType);
+                doneBuying = false;
+                return doneBuying;
+            } else {
+                doneBuying = true;
+                return doneBuying;
+            }
         } else {
-            System.out.printf("You already own this weapon. There's no need to buy this %s.\n",
-                    selectedWeapon);
-            Utils.pressEnter();
-            doneBuying = false;
-            return doneBuying;
+            Utils.printHeading(false, false,
+                    "You already own this weapon. There's no need to buy this " + selectedWeapon + ".");
+
+            System.out.println("Would you like to continue with your purchase decision?");
+            System.out.println();
+
+            String type = weaponType.equals("Combat") ? "Defensive" : "Combat";
+
+            System.out.println("(1) Yes, I'll choose a different option");
+            System.out.println("(2) I want to explore " + type + " weapons");
+            System.out.println("(3) Maybe later");
+            input = Utils.readPlayerInput("-> ", 3);
+
+            if (input == 1) {
+                doneBuying = buyWeaponType(doneBuying, currentWeapon, traderType, weaponType, weaponArray, weaponCount,
+                        gold,
+                        unlockedWeapons);
+                ;
+                return doneBuying;
+            } else if (input == 2) {
+                buyWeapons(traderType);
+                doneBuying = false;
+                return doneBuying;
+            } else {
+                doneBuying = true;
+                return doneBuying;
+            }
         }
 
         // Check if player has enough gold and proceed to purchase
@@ -728,25 +816,51 @@ public class Actions {
             weaponCount++;
 
             if (expense == 1) {
-                title = "You bought a " + weaponType + " weapon, " + selectedWeapon + " for " + expense + "gold!";
+                title = "You bought a " + weaponType + " weapon, " + selectedWeapon + " for " + expense + " gold!";
             } else {
-                title = "You bought a " + weaponType + " weapon, " + selectedWeapon + " for " + expense + "golds!";
+                title = "You bought a " + weaponType + " weapon, " + selectedWeapon + " for " + expense + " golds!";
             }
 
             Utils.printHeading(false, false, title);
-            Utils.pressEnter();
         } else {
-            title = "You don't have enough gold to buy a " + selectedWeapon;
+            if (expense == 1) {
+                title = "You want to buy a " + weaponType + " weapon " + selectedWeapon + ", for " + expense + " gold!";
+            } else {
+                title = "You want to buy a " + weaponType + " weapon " + selectedWeapon + ", for " + expense
+                        + " golds!";
+            }
 
-            Utils.printHeading(false, false, title);
+            Utils.printHeading(false, true, title, " But unfortunately you only have " + player.gold + " golds!");
             Utils.pressEnter();
-            buyWeapons(traderType);
-            doneBuying = false;
-            return doneBuying;
+
+            System.out.println("Would you like to continue with your purchase decision?");
+            System.out.println();
+
+            String type = weaponType.equals("Combat") ? "Defensive" : "Combat";
+
+            System.out.println("(1) Yes, I'll choose a different option");
+            System.out.println("(2) I want to explore " + type + " weapons");
+            System.out.println("(3) Maybe later");
+            input = Utils.readPlayerInput("-> ", 3);
+
+            if (input == 1) {
+                buyWeaponType(doneBuying, currentWeapon, traderType, weaponType, weaponArray, weaponCount, gold,
+                        unlockedWeapons);
+                doneBuying = false;
+                return doneBuying;
+            } else if (input == 2) {
+                buyWeapons(traderType);
+                doneBuying = false;
+                return doneBuying;
+            } else {
+                doneBuying = true;
+                return doneBuying;
+            }
         }
 
         Utils.pressEnter();
-        UIUtils.printStats(true);
+        Utils.clearConsole();
+        UIUtils.printPlayerInfo();
         doneBuying = true;
         return doneBuying;
     }

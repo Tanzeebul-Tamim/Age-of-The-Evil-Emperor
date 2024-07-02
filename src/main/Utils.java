@@ -18,7 +18,9 @@ public class Utils {
             try {
                 input = Integer.parseInt(scanner.nextLine());
 
-                if (input < 1 || input > userChoices) {
+                if (userChoices == 1) {
+                    System.out.println("Please enter 1");
+                } else if (input < 1 || input > userChoices) {
                     System.out.print("\nPlease choose between ");
                     for (int i = 1; i < userChoices; i++) {
                         if (i == userChoices - 1) {

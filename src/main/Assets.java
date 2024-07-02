@@ -141,7 +141,7 @@ public class Assets {
                         "Rogue Knight",
                         "Highway Robber",
                         "Dark Templar",
-                        "Evil Emperor's Guard",
+                        "Imperial Guard",
                         "Assassin",
                         "Stalker"
         };
@@ -174,7 +174,7 @@ public class Assets {
                         { "Alchemist", "healers" },
                         { "Medic", "healers" },
                         { "Apothecary", "healers" },
-                        { "Healer", "healers" },
+                        { "Physician", "healers" },
                         { "Druid", "healers" },
                         { "Cleric", "healers" },
                         { "Blacksmith", "weapons" },

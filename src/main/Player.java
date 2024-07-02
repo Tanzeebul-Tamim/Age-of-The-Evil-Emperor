@@ -22,7 +22,7 @@ public class Player extends GameCharacter {
         this.combatWeaponCount = 0;
         this.defensiveEquipmentCount = 0;
 
-        this.gold = 5;
+        this.gold = 100; // Todo
         this.healers = 0;
 
         this.enemiesKilled = 0;

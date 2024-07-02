@@ -31,7 +31,7 @@ public class UIUtils {
 
         do {
             Utils.clearConsole();
-            Utils.printHeading(false, true, "What's your name?");
+            Utils.printHeading(true, true, "What's your name?");
             name = Utils.formatName(scanner.nextLine().trim());
 
             // Check if name is empty
@@ -163,7 +163,7 @@ public class UIUtils {
     // Printing the main menu
     public static void printMenu() {
         Utils.clearConsole();
-        Utils.printHeading(false, true, "Menu");
+        Utils.printHeading(true, true, "Menu");
         System.out.println("Choose an action:\n");
 
         System.out.println("(1) Continue on your journey");
