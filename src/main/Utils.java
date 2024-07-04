@@ -196,7 +196,7 @@ public class Utils {
         System.out.println();
 
         if (location) {
-            System.out.println("LOCATION: " + Assets.locations[UIUtils.location]);
+            System.out.println("LOCATION: " + EventManager.player.location);
             System.out.println();
         }
 

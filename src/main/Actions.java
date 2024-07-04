@@ -5,7 +5,6 @@ import java.util.Random;
 
 public class Actions {
     static Player player = EventManager.player;
-    public static int location = 0;
     static int paraSeparator = 100;
 
     // Creating a random encounter with a random entity
@@ -47,7 +46,7 @@ public class Actions {
 
         System.out.println();
 
-        System.out.println("LOCATION: " + Assets.locations[UIUtils.location]);
+        System.out.println("LOCATION: " + player.location);
         System.out.println();
 
         Utils.printSeparator(paraSeparator);
@@ -234,7 +233,7 @@ public class Actions {
 
         System.out.println();
 
-        System.out.println("LOCATION: " + Assets.locations[UIUtils.location]);
+        System.out.println("LOCATION: " + player.location);
         System.out.println();
 
         Utils.printHeading(false, false, "You encountered a " + enemyName + "." + " You will have to fight him!");
@@ -498,7 +497,6 @@ public class Actions {
     public static void finalBattle(int paraSeparator, String title) { // Todo handle death cases and exit game if dies
         // creating the evil emperor object and letting the player fight against him
         fight(paraSeparator, title, new Enemy("THE EVIL EMPEROR", 200));
-        EventManager.isRunning = false;
     }
 
     // Method to shop

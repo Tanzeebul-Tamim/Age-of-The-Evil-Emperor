@@ -6,7 +6,6 @@ import java.util.Scanner;
 public class UIUtils {
     static Scanner scanner = new Scanner(System.in);
     public static Player player;
-    public static int location = 0;
 
     // Method to print game opening
     public static void printOpening() {
@@ -145,7 +144,7 @@ public class UIUtils {
         Utils.printHeading(false, true, "PLAYER STATS");
 
         System.out.println("NAME: " + player.name);
-        System.out.println("LOCATION: " + Assets.locations[location]);
+        System.out.println("LOCATION: " + player.location);
         System.out.println("HP: " + player.hp + "/" + player.maxHp);
         System.out.println("XP: " + player.xp);
         System.out.println("GOLD: " + player.gold);
@@ -173,19 +172,20 @@ public class UIUtils {
 
     // Let player take a decision
     public static int choose(int lineWidth, String heading, String title, String folderName, String fileName,
-            String choice1,
-            String choice2) {
+            String... choices) {
         Utils.clearConsole();
 
         Utils.storyPrinter(true, lineWidth, heading, folderName, false, fileName);
 
         Utils.printHeading(true, true, title);
 
-        System.out.println("(1) " + choice1);
-        System.out.println("(2) " + choice2);
+        for (int i = 0; i < choices.length; i++) {
+            String choice = choices[i];
+            System.out.printf("(%d) %s\n", i + 1, choice);
+        }
 
         // Get the player's choice
-        return Utils.readPlayerInput("-> ", 2);
+        return Utils.readPlayerInput("-> ", choices.length);
     }
 
     // Method to print game completion message
