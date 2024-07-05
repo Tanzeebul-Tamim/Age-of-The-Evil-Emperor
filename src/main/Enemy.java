@@ -22,11 +22,11 @@ public class Enemy extends GameCharacter {
     // Enemy specific methods
     @Override
     public int attack() {
-        return (int) (Math.random() * (playerXp / 4 + 1) + xp / 4 + 3);
+        return (int) (Math.random() * (playerXp / 2 + 1) + xp / 2 + 3);
     }
 
     @Override
     public int defend() {
-        return (int) (Math.random() * (playerXp / 4 + 1) + xp / 4 + 3);
+        return (int) (Math.random() * (playerXp / 2 + 1) + xp / 2 + 3);
     }
 }

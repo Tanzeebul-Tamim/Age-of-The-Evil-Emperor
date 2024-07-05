@@ -203,6 +203,32 @@ public class Utils {
         paragraphPrinter(paraSeparator, folderName, pressEnter, fileNames);
     }
 
+    // Method to print each parts of the story
+    public static void storyPrinter(boolean location, int paraSeparator, String[] titles, String intOut,
+            String folderName,
+            boolean pressEnter,
+            String... fileNames) {
+        clearConsole();
+
+        printSeparator(paraSeparator);
+        if (intOut.equals("i")) {
+            System.out.println(printTab(paraSeparator, true) + titles[0] + " - INTRO");
+        } else if (intOut.equals("o")) {
+            System.out.println(printTab(paraSeparator, true) + titles[0] + " - OUTRO");
+        }
+        System.out.println(printTab(paraSeparator, true) + titles[1]);
+        printSeparator(paraSeparator);
+
+        System.out.println();
+
+        if (location) {
+            System.out.println("LOCATION: " + EventManager.player.location);
+            System.out.println();
+        }
+
+        paragraphPrinter(paraSeparator, folderName, pressEnter, fileNames);
+    }
+
     // Method to print each paragraphs of the story as user presses Enter
     public static void paragraphPrinter(int lineWidth, String folderName,
             boolean pressEnter, String... paragraphFiles) {

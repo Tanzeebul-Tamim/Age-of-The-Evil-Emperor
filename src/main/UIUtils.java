@@ -171,13 +171,14 @@ public class UIUtils {
     }
 
     // Let player take a decision
-    public static int choose(int lineWidth, String heading, String title, String folderName, String fileName,
+    public static int choose(int lineWidth, String[] titles, String intOut, String heading, String folderName,
+            String fileName,
             String... choices) {
         Utils.clearConsole();
 
-        Utils.storyPrinter(true, lineWidth, heading, folderName, false, fileName);
+        Utils.storyPrinter(true, lineWidth, titles, intOut, folderName, false, fileName);
 
-        Utils.printHeading(true, true, title);
+        Utils.printHeading(true, true, heading);
 
         for (int i = 0; i < choices.length; i++) {
             String choice = choices[i];

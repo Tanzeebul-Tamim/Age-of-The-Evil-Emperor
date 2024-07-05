@@ -1,1 +1,1 @@
-Alaric<break>We have two options, <name>. Will you lead a covert mission through the secret tunnels to infiltrate the Emperor's fortress, or will you rally support from the nearby villages to strengthen our forces? The fate of Eldoria depends on your decisions.
+Alaric<break>We have two options, <name>. Will you lead a covert mission through the secret tunnels to infiltrate the Emperor's fortress, or will you rally support from the nearby village Willowdale to strengthen our forces? The fate of Eldoria depends on your decisions.

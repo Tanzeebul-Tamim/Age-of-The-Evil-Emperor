@@ -1,43 +1,51 @@
 package main;
 
 public class Assets {
+        public static String[][] actsAndTitles = {
+                        { "PROLOGUE", null },
+                        { "ACT I", "THE AWAKENING" },
+                        { "ACT II", "PATHS OF STRATEGY" },
+                        { "ACT III", "ALLIES AND AMBUSHES" },
+                        { "ACT IV", "THE FINAL STAND" },
+                        { "EPILOGUE", null }
+        };
+
         public static String[] locations = {
-                        "Village",
-                        "Hidden Cavern",
+                        "Lunaris Village",
+                        "Hidden Cave",
                         "Hideout Cavern",
-                        "Nearby Village",
-                        "Hideout Cavern",
+                        "Thornwood Village",
                         "Secret Tunnels",
-                        "The  Evil Emperor's Fortress",
-                        "Hideout Cavern",
+                        "The Evil Emperor's Fortress",
                         "Enchanted Woods",
-                        "Nearby Village"
+                        "Willowdale Village",
+                        "Thornfield Village",
         };
 
         public static String[] combatSkills = {
-                        "0 1 Swift Strike",
-                        "1 3 Precision Shot",
-                        "2 5 Lunge and Parry",
-                        "3 7 Shield Slam",
-                        "4 9 Dual Blade Technique",
-                        "5 11 Fire Arrow Volley",
-                        "6 13 Frost Blade",
-                        "7 15 Thunderclap",
-                        "8 17 Berserker Charge",
-                        "9 19 Lightning Blade"
+                        "Swift Strike",
+                        "Precision Shot",
+                        "Lunge and Parry",
+                        "Shield Slam",
+                        "Dual Blade Technique",
+                        "Fire Arrow Volley",
+                        "Frost Blade",
+                        "Thunderclap",
+                        "Berserker Charge",
+                        "Lightning Blade"
         };
 
         public static String[] defensiveSkills = {
-                        "0 2 Evasion",
-                        "1 4 Counter-Parry",
-                        "2 6 Deflect",
-                        "3 8 Riposte",
-                        "4 10 Healing Poultice",
-                        "5 12 Shield Wall",
-                        "6 14 Stamina Regeneration",
-                        "7 16 Guard Stance",
-                        "8 18 Armored Resilience",
-                        "9 20 Ironclad Defense"
+                        "Evasion",
+                        "Counter-Parry",
+                        "Deflect",
+                        "Riposte",
+                        "Healing Poultice",
+                        "Shield Wall",
+                        "Stamina Regeneration",
+                        "Guard Stance",
+                        "Armored Resilience",
+                        "Ironclad Defense"
         };
 
         public static String[] combatWeapons = {

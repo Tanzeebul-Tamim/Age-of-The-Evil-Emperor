@@ -15,7 +15,7 @@ public class Player extends GameCharacter {
     public ArrayList<String> unlockedCombatWeapons = new ArrayList<>();
     public ArrayList<String> unlockedDefensiveEquipments = new ArrayList<>();
 
-    // Player specific constructor
+    // Player specific constructor for initializing player stats
     public Player(String name) {
         super(name, 100, 0);
 
@@ -28,28 +28,30 @@ public class Player extends GameCharacter {
         this.gold = 10;
         this.healers = 0;
 
+        // location (lunaris village)
+        this.location = Assets.locations[0];
         this.enemiesKilled = 0;
-        this.location = "Village";
     }
 
     // Player specific methods
     @Override
     public int attack() {
-        return (int) (Math.random() * (xp / 4 + combatSkillCount * 3 + combatWeaponCount * 2 + 3)
+        return (int) (Math.random() * (xp / 5 + combatSkillCount * 3 + combatWeaponCount + 2)
                 + xp / 10 + combatSkillCount * 2 + defensiveSkillCount + defensiveEquipmentCount + 1);
     }
 
     @Override
     public int defend() {
-        return (int) (Math.random() * (xp / 4 + defensiveSkillCount * 3 + defensiveEquipmentCount * 2 + 3)
+        return (int) (Math.random() * (xp / 5 + defensiveSkillCount * 3 + defensiveEquipmentCount + 2)
                 + xp / 10 + defensiveSkillCount * 2 + combatSkillCount + combatWeaponCount + 1);
     }
 
     // Let the player choose a weapon of either type
-    public void chooseWeapon(int lineWidth, String heading, String title, String folderName, String fileName,
+    public void chooseWeapon(int lineWidth, String[] titles, String intOut, String heading, String folderName,
+            String fileName,
             boolean showStats) {
         // Get the player's choice
-        int input = UIUtils.choose(lineWidth, heading, title, folderName, fileName,
+        int input = UIUtils.choose(lineWidth, titles, intOut, heading, folderName, fileName,
                 Assets.combatWeapons[combatWeaponCount],
                 Assets.defensiveEquipment[defensiveEquipmentCount]);
 
@@ -79,10 +81,11 @@ public class Player extends GameCharacter {
     }
 
     // Let the player choose a skill of either path
-    public void chooseSkill(int lineWidth, String heading, String title, String folderName, String fileName,
+    public void chooseSkill(int lineWidth, String[] titles, String intOut, String heading, String folderName,
+            String fileName,
             boolean showStats) {
         // Get the player's choice
-        int input = UIUtils.choose(lineWidth, heading, title, folderName, fileName,
+        int input = UIUtils.choose(lineWidth, titles, intOut, heading, folderName, fileName,
                 Assets.combatSkills[combatSkillCount],
                 Assets.defensiveSkills[defensiveSkillCount]);
 
@@ -113,7 +116,8 @@ public class Player extends GameCharacter {
     }
 
     // Let the player choose skills for the final mission
-    public void chooseFinalSkills(int lineWidth, String heading, String folderName, String fileName,
+    public void chooseFinalSkills(int lineWidth, String[] titles, String inOut, String folderName,
+            String fileName,
             boolean showStats) {
         int choiceCount = 5;
 
@@ -142,11 +146,11 @@ public class Player extends GameCharacter {
                 }
             }
 
-            String title = choiceCount == 5 ? "Choose 5 Skills to Master."
+            String heading = choiceCount == 5 ? "Choose 5 Skills to Master."
                     : choiceCount == 1 ? "Last Choice, Choose Wisely" : choiceCount + " Choices Remaining.";
 
             // Get the player's choice
-            int input = UIUtils.choose(lineWidth, heading, title, folderName, fileName, skills);
+            int input = UIUtils.choose(lineWidth, titles, inOut, heading, folderName, fileName, skills);
 
             Utils.clearConsole();
             int index;

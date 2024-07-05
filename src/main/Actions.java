@@ -8,7 +8,7 @@ public class Actions {
     static int paraSeparator = 100;
 
     // Creating a random encounter with a random entity
-    public static void randomEncounter(String title, String folderName, String fileNameIfFled,
+    public static void randomEncounter(String[] titles, String intOut, String folderName, String fileNameIfFled,
             String fileNameIfNotFled) {
         // Array to store 3 random characters from each type of entities
         String[] randomCharacters = new String[3];
@@ -40,8 +40,14 @@ public class Actions {
 
         Utils.clearConsole();
 
+        // Print chapter name
         Utils.printSeparator(paraSeparator);
-        System.out.println(Utils.printTab(paraSeparator, true) + title);
+        if (intOut.equals("i")) {
+            System.out.println(Utils.printTab(paraSeparator, true) + titles[0] + " - INTRO");
+        } else if (intOut.equals("o")) {
+            System.out.println(Utils.printTab(paraSeparator, true) + titles[0] + " - OUTRO");
+        }
+        System.out.println(Utils.printTab(paraSeparator, true) + titles[1]);
         Utils.printSeparator(paraSeparator);
 
         System.out.println();
@@ -63,15 +69,15 @@ public class Actions {
             String action = Assets.interactionsOfEnemy[randomInteractIndex];
 
             if (action.equals("Fight")) { // The enemy attacks you upon encounter
-                boolean[] battleResult = battle(paraSeparator, title, randomEntity);
+                boolean[] battleResult = battle(paraSeparator, titles, intOut, randomEntity);
 
                 if (battleResult[0])
                     return;
 
                 if (!battleResult[1])
-                    Utils.storyPrinter(true, paraSeparator, title, folderName, true, fileNameIfNotFled);
+                    Utils.storyPrinter(true, paraSeparator, titles, intOut, folderName, true, fileNameIfNotFled);
                 else
-                    Utils.storyPrinter(true, paraSeparator, title, folderName, true, fileNameIfFled);
+                    Utils.storyPrinter(true, paraSeparator, titles, intOut, folderName, true, fileNameIfFled);
             } else if (action.equals("Taunt")) { // The enemy taunts you
                 Utils.printHeading(true, false, "You encountered a " + randomEntity + "."
                         + " With a menacing grin, he stops to taunt you. Their words are filled with threats and malice.");
@@ -93,15 +99,15 @@ public class Actions {
 
                 if (input == 1) {
                     Enemy enemy = new Enemy(randomEntity, player.xp);
-                    boolean[] battleResult = fight(paraSeparator, title, enemy);
+                    boolean[] battleResult = fight(paraSeparator, titles, intOut, enemy);
 
                     if (battleResult[0])
                         return;
 
                     if (!battleResult[1])
-                        Utils.storyPrinter(true, paraSeparator, title, folderName, true, fileNameIfNotFled);
+                        Utils.storyPrinter(true, paraSeparator, titles, intOut, folderName, true, fileNameIfNotFled);
                     else
-                        Utils.storyPrinter(true, paraSeparator, title, folderName, true, fileNameIfFled);
+                        Utils.storyPrinter(true, paraSeparator, titles, intOut, folderName, true, fileNameIfFled);
                 }
             } else { // The enemy walks away
                 Utils.printHeading(true, false, "You encountered a " + randomEntity + "."
@@ -115,15 +121,15 @@ public class Actions {
 
                 if (input == 1) {
                     Enemy enemy = new Enemy(randomEntity, player.xp);
-                    boolean[] battleResult = fight(paraSeparator, title, enemy);
+                    boolean[] battleResult = fight(paraSeparator, titles, intOut, enemy);
 
                     if (battleResult[0])
                         return;
 
                     if (!battleResult[1])
-                        Utils.storyPrinter(true, paraSeparator, title, folderName, true, fileNameIfNotFled);
+                        Utils.storyPrinter(true, paraSeparator, titles, intOut, folderName, true, fileNameIfNotFled);
                     else
-                        Utils.storyPrinter(true, paraSeparator, title, folderName, true, fileNameIfFled);
+                        Utils.storyPrinter(true, paraSeparator, titles, intOut, folderName, true, fileNameIfFled);
                 }
             }
         } else { // encountered a fellow or a trader
@@ -154,7 +160,7 @@ public class Actions {
                     Utils.clearConsole();
 
                     int maxHealers = 3; // Maximum number of healers to receive
-                    int healerCount = (int) (Math.random() * maxHealers) + 1;
+                    int healerCount = (int) (Math.random() * maxHealers);
 
                     Utils.printHeading(true, true, "You thanked the " + randomEntity + ".");
 
@@ -208,27 +214,34 @@ public class Actions {
     }
 
     // Creating a battle (to be used in random encounter method)
-    public static boolean[] battle(int paraSeparator, String title, String enemyName) {
+    public static boolean[] battle(int paraSeparator, String[] titles, String intOut, String enemyName) {
         Enemy enemy = new Enemy(enemyName, player.xp);
 
         System.out.println();
-        Utils.printHeading(false, false, "You encountered a " + enemyName + "." + " You will have to fight him!");
+        Utils.printHeading(false, false, "You encountered a " + enemyName + "." + " You have to defeat him!");
+
         Utils.pressEnter();
 
-        return fight(paraSeparator, title, enemy);
+        return fight(paraSeparator, titles, intOut, enemy);
     }
 
     // Overloading the previous method to create a random battle with a random enemy
     // (to be used when using directly)
-    public static boolean[] randomBattle(int paraSeparator, String title) {
+    public static boolean[] randomBattle(int paraSeparator, String[] titles, String intOut) {
         int randomIndex = (int) (Math.random() * Assets.enemies.length);
         String enemyName = Assets.enemies[randomIndex];
         Enemy enemy = new Enemy(enemyName, player.xp);
 
         Utils.clearConsole();
 
+        // Print chapter name
         Utils.printSeparator(paraSeparator);
-        System.out.println(Utils.printTab(paraSeparator, true) + title);
+        if (intOut.equals("i")) {
+            System.out.println(Utils.printTab(paraSeparator, true) + titles[0] + " - INTRO - BATTLE");
+        } else if (intOut.equals("o")) {
+            System.out.println(Utils.printTab(paraSeparator, true) + titles[0] + " - OUTRO - BATTLE");
+        }
+        System.out.println(Utils.printTab(paraSeparator, true) + titles[1]);
         Utils.printSeparator(paraSeparator);
 
         System.out.println();
@@ -236,13 +249,13 @@ public class Actions {
         System.out.println("LOCATION: " + player.location);
         System.out.println();
 
-        Utils.printHeading(false, false, "You encountered a " + enemyName + "." + " You will have to fight him!");
+        Utils.printHeading(false, false, "You encountered a " + enemyName + "." + " You have to defeat him!");
         Utils.pressEnter();
-        return fight(paraSeparator, title, enemy);
+        return fight(paraSeparator, titles, intOut, enemy);
     }
 
     // Method to manage and organize battles
-    public static boolean[] fight(int paraSeparator, String title, Enemy enemy) {
+    public static boolean[] fight(int paraSeparator, String[] titles, String intOut, Enemy enemy) {
         String[] name = player.getName().split(" ");
         String lastName = name[name.length - 1];
         String battleTitle = lastName + " VS " + enemy.name;
@@ -252,7 +265,14 @@ public class Actions {
             Utils.clearConsole();
 
             // Print chapter name
-            Utils.printHeading(false, true, title);
+            Utils.printSeparator(paraSeparator);
+            if (intOut.equals("i")) {
+                System.out.println(Utils.printTab(paraSeparator, true) + titles[0] + " - INTRO - BATTLE");
+            } else if (intOut.equals("o")) {
+                System.out.println(Utils.printTab(paraSeparator, true) + titles[0] + " - OUTRO - BATTLE");
+            }
+            System.out.println(Utils.printTab(paraSeparator, true) + titles[1]);
+            Utils.printSeparator(paraSeparator);
 
             // Print the info of this battle round
             Utils.printHeading(false, true, battleTitle);
@@ -292,7 +312,14 @@ public class Actions {
                 Utils.clearConsole();
 
                 // Print chapter name
-                Utils.printHeading(false, true, title);
+                Utils.printSeparator(paraSeparator);
+                if (intOut.equals("i")) {
+                    System.out.println(Utils.printTab(paraSeparator, true) + titles[0] + " - INTRO - BATTLE");
+                } else if (intOut.equals("o")) {
+                    System.out.println(Utils.printTab(paraSeparator, true) + titles[0] + " - OUTRO - BATTLE");
+                }
+                System.out.println(Utils.printTab(paraSeparator, true) + titles[1]);
+                Utils.printSeparator(paraSeparator);
 
                 // Print the info of this battle round
                 Utils.printHeading(false, true, battleTitle);
@@ -386,7 +413,7 @@ public class Actions {
                 Utils.clearConsole();
 
                 // Print chapter name
-                Utils.printHeading(false, true, title);
+                Utils.printHeading(false, true, titles);
 
                 // Print the info of this battle round
                 Utils.printHeading(true, true, battleTitle);
@@ -425,7 +452,7 @@ public class Actions {
                 Utils.clearConsole();
 
                 // Print chapter name
-                Utils.printHeading(false, true, title);
+                Utils.printHeading(false, true, titles);
 
                 // Print the info of this battle round
                 Utils.printHeading(true, true, battleTitle);
@@ -494,9 +521,10 @@ public class Actions {
     }
 
     // Method to manage and organize the final battle
-    public static void finalBattle(int paraSeparator, String title) { // Todo handle death cases and exit game if dies
+    public static void finalBattle(int paraSeparator, String[] titles, String intOut) {
+        // Todo handle death cases and exit game if dies
         // creating the evil emperor object and letting the player fight against him
-        fight(paraSeparator, title, new Enemy("THE EVIL EMPEROR", 200));
+        fight(paraSeparator, titles, intOut, new Enemy("THE EVIL EMPEROR", 200));
     }
 
     // Method to shop
@@ -555,10 +583,10 @@ public class Actions {
 
         do {
             if (price == 1) {
-                Utils.printHeading(false, true, "Item: Healer", "Price: " + price + " gold",
+                Utils.printHeading(false, false, "Item: Healer", "Price: " + price + " gold",
                         "Balance: " + player.gold + " golds", "Restores: 15 HP");
             } else {
-                Utils.printHeading(false, true, "Item: Healer", "Price: " + price + " golds",
+                Utils.printHeading(false, false, "Item: Healer", "Price: " + price + " golds",
                         "Balance: " + player.gold + " golds", "Restores: 15 HP");
             }
 
@@ -737,7 +765,6 @@ public class Actions {
                     doneBuying = buyWeaponType(doneBuying, currentWeapon, traderType, weaponType, weaponArray,
                             weaponCount, gold,
                             unlockedWeapons);
-                    ;
                     return doneBuying;
                 } else if (input == 2) {
                     buyWeapons(traderType);
@@ -767,7 +794,6 @@ public class Actions {
                 doneBuying = buyWeaponType(doneBuying, currentWeapon, traderType, weaponType, weaponArray, weaponCount,
                         gold,
                         unlockedWeapons);
-                ;
                 return doneBuying;
             } else if (input == 2) {
                 buyWeapons(traderType);
@@ -779,7 +805,7 @@ public class Actions {
             }
         } else {
             Utils.printHeading(false, false,
-                    "You already own this weapon. There's no need to buy this " + selectedWeapon + ".");
+                    "You already own this weapon. There's no need to buy a " + selectedWeapon + ".");
 
             System.out.println("Would you like to continue with your purchase decision?");
             System.out.println();
@@ -795,7 +821,6 @@ public class Actions {
                 doneBuying = buyWeaponType(doneBuying, currentWeapon, traderType, weaponType, weaponArray, weaponCount,
                         gold,
                         unlockedWeapons);
-                ;
                 return doneBuying;
             } else if (input == 2) {
                 buyWeapons(traderType);
@@ -828,7 +853,7 @@ public class Actions {
                         + " golds!";
             }
 
-            Utils.printHeading(false, true, title, " But unfortunately you only have " + player.gold + " golds!");
+            Utils.printHeading(false, false, title, " But unfortunately you only have " + player.gold + " golds!");
             Utils.pressEnter();
 
             System.out.println("Would you like to continue with your purchase decision?");

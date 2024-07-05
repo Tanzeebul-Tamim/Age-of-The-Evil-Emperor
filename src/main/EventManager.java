@@ -5,11 +5,22 @@ import java.util.ArrayList;
 //* Game Mechanics
 
 public class EventManager {
-        public static Player player;
+        static Player player;
 
-        public static boolean isRunning;
+        static boolean isRunning;
         static int paraSeparator = 100;
-        public static boolean isNewGame = false;
+        static boolean isNewGame = false;
+        static String[] locations = Assets.locations;
+
+        // Story titles for each chapters of the game
+        static String[][] actsAndTitles = Assets.actsAndTitles;
+
+        static String prologue = actsAndTitles[0][0];
+        static String[] actI = actsAndTitles[1];
+        static String[] actII = actsAndTitles[2];
+        static String[] actIII = actsAndTitles[3];
+        static String[] actIV = actsAndTitles[4];
+        static String epilogue = actsAndTitles[5][0];
 
         // Method to start the game
         public static void launchGame(boolean firstTime) {
@@ -26,14 +37,14 @@ public class EventManager {
 
                 // ! ---------Intro---------
                 // Print Story Intro Part I and Part II
-                Utils.storyPrinter(true, paraSeparator, "Prologue", "Intro", true,
+                Utils.storyPrinter(true, paraSeparator, prologue, "intro", true,
                                 "para1.txt", "para2.txt");
 
-                // Update location
-                player.location = "Hidden Cavern";
+                // Update location (hidden cave)
+                player.location = locations[1];
 
                 // Print Story Intro Part III
-                Utils.storyPrinter(true, paraSeparator, "Prologue", "Intro", true,
+                Utils.storyPrinter(true, paraSeparator, prologue, "intro", true,
                                 "para3.txt");
 
                 // Show initial character info
@@ -56,7 +67,8 @@ public class EventManager {
                         if (input == 1) {
                                 // Resetting all the player stats for starting a new game
                                 if (isNewGame) {
-                                        player.location = "Village";
+                                        // location (lunaris village)
+                                        player.location = locations[0];
                                         player.hp = player.maxHp;
                                         player.xp = 0;
                                         player.gold = 5;
@@ -91,93 +103,93 @@ public class EventManager {
         public static void continueJourney() {
                 // ! ---------Act-I Intro---------
                 // Print Act-I Intro, Part-I
-                Utils.storyPrinter(true, paraSeparator, "ACT I - INTRO - THE AWAKENING", "firstActIntro", true,
+                Utils.storyPrinter(true, paraSeparator, actI, "i", "firstActIntro", true,
                                 "para1.txt", "para2_1.txt");
 
                 // Print Act-I Intro, Part-II
                 // (Get the first skill upgrade)
-                player.chooseSkill(paraSeparator, "ACT I - INTRO - THE AWAKENING", "Which skill do you want to learn?",
+                player.chooseSkill(paraSeparator, actI, "i", "Which skill do you want to learn?",
                                 "firstActIntro",
                                 "para2_2.txt", true);
 
                 // Print Act-I Intro, Part-III
-                Utils.storyPrinter(true, paraSeparator, "ACT I - INTRO - THE AWAKENING", "firstActIntro", true,
+                Utils.storyPrinter(true, paraSeparator, actI, "i", "firstActIntro", true,
                                 "para3.txt");
 
-                // Update location
-                player.location = "Hideout Cavern";
+                // Update location (hideout cavern)
+                player.location = locations[2];
 
                 // ! ---------Act-I Outro---------
                 // Print Act-I Outro, Part-I
-                Utils.storyPrinter(true, paraSeparator, "ACT I - OUTRO - THE AWAKENING", "firstActOutro", true,
+                Utils.storyPrinter(true, paraSeparator, actI, "o", "firstActOutro", true,
                                 "para1.txt", "para2.txt",
                                 "para3.txt");
 
-                // Update location
-                player.location = "Nearby Village";
+                // Update location (thornwood village)
+                player.location = locations[3];
 
                 // Print Act-I Outro, Part-II
-                Utils.storyPrinter(true, paraSeparator, "ACT I - OUTRO - THE AWAKENING", "firstActOutro", true,
+                Utils.storyPrinter(true, paraSeparator, actI, "o", "firstActOutro", true,
                                 "para4.txt", "para5.txt",
                                 "para6_1.txt");
 
                 // Print Act-I Outro, Part-III
                 // (Get the first weapon upgrade)
-                player.chooseWeapon(paraSeparator, "ACT I - OUTRO - THE AWAKENING",
+                player.chooseWeapon(paraSeparator, actI, "o",
                                 "Which Weapon Will You Choose for the Journey?",
                                 "firstActOutro",
                                 "para6_2.txt", true);
 
                 // Print Act-I Outro, Part-IV
-                Utils.storyPrinter(true, paraSeparator, "ACT I - OUTRO - THE AWAKENING", "firstActOutro", true,
+                Utils.storyPrinter(true, paraSeparator, actI, "o", "firstActOutro", true,
                                 "para7.txt");
 
                 // * First Battle
-                boolean[] battle1Result = Actions.randomBattle(paraSeparator, "ACT I - OUTRO - THE AWAKENING - BATTLE");
+                boolean[] battle1Result = Actions.randomBattle(paraSeparator, actI, "o");
 
                 if (battle1Result[0])
                         return;
 
                 // Print Act-I Outro, Part-V
                 if (!battle1Result[1]) // If the player win the battle
-                        Utils.storyPrinter(true, paraSeparator, "ACT I - OUTRO - THE AWAKENING", "firstActOutro", true,
+                        Utils.storyPrinter(true, paraSeparator, actI, "o", "firstActOutro", true,
                                         "para8_1.txt",
                                         "para9.txt");
                 else // If the player has been fled from the battle
-                        Utils.storyPrinter(true, paraSeparator, "ACT I - OUTRO - THE AWAKENING", "firstActOutro", true,
+                        Utils.storyPrinter(true, paraSeparator, actI, "o", "firstActOutro", true,
                                         "para8_2.txt",
                                         "para9.txt");
 
-                // Update location
-                player.location = "Hideout Cavern";
+                // Update location (hideout cavern)
+                player.location = locations[2];
 
                 // ! ---------Act-II Intro---------
                 if (!battle1Result[1]) // If the player win the battle
-                        Utils.storyPrinter(true, paraSeparator, "ACT II - INTRO- PATHS OF STRATEGY",
+                        Utils.storyPrinter(true, paraSeparator, actII, "i",
                                         "secondActIntro/if_won", true, "para1.txt",
                                         "para2.txt", "para3.txt", "para4.txt", "para5.txt", "para6.txt", "para7.txt",
                                         "para8.txt");
                 else // If the player has been fled from the battle
-                        Utils.storyPrinter(true, paraSeparator, "ACT II - INTRO- PATHS OF STRATEGY",
+                        Utils.storyPrinter(true, paraSeparator, actII, "i",
                                         "secondActIntro/if_fled", true, "para1.txt",
                                         "para2.txt", "para3.txt", "para4.txt", "para5.txt", "para6.txt", "para7.txt",
                                         "para8.txt");
 
                 // Choosing strategy
                 String choice1 = "Lead the covert mission through the tunnels.";
-                String choice2 = "Rally support from the villages.";
-                int choice = UIUtils.choose(paraSeparator, "ACT II - INTRO- PATHS OF STRATEGY", "Decide wisely!",
+                String choice2 = "Rally support from the Willowdale village.";
+                int choice = UIUtils.choose(paraSeparator, actII, "i", "Decide wisely!",
                                 "secondActIntro", "para1.txt",
                                 choice1, choice2);
 
                 // (Get the second skill upgrade)
-                player.chooseSkill(paraSeparator, "ACT II - INTRO- PATHS OF STRATEGY",
+                player.chooseSkill(paraSeparator, actII, "i",
                                 "Which skill do you want to learn this time?",
                                 "secondActIntro",
                                 "para2.txt", false);
 
                 // (Get the second weapon upgrade)
-                player.chooseWeapon(paraSeparator, "ACT II - INTRO- PATHS OF STRATEGY",
+                player.chooseWeapon(paraSeparator, actII, "i",
                                 "Which Weapon Will You Choose for the Journey?",
                                 "secondActIntro",
                                 "para3.txt", true);
@@ -185,17 +197,22 @@ public class EventManager {
                 boolean[] battle2Result;
 
                 if (choice == 1) { // Player chose the tunnel mission
-                        // Update location
-                        player.location = "Secret Tunnels";
+                        // Update location (secret tunnel)
+                        player.location = locations[4];
 
                         // Print Act-II Outro, Part-I
-                        Utils.storyPrinter(true, paraSeparator, "ACT II - INTRO - PATHS OF STRATEGY",
+                        Utils.storyPrinter(true, paraSeparator, actII, "i",
                                         "secondActOutro/tunnel", true, "para1.txt",
                                         "para2.txt", "para3.txt", "para4.txt", "para5.txt", "para6.txt");
 
                         // * Second Battle
-                        battle2Result = Actions.battle(paraSeparator, "ACT II - INTRO - PATHS OF STRATEGY - BATTLE",
+                        battle2Result = Actions.battle(paraSeparator, actII, "i",
                                         "Cave Bandit");
+
+                        Utils.clearConsole();
+
+                        battle2Result = Actions.battle(paraSeparator, actII, "i",
+                                        "Cave Bandit Leader");
 
                         if (battle2Result[0])
                                 return;
@@ -204,79 +221,84 @@ public class EventManager {
 
                         // Print Act-II Outro, Part-II
                         if (!battle2Result[1]) {// If the player win the battle
-                                Utils.storyPrinter(true, paraSeparator, "ACT II - INTRO - PATHS OF STRATEGY",
+                                Utils.storyPrinter(true, paraSeparator, actII, "i",
                                                 "secondActOutro/tunnel/if_won", true,
                                                 "para1.txt", "para2.txt", "para3.txt", "para4.txt");
 
-                                // Update location
-                                player.location = "The Evil Emperor's Fortress";
+                                // Update location (The Evil Emperor's Fortress)
+                                player.location = locations[5];
 
-                                Utils.storyPrinter(true, paraSeparator, "ACT II - INTRO - PATHS OF STRATEGY",
+                                Utils.storyPrinter(true, paraSeparator, actII, "i",
                                                 "secondActOutro/tunnel/if_won", true,
                                                 "para5.txt");
 
-                                // Update location
-                                player.location = "Hideout Cavern";
+                                // Update location (hideout cavern)
+                                player.location = locations[2];
 
-                                Utils.storyPrinter(true, paraSeparator, "ACT II - OUTRO - PATHS OF STRATEGY",
+                                Utils.storyPrinter(true, paraSeparator, actII, "o",
                                                 "secondActOutro/tunnel/if_won", true,
                                                 "para6.txt");
                         } else { // If the player has been fled from the battle
-                                Utils.storyPrinter(true, paraSeparator, "ACT II - INTRO - PATHS OF STRATEGY",
+                                Utils.storyPrinter(true, paraSeparator, actII, "i",
                                                 "secondActOutro/tunnel/if_fled", true,
                                                 "para1.txt", "para2.txt", "para3.txt", "para4.txt", "para5.txt");
 
-                                Utils.storyPrinter(false, paraSeparator, "ACT II - OUTRO - PATHS OF STRATEGY",
+                                Utils.storyPrinter(false, paraSeparator, actII, "o",
                                                 "secondActOutro/tunnel/if_fled", true,
                                                 "para6.txt");
 
-                                // Update location
-                                player.location = "Hideout Cavern";
+                                // Update location (hideout cavern)
+                                player.location = locations[2];
                         }
                 } else { // player chose the village mission
-                         // Update location
-                        player.location = "Enchanted Woods";
+                         // Update location (Enchanted Woods)
+                        player.location = locations[6];
 
-                        Utils.storyPrinter(true, paraSeparator, "ACT II - INTRO - PATHS OF STRATEGY",
+                        Utils.storyPrinter(true, paraSeparator, actII, "i",
                                         "secondActOutro/village", true,
                                         "para1.txt");
 
-                        Actions.randomEncounter("ACT II - INTRO - PATHS OF STRATEGY", "secondActOutro/village",
+                        Actions.randomEncounter(actII, "i", "secondActOutro/village",
                                         "para4_2.txt", "para4_1.txt");
 
-                        // Update location
-                        player.location = "Nearby Village";
+                        // Update location (Willowdale village)
+                        player.location = locations[7];
 
-                        Utils.storyPrinter(true, paraSeparator, "ACT II - INTRO - PATHS OF STRATEGY",
+                        Utils.storyPrinter(true, paraSeparator, actII, "i",
                                         "secondActOutro/village", true,
                                         "para2.txt");
 
-                        // Update location
-                        player.location = "Enchanted Woods";
+                        // Update location (Enchanted Woods)
+                        player.location = locations[6];
 
-                        Utils.storyPrinter(true, paraSeparator, "ACT II - INTRO - PATHS OF STRATEGY",
+                        Utils.storyPrinter(true, paraSeparator, actII, "i",
                                         "secondActOutro/village", true,
                                         "para3.txt");
 
                         // * Second Battle
-                        battle2Result = Actions.battle(paraSeparator, "ACT II - INTRO - PATHS OF STRATEGY - BATTLE",
+                        battle2Result = Actions.battle(paraSeparator, actII, "i",
                                         "Evil Emperor's Guard");
+
+                        Utils.clearConsole();
+
+                        battle2Result = Actions.battle(paraSeparator, actII, "i",
+                                        "Evil Emperor's Guard Commander");
 
                         if (battle2Result[0])
                                 return;
 
                         // ! ---------Act-II Outro---------
 
-                        // Update location
-                        player.location = "Hideout Cavern";
+                        // Update location (hideout cavern)
+                        player.location = locations[2];
 
                         // Print Act-II Outro, Part-II
                         if (!battle2Result[1]) {// If the player win the battle
-                                Utils.storyPrinter(true, paraSeparator, "ACT II - OUTRO - PATHS OF STRATEGY",
+                                Utils.storyPrinter(true, paraSeparator, actII, "o",
                                                 "secondActOutro/village/if_won", true,
                                                 "para1.txt", "para2.txt", "para3.txt");
                         } else { // If the player has been fled from the battle
-                                Utils.storyPrinter(true, paraSeparator, "ACT II - OUTRO - PATHS OF STRATEGY",
+                                Utils.storyPrinter(true, paraSeparator, actII, "o",
                                                 "secondActOutro/village/if_fled", true,
                                                 "para1.txt", "para2.txt", "para3.txt", "para4.txt", "para5.txt");
                         }
@@ -284,92 +306,102 @@ public class EventManager {
 
                 // ! ---------Act-III Intro---------
                 // Print Act-III Intro
-                Utils.storyPrinter(true, paraSeparator, "ACT III - INTRO - ALLIES AND AMBUSHES", "thirdActIntro", true,
+                Utils.storyPrinter(true, paraSeparator, actIII, "i", "thirdActIntro", true,
                                 "para1.txt");
 
                 if (choice == 1) { // Player chose the tunnel mission first, will now play the village mission
                         if (!battle2Result[1]) {// If the player had won the previous mission battle
-                                Utils.storyPrinter(true, paraSeparator, "ACT III - INTRO - ALLIES AND AMBUSHES",
+                                Utils.storyPrinter(true, paraSeparator, actIII, "i",
                                                 "thirdActIntro/tunnel/if_won", true,
                                                 "para1.txt");
                         } else { // If the player had fled from the previous mission battle
-                                Utils.storyPrinter(true, paraSeparator, "ACT III - INTRO - ALLIES AND AMBUSHES",
+                                Utils.storyPrinter(true, paraSeparator, actIII, "i",
                                                 "thirdActIntro/tunnel/if_fled", true,
                                                 "para1.txt");
                         }
 
                         // Village mission starts
 
-                        // Update location
-                        player.location = "Enchanted Woods";
+                        // Update location (Enchanted Woods)
+                        player.location = locations[6];
 
-                        Utils.storyPrinter(true, paraSeparator, "ACT III - INTRO - ALLIES AND AMBUSHES",
+                        Utils.storyPrinter(true, paraSeparator, actIII, "i",
                                         "secondActOutro/village", true,
                                         "para1.txt");
 
-                        Actions.randomEncounter("ACT III - INTRO - ALLIES AND AMBUSHES", "secondActOutro/village",
+                        Actions.randomEncounter(actIII, "i", "secondActOutro/village",
                                         "para4_2.txt", "para4_1.txt");
 
-                        // Update location
-                        player.location = "Nearby Village";
+                        // Update location (Willowdale village)
+                        player.location = locations[7];
 
-                        Utils.storyPrinter(true, paraSeparator, "ACT III - INTRO - ALLIES AND AMBUSHES",
+                        Utils.storyPrinter(true, paraSeparator, actIII, "i",
                                         "secondActOutro/village", true,
                                         "para2.txt");
 
-                        // Update location
-                        player.location = "Enchanted Woods";
+                        // Update location (Enchanted Woods)
+                        player.location = locations[6];
 
-                        Utils.storyPrinter(true, paraSeparator, "ACT III - INTRO - ALLIES AND AMBUSHES",
+                        Utils.storyPrinter(true, paraSeparator, actIII, "i",
                                         "secondActOutro/village", true,
                                         "para3.txt");
 
                         // * Second Battle
-                        battle2Result = Actions.battle(paraSeparator, "ACT III - INTRO - ALLIES AND AMBUSHES - BATTLE",
+                        battle2Result = Actions.battle(paraSeparator, actIII, "i",
                                         "Evil Emperor's Guard");
+
+                        Utils.clearConsole();
+
+                        battle2Result = Actions.battle(paraSeparator, actIII, "i",
+                                        "Evil Emperor's Guard Commander");
 
                         if (battle2Result[0])
                                 return;
 
                         // ! ---------Act-III Outro---------
 
-                        // Update location
-                        player.location = "Hideout Cavern";
+                        // Update location (hideout cavern)
+                        player.location = locations[2];
 
                         // Print Act-III Outro
                         if (!battle2Result[1]) {// If the player win the battle
-                                Utils.storyPrinter(true, paraSeparator, "ACT III - OUTRO - ALLIES AND AMBUSHES",
+                                Utils.storyPrinter(true, paraSeparator, actIII, "o",
                                                 "secondActOutro/village/if_won", true,
                                                 "para1.txt", "para2.txt", "para3.txt");
                         } else { // If the player has been fled from the battle
-                                Utils.storyPrinter(true, paraSeparator, "ACT III - OUTRO - ALLIES AND AMBUSHES",
+                                Utils.storyPrinter(true, paraSeparator, actIII, "o",
                                                 "secondActOutro/village/if_fled", true,
                                                 "para1.txt", "para2.txt", "para3.txt", "para4.txt", "para5.txt");
                         }
                 } else { // Player chose the village mission first, will now play the tunnel mission
                         if (!battle2Result[1]) {// If the player had won the previous mission battle
-                                Utils.storyPrinter(true, paraSeparator, "ACT III - INTRO - ALLIES AND AMBUSHES",
+                                Utils.storyPrinter(true, paraSeparator, actIII, "i",
                                                 "thirdActIntro/village/if_won", true,
                                                 "para1.txt");
                         } else { // If the player had fled from the previous mission battle
-                                Utils.storyPrinter(true, paraSeparator, "ACT III - INTRO - ALLIES AND AMBUSHES",
+                                Utils.storyPrinter(true, paraSeparator, actIII, "i",
                                                 "thirdActIntro/village/if_fled", true,
                                                 "para1.txt", "para2.txt");
                         }
 
                         // Tunnel mission starts
 
-                        // Update location
-                        player.location = "Secret Tunnels";
+                        // Update location (secret tunnel)
+                        player.location = locations[4];
 
                         // Print Act-II Outro, Part-I
-                        Utils.storyPrinter(true, paraSeparator, "ACT III - INTRO - ALLIES AND AMBUSHES",
+                        Utils.storyPrinter(true, paraSeparator, actIII, "i",
                                         "secondActOutro/tunnel", true, "para1.txt",
                                         "para2.txt", "para3.txt", "para4.txt", "para5.txt", "para6.txt");
 
                         // * Second Battle
-                        battle2Result = Actions.battle(paraSeparator, "ACT III - INTRO - ALLIES AND AMBUSHES - BATTLE",
+                        battle2Result = Actions.battle(paraSeparator, actIII, "i",
                                         "Cave Bandit");
+
+                        Utils.clearConsole();
+
+                        battle2Result = Actions.battle(paraSeparator, actIII, "i",
+                                        "Cave Bandit Leader");
 
                         if (battle2Result[0])
                                 return;
@@ -378,47 +410,47 @@ public class EventManager {
 
                         // Print Act-III Outro
                         if (!battle2Result[1]) {// If the player win the battle
-                                Utils.storyPrinter(true, paraSeparator, "ACT III - INTRO - ALLIES AND AMBUSHES",
+                                Utils.storyPrinter(true, paraSeparator, actIII, "i",
                                                 "secondActOutro/tunnel/if_won", true,
                                                 "para1.txt", "para2.txt", "para3.txt", "para4.txt");
 
-                                // Update location
-                                player.location = "The Evil Emperor's Fortress";
+                                // Update location (The Evil Emperor's Fortress)
+                                player.location = locations[5];
 
-                                Utils.storyPrinter(true, paraSeparator, "ACT III - INTRO - ALLIES AND AMBUSHES",
+                                Utils.storyPrinter(true, paraSeparator, actIII, "i",
                                                 "secondActOutro/tunnel/if_won", true,
                                                 "para5.txt");
 
-                                // Update location
-                                player.location = "Hideout Cavern";
+                                // Update location (hideout cavern)
+                                player.location = locations[2];
 
-                                Utils.storyPrinter(true, paraSeparator, "ACT III - OUTRO - ALLIES AND AMBUSHES",
+                                Utils.storyPrinter(true, paraSeparator, actIII, "o",
                                                 "secondActOutro/tunnel/if_won", true,
                                                 "para6.txt");
                         } else { // If the player has been fled from the battle
-                                Utils.storyPrinter(true, paraSeparator, "ACT III - INTRO - ALLIES AND AMBUSHES",
+                                Utils.storyPrinter(true, paraSeparator, actIII, "i",
                                                 "secondActOutro/tunnel/if_fled", true,
                                                 "para1.txt", "para2.txt", "para3.txt", "para4.txt", "para5.txt");
 
-                                Utils.storyPrinter(false, paraSeparator, "ACT III - OUTRO - ALLIES AND AMBUSHES",
+                                Utils.storyPrinter(false, paraSeparator, actIII, "o",
                                                 "secondActOutro/tunnel/if_fled", true,
                                                 "para6.txt");
 
-                                // Update location
-                                player.location = "Hideout Cavern";
+                                // Update location (hideout cavern)
+                                player.location = locations[2];
                         }
                 }
 
                 // ! ---------Act-IV Intro---------
-                Utils.storyPrinter(true, paraSeparator, "ACT IV - INTRO - THE FINAL STAND",
+                Utils.storyPrinter(true, paraSeparator, actIV, "i",
                                 "finalActIntro", true,
                                 "para1.txt", "para2.txt", "para3.txt", "para4.txt", "para5.txt");
 
                 // (Get the final and most huge skill upgrade)
-                player.chooseFinalSkills(paraSeparator, "ACT IV - INTRO - THE FINAL STAND", "finalActIntro",
+                player.chooseFinalSkills(paraSeparator, actIV, "i", "finalActIntro",
                                 "para6.txt", false);
 
-                Utils.storyPrinter(true, paraSeparator, "ACT IV - INTRO - THE FINAL STAND",
+                Utils.storyPrinter(true, paraSeparator, actIV, "i",
                                 "finalActIntro", true,
                                 "para7.txt", "para8.txt");
 
@@ -431,7 +463,7 @@ public class EventManager {
                 UIUtils.printPlayerInfo();
                 Utils.pressEnter();
 
-                Utils.storyPrinter(true, paraSeparator, "ACT IV - INTRO - THE FINAL STAND",
+                Utils.storyPrinter(true, paraSeparator, actIV, "i",
                                 "finalActIntro", true,
                                 "para9.txt", "para10.txt");
 
@@ -444,10 +476,10 @@ public class EventManager {
 
                 UIUtils.printPlayerInfo();
 
-                // Update location
-                player.location = "Nearby Village";
+                // Update location (Thornfield village)
+                player.location = locations[8];
 
-                Utils.storyPrinter(true, paraSeparator, "ACT IV - INTRO - THE FINAL STAND",
+                Utils.storyPrinter(true, paraSeparator, actIV, "i",
                                 "finalActIntro", true, "para11.txt");
 
                 // (Buy some healers before the final battle)
@@ -463,20 +495,20 @@ public class EventManager {
 
                 Actions.shop(traderAndProduct);
 
-                // Update location
-                player.location = "Hideout Cavern";
+                // Update location (hideout cavern)
+                player.location = locations[2];
 
-                Utils.storyPrinter(true, paraSeparator, "ACT IV - INTRO - THE FINAL STAND",
+                Utils.storyPrinter(true, paraSeparator, actIV, "i",
                                 "finalActIntro", true,
                                 "para12.txt");
 
                 // ! ---------Act-IV Outro---------
 
                 // Manage the final battle
-                Actions.finalBattle(paraSeparator, "ACT IV - OUTRO - THE FINAL STAND");
+                Actions.finalBattle(paraSeparator, actIV, "i");
 
                 // Print Outro After the final battle
-                Utils.storyPrinter(false, paraSeparator, "Epilogue", "outro", true,
+                Utils.storyPrinter(false, paraSeparator, epilogue, "outro", true,
                                 "para1.txt", "para2.txt", "para3.txt", "para4.txt", "para5.txt");
 
                 // Print ending screen
