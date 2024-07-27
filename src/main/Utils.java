@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+// Todo - add pause game method
+// Todo - add background music method
+// Todo - add clear console method which actually clears the console instead of printing numerous new lines
 //* Utility Methods
 
 public class Utils {
@@ -18,18 +21,20 @@ public class Utils {
             try {
                 input = Integer.parseInt(scanner.nextLine());
 
-                if (userChoices == 1) {
-                    System.out.println("Please enter 1");
-                } else if (input < 1 || input > userChoices) {
-                    System.out.print("\nPlease choose between ");
-                    for (int i = 1; i < userChoices; i++) {
-                        if (i == userChoices - 1) {
-                            System.out.printf("%d ", i);
-                        } else {
-                            System.out.printf("%d, ", i);
+                if (input < 1 || input > userChoices) {
+                    if (userChoices > 4) {
+                        System.out.printf("\nPlease choose between 1 to %d\n", userChoices);
+                    } else {
+                        System.out.print("\nPlease choose between ");
+                        for (int i = 1; i < userChoices; i++) {
+                            if (i == userChoices - 1) {
+                                System.out.printf("%d ", i);
+                            } else {
+                                System.out.printf("%d, ", i);
+                            }
                         }
+                        System.out.printf("and %d\n", userChoices);
                     }
-                    System.out.printf("and %d\n", userChoices);
                 }
             } catch (Exception e) {
                 input = -1;
@@ -172,19 +177,32 @@ public class Utils {
             }
             printSeparator(maxLen * 2);
         } else {
-            printSeparator(maxLen + 1);
-            for (int i = 0; i < titles.length; i++) {
-                String title = titles[i];
-                System.out.println(printTab(5) + title);
+            if (maxLen + 1 > 100) {
+                printSeparator(100);
+                for (int i = 0; i < titles.length; i++) {
+                    String title = titles[i];
+                    System.out.println(printTab(5) + title);
+                }
+                printSeparator(100);
+            } else {
+                printSeparator(maxLen + 1);
+                for (int i = 0; i < titles.length; i++) {
+                    String title = titles[i];
+                    System.out.println(printTab(5) + title);
+                }
+                printSeparator(maxLen + 1);
             }
-            printSeparator(maxLen + 1);
         }
         if (newLine)
             System.out.println();
     }
 
     // Method to print each parts of the story
-    public static void storyPrinter(boolean location, int paraSeparator, String title, String folderName,
+    public static void storyPrinter(
+            boolean location,
+            int paraSeparator,
+            String title,
+            String folderName,
             boolean pressEnter,
             String... fileNames) {
         clearConsole();
@@ -203,13 +221,12 @@ public class Utils {
         paragraphPrinter(paraSeparator, folderName, pressEnter, fileNames);
     }
 
-    // Method to print each parts of the story
-    public static void storyPrinter(boolean location, int paraSeparator, String[] titles, String intOut,
-            String folderName,
-            boolean pressEnter,
-            String... fileNames) {
-        clearConsole();
-
+    // Method to print para heading
+    public static void printParaHeading(
+            boolean location,
+            int paraSeparator,
+            String[] titles,
+            String intOut) {
         printSeparator(paraSeparator);
         if (intOut.equals("i")) {
             System.out.println(printTab(paraSeparator, true) + titles[0] + " - INTRO");
@@ -225,13 +242,28 @@ public class Utils {
             System.out.println("LOCATION: " + EventManager.player.location);
             System.out.println();
         }
+    }
 
+    // Method to print each parts of the story
+    public static void storyPrinter(
+            boolean location,
+            int paraSeparator,
+            String[] titles,
+            String intOut,
+            String folderName,
+            boolean pressEnter,
+            String... fileNames) {
+        clearConsole();
+        printParaHeading(location, paraSeparator, titles, intOut);
         paragraphPrinter(paraSeparator, folderName, pressEnter, fileNames);
     }
 
     // Method to print each paragraphs of the story as user presses Enter
-    public static void paragraphPrinter(int lineWidth, String folderName,
-            boolean pressEnter, String... paragraphFiles) {
+    public static void paragraphPrinter(
+            int lineWidth,
+            String folderName,
+            boolean pressEnter,
+            String... paragraphFiles) {
         String projectRoot;
 
         // Adjusting path based on where the application is running from
@@ -243,7 +275,7 @@ public class Utils {
 
         for (int i = 0; i < paragraphFiles.length; i++) {
             String fileName = paragraphFiles[i];
-            File file = new File(projectRoot + folderName + "/" + fileName);
+            File file = new File(projectRoot + folderName + "/para" + fileName + ".txt");
 
             try (Scanner fileScanner = new Scanner(file)) {
                 while (fileScanner.hasNextLine()) {
@@ -335,5 +367,18 @@ public class Utils {
                 System.err.println("File not found: " + e.getMessage());
             }
         }
+    }
+
+    // Method to check a specific item in an array
+    public static boolean checkArr(String[] arr, String item) {
+        boolean found = false;
+        for (String elem : arr) {
+            if (elem.equals(item)) {
+                found = true;
+                break;
+            }
+        }
+
+        return found;
     }
 }

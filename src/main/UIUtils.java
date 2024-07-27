@@ -54,7 +54,7 @@ public class UIUtils {
         return name;
     }
 
-    // Printing out important info of the player character
+    // Printing out current stats and unlocked skills, weapons of the player
     public static void printPlayerInfo() {
         player = EventManager.player;
         printStats(false);
@@ -170,23 +170,49 @@ public class UIUtils {
         System.out.println("(3) Exit Game");
     }
 
-    // Let player take a decision
-    public static int choose(int lineWidth, String[] titles, String intOut, String heading, String folderName,
-            String fileName,
+    // Print choice list
+    public static int printChoices(
+            boolean needHeading,
+            int lineWidth,
+            String[] titles,
+            String intOut,
+            String heading,
             String... choices) {
-        Utils.clearConsole();
-
-        Utils.storyPrinter(true, lineWidth, titles, intOut, folderName, false, fileName);
+        if (needHeading) {
+            Utils.printParaHeading(true, lineWidth, titles, intOut);
+        }
 
         Utils.printHeading(true, true, heading);
 
         for (int i = 0; i < choices.length; i++) {
             String choice = choices[i];
-            System.out.printf("(%d) %s\n", i + 1, choice);
+            if (choices.length >= 10) {
+                if (i + 1 < 10) {
+                    System.out.printf("(0%d) %s\n", i + 1, choice);
+                } else {
+                    System.out.printf("(%d) %s\n", i + 1, choice);
+                }
+            } else {
+                System.out.printf("(%d) %s\n", i + 1, choice);
+            }
         }
 
         // Get the player's choice
         return Utils.readPlayerInput("-> ", choices.length);
+    }
+
+    // Let player take a decision
+    public static int printChoicesWithHeading(
+            int lineWidth,
+            String[] titles,
+            String intOut,
+            String heading,
+            String folderName,
+            String fileName,
+            String... choices) {
+        Utils.clearConsole();
+        Utils.storyPrinter(true, lineWidth, titles, intOut, folderName, false, fileName);
+        return printChoices(false, lineWidth, titles, intOut, heading, choices);
     }
 
     // Method to print game completion message

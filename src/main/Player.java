@@ -3,7 +3,7 @@ package main;
 import java.util.ArrayList;
 
 public class Player extends GameCharacter {
-    // Integers to store number of skills in each path
+    // Declaring variables for storing player stats
     public int combatSkillCount, defensiveSkillCount, combatWeaponCount, defensiveEquipmentCount, gold, healers,
             enemiesKilled;
 
@@ -28,7 +28,7 @@ public class Player extends GameCharacter {
         this.gold = 10;
         this.healers = 0;
 
-        // location (lunaris village)
+        // Set location (Lunaris village)
         this.location = Assets.locations[0];
         this.enemiesKilled = 0;
     }
@@ -47,11 +47,16 @@ public class Player extends GameCharacter {
     }
 
     // Let the player choose a weapon of either type
-    public void chooseWeapon(int lineWidth, String[] titles, String intOut, String heading, String folderName,
+    public void chooseWeapon(
+            int lineWidth,
+            String[] titles,
+            String intOut,
+            String heading,
+            String folderName,
             String fileName,
             boolean showStats) {
         // Get the player's choice
-        int input = UIUtils.choose(lineWidth, titles, intOut, heading, folderName, fileName,
+        int input = UIUtils.printChoicesWithHeading(lineWidth, titles, intOut, heading, folderName, fileName,
                 Assets.combatWeapons[combatWeaponCount],
                 Assets.defensiveEquipment[defensiveEquipmentCount]);
 
@@ -81,11 +86,16 @@ public class Player extends GameCharacter {
     }
 
     // Let the player choose a skill of either path
-    public void chooseSkill(int lineWidth, String[] titles, String intOut, String heading, String folderName,
+    public void chooseSkill(
+            int lineWidth,
+            String[] titles,
+            String intOut,
+            String heading,
+            String folderName,
             String fileName,
             boolean showStats) {
         // Get the player's choice
-        int input = UIUtils.choose(lineWidth, titles, intOut, heading, folderName, fileName,
+        int input = UIUtils.printChoicesWithHeading(lineWidth, titles, intOut, heading, folderName, fileName,
                 Assets.combatSkills[combatSkillCount],
                 Assets.defensiveSkills[defensiveSkillCount]);
 
@@ -115,15 +125,20 @@ public class Player extends GameCharacter {
         }
     }
 
-    // Let the player choose skills for the final mission
-    public void chooseFinalSkills(int lineWidth, String[] titles, String inOut, String folderName,
-            String fileName,
-            boolean showStats) {
+    // Let the player choose 5 skills as a bonus upgrade for the final mission
+    public void chooseFinalSkills(
+            int lineWidth,
+            String[] titles,
+            String intOut,
+            String folderName,
+            String fileName) {
+        Utils.clearConsole();
+
+        // Get all the skills
+        int skillCount = Assets.combatSkills.length + Assets.defensiveSkills.length;
         int choiceCount = 5;
 
         while (choiceCount > 0) {
-            // Get all the skills
-            int skillCount = Assets.combatSkills.length + Assets.defensiveSkills.length;
             int unlockedSkillCount = unlockedCombatSkills.size() + unlockedDefensiveSkills.size();
             int length = skillCount - unlockedSkillCount;
 
@@ -131,53 +146,40 @@ public class Player extends GameCharacter {
             int currentIndex = 0;
 
             for (int i = 0; i < Assets.combatSkills.length; i++) {
-                String skill = Assets.combatSkills[i];
+                String combatSkill = Assets.combatSkills[i];
+                String defensiveSkill = Assets.defensiveSkills[i];
 
-                if (!unlockedCombatSkills.contains(skill)) {
-                    skills[currentIndex++] = skill;
+                if (!unlockedCombatSkills.contains(combatSkill)) {
+                    skills[currentIndex++] = combatSkill;
+                }
+
+                if (!unlockedDefensiveSkills.contains(defensiveSkill)) {
+                    skills[currentIndex++] = defensiveSkill;
                 }
             }
 
-            for (int i = 0; i < Assets.defensiveSkills.length; i++) {
-                String skill = Assets.defensiveSkills[i];
-
-                if (!unlockedDefensiveSkills.contains(skill)) {
-                    skills[currentIndex++] = skill;
-                }
-            }
-
-            String heading = choiceCount == 5 ? "Choose 5 Skills to Master."
-                    : choiceCount == 1 ? "Last Choice, Choose Wisely" : choiceCount + " Choices Remaining.";
+            String heading = choiceCount == 5 ? "Choose 5 Skills to Master"
+                    : choiceCount == 1 ? "Last Choice, Choose Wisely" : choiceCount + " Choices Remaining";
 
             // Get the player's choice
-            int input = UIUtils.choose(lineWidth, titles, inOut, heading, folderName, fileName, skills);
+            int input = UIUtils.printChoices(true, lineWidth, titles, intOut, heading, skills);
 
             Utils.clearConsole();
-            int index;
-            String skill;
-            if (input % 2 == 0) {
-                index = (input - 2) / 2;
-                skill = Assets.defensiveSkills[index];
-                unlockedDefensiveEquipments.add(skill);
-                defensiveSkillCount++;
+            String skill = skills[input - 1];
 
-                Utils.printHeading(false, true, "You unlocked " + skill + "!");
-            } else {
-                index = (input - 1) / 2;
-                skill = Assets.combatSkills[index];
+            if (Utils.checkArr(Assets.defensiveSkills, skill)) {
+                unlockedDefensiveSkills.add(skill);
+                defensiveSkillCount++;
+            } else if (Utils.checkArr(Assets.combatSkills, skill)) {
                 unlockedCombatSkills.add(skill);
                 combatSkillCount++;
-
-                Utils.printHeading(false, true, "You unlocked " + skill + "!");
             }
+            Utils.printHeading(false, true, "You unlocked " + skill + "!");
 
             choiceCount--;
             Utils.pressEnter();
             Utils.clearConsole();
-
-            if (showStats) {
-                UIUtils.printPlayerInfo();
-            }
         }
+        UIUtils.printPlayerInfo();
     }
 }
