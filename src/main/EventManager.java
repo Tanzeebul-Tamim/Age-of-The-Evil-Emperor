@@ -40,25 +40,25 @@ public class EventManager {
                         // player = new Player("Tamim");
 
                         // Manage the final battle
-                        battleResult = Actions.finalBattle(
-                                        paraSeparator,
-                                        actIV,
-                                        "i");
+                        // battleResult = Actions.finalBattle(
+                        //                 paraSeparator,
+                        //                 actIV,
+                        //                 "i");
 
-                        if (battleResult[0])
-                                return;
+                        // if (battleResult[0])
+                        //         return;
 
-                        // Print Outro After the final battle
-                        Utils.storyPrinter(
-                                        false,
-                                        paraSeparator,
-                                        epilogue,
-                                        "outro",
-                                        true,
-                                        "1", "2", "3", "4", "5");
+                        // // Print Outro After the final battle
+                        // Utils.storyPrinter(
+                        //                 false,
+                        //                 paraSeparator,
+                        //                 epilogue,
+                        //                 "outro",
+                        //                 true,
+                        //                 "1", "2", "3", "4", "5");
 
-                        // Print ending screen
-                        UIUtils.printCompletionMessage();
+                        // // Print ending screen
+                        // UIUtils.printCompletionMessage();
                 }
 
                 // ! ---------Intro---------
