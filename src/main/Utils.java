@@ -7,6 +7,7 @@ import java.util.Scanner;
 // Todo - add pause game method
 // Todo - add background music method
 // Todo - add clear console method which actually clears the console instead of printing numerous new lines
+// Todo - Try the text based rpg run on android
 //* Utility Methods
 
 public class Utils {

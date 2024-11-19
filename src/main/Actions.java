@@ -697,7 +697,7 @@ public class Actions {
 
     // Todo - after switching to combat weapon list from defensive weapon list or
     // vice versa, when you try to exit the shop method, it takes you to the
-    // list of the opposite type of weapons, it properly should exit the shop
+    // list of the opposite type of weapons, it should properly exit the shop
     // method and continue to the story. Fix this issue.
 
     // Method to buy weapons
