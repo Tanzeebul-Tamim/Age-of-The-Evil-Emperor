@@ -21,7 +21,7 @@ Welcome to the repository for the Java Text-Based RPG Game! This project is a co
 - **_Character Creation:_** Players can create and customize their character by choosing attributes like name and initial skills.
 <p align="center">
    <img src="./public/character_creation.png" width="550" alt="Character Creation"/>
-   <img src="./public/character_creation_2.png" width="550" alt="Character Creation"/>
+   <img src="./public/customization.png" width="550" alt="Character Creation"/>
 </p>
 
 <br/>
