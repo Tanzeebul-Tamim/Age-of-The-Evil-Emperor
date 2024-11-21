@@ -1,6 +1,8 @@
+## Age of The Evil Emperor - A Text Based Roleplaying Game Developed in Java
+
 Welcome to the repository for the Java Text-Based RPG Game! This project is a command-line role-playing game built in Java, where players embark on an adventure, face enemies, explore new locations, and level up their characters.
 
-## Table of Contents
+### Table of Contents
 
 - [Game Features](#game-features)
 - [Game Availability](#game-availability)
@@ -11,7 +13,7 @@ Welcome to the repository for the Java Text-Based RPG Game! This project is a co
 - [Contributing](#contributing)
 - [License](#license)
 
-## Game Features
+### Game Features
 
 - **_Title Screen:_**
 <p align="center">  
@@ -66,11 +68,11 @@ Welcome to the repository for the Java Text-Based RPG Game! This project is a co
    <img src="./public/storyline.png" width="550" alt="Storyline"/>
 </p>
 
-## Game Availability
+### Game Availability
 
 Currently, this project is a command-line game and does not have a live deployment. To play, follow the instructions in the [Installation](#installation) and [Running the Game](#running-the-game) sections.
 
-## Used Packages and Technologies
+### Used Packages and Technologies
 
 - **Java**: Programming language used to develop the game.
 - **Java.util.Scanner**: For reading player inputs during gameplay.
@@ -78,12 +80,12 @@ Currently, this project is a command-line game and does not have a live deployme
 - **Java.util.Random**: For random number generation in battle and exploration events.
 - **OOP Design Patterns**: For structuring the game’s code, using classes like `Player`, `Enemy`, `Character`, `Item` etc.
 
-## Prerequisites
+### Prerequisites
 
 - JDK 11 or higher
 - A text editor or IDE (e.g., IntelliJ IDEA, Eclipse, Visual Studio Code)
 
-## Installation
+### Installation
 
 1. Clone the repository:
 
@@ -103,7 +105,7 @@ Currently, this project is a command-line game and does not have a live deployme
    javac -d bin src/Main.java src/main/*.java
    ```
 
-## Running the Game
+### Running the Game
 
 1. Navigate to the `bin` directory:
 
@@ -118,10 +120,10 @@ Currently, this project is a command-line game and does not have a live deployme
 
 Once you run the game, follow the on-screen prompts to create your character, explore, battle enemies, and complete quests!
 
-## Contributing
+### Contributing
 
 Feel free to fork the repository and submit pull requests. Contributions are welcome, including bug fixes, new features, and improvements.
 
-## License
+### License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
