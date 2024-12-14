@@ -1,10 +1,12 @@
 package main;
 
 import java.time.Year;
-import java.util.Scanner;
 
 public class UIUtils {
-    static Scanner scanner = new Scanner(System.in);
+    private UIUtils() {
+        throw new UnsupportedOperationException("Utility class cannot be instantiated");
+    }
+
     public static Player player;
 
     // Method to print game opening
@@ -31,7 +33,7 @@ public class UIUtils {
         do {
             Utils.clearConsole();
             Utils.printHeading(true, true, "What's your name?");
-            name = Utils.formatName(scanner.nextLine().trim());
+            name = Utils.formatName(Utils.scanner.nextLine().trim());
 
             // Check if name is empty
             if (name.isEmpty()) {
@@ -51,6 +53,7 @@ public class UIUtils {
             if (input == 1)
                 nameSet = true;
         } while (!nameSet);
+
         return name;
     }
 

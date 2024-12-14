@@ -11,7 +11,11 @@ import java.util.Scanner;
 //* Utility Methods
 
 public class Utils {
-    static Scanner scanner = new Scanner(System.in);
+    private Utils() {
+        throw new UnsupportedOperationException("Utility class cannot be instantiated");
+    }
+
+    public static Scanner scanner = new Scanner(System.in);
 
     // Method to get user input from console
     public static int readPlayerInput(String prompt, int userChoices) {
@@ -73,10 +77,37 @@ public class Utils {
         scanner.nextLine();
     }
 
-    // Method to simulate clearing out the console
+    // Method to gracefully handle unexpected errors & termination of the program
+    public static void terminate(Scanner sc, boolean intentional) {
+        if (intentional) {
+            // For Intentional termination of the program
+            System.out.println(
+                    "\n\nYou have chosen to leave the adventure.\n\nFarewell, traveler.\n\tMay your path be smooth until we meet again.");
+        } else {
+            // For other errors
+            System.out.println(
+                    "\n\nSomething went terribly wrong... The adventure has come to an abrupt halt. Beware, adventurer!");
+        }
+
+        // Closer scanner if it's still open
+        if (sc != null)
+            sc.close();
+
+        System.exit(0); // Exit program
+    }
+
+    // Method to clearing out the console
     public static void clearConsole() {
-        for (int i = 0; i < 100; i++)
-            System.out.println();
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (Exception err) {
+            terminate(scanner, false);
+        }
     }
 
     // Method to print a separator with length n
